@@ -143,6 +143,12 @@ task_collect() {
   for req in "${AACME_TASK_Q}"/queue/*.req; do
     [ -f "$req" ] || continue
     name="$(basename "$req" .req)"
+    # The task skips names it does not accept (0.1.7 and earlier queued
+    # wildcard certificates as "*.domain"); such a request would wait forever.
+    if [[ ! "$name" =~ ^[A-Za-z0-9._-]+$ ]]; then
+      rm -f "$req"
+      continue
+    fi
     result="${AACME_TASK_RUN}/${name}.result"
     nonce="$(kv_get "$req" nonce)"
     [ -n "$nonce" ] && [ "$(kv_get "$result" nonce)" = "$nonce" ] || continue

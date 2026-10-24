@@ -105,7 +105,9 @@ advanced_acme_dsm_deploy() {
 _aad_task_deploy() {
   _aad_q="$_aad_var/dsm-task/queue"
   _aad_run="${AACME_TASK_RUN:-/run/advanced-acme}"
-  _aad_name="$(basename "$(dirname "$2")")"
+  # The DSM task only accepts plain file names: "*.example.com" (wildcard as
+  # main name) becomes "_wildcard_.example.com".
+  _aad_name="$(basename "$(dirname "$2")" | sed 's/^\*/_wildcard_/')"
   _aad_nonce="$(head -c 16 /dev/urandom | od -An -tx1 | tr -d ' \n')"
   if [ -f "$_aad_meta" ]; then
     _aad_desc_b64="$(_aad_kv "$_aad_meta" dsm_desc_b64)"

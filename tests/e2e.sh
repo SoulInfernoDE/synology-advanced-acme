@@ -351,6 +351,17 @@ j="$(wait_job "$(jq -r .job <<<"$r")")"
 st="$(mock_state)"
 check "certificate installed by the root task into the default certificate" '[ "$(jq -r .rc <<<"$j")" = 0 ] && [ "$(jq ".imports | length" <<<"$st")" -gt "$n_imports" ] && [ "$(jq -r ".imports[-1].via" <<<"$st")" = task ] && [ "$(jq -r ".imports[-1].id" <<<"$st")" = def01 ] && [ "$(jq -r ".imports[-1].has_key and .imports[-1].has_chain" <<<"$st")" = true ]' "$(jq -r .log <<<"$j")"
 check "request picked up and logged" '[ -z "$(ls "$V/dsm-task/queue")" ] && grep -q "\"dsm_task_installed\"" "$V/logs/activity.log"' "$(ls "$V/dsm-task/queue")"
+# Wildcard as main name: acme.sh keeps it in "*.example.test", the task only
+# accepts plain names. A request stuck with the old name is dropped.
+: >"$V/dsm-task/queue/*.stuck.example.test.req"
+r="$(cgi action=issue server="$PEBBLE_DIR" plugin=dns_pebble keylength=2048 provider=ionos "dsm_desc=Wild (task)" \
+  "domains=*.example.test
+example.test" env_PEBBLE_CHALL_URL=http://127.0.0.1:8055)"
+j="$(wait_job "$(jq -r .job <<<"$r")")"
+st="$(mock_state)"
+check "wildcard certificate (wildcard as main name) installed by the root task" '[ "$(jq -r .rc <<<"$j")" = 0 ] && [ "$(jq -r ".imports[-1].desc" <<<"$st")" = "Wild (task)" ] && [ "$(jq -r ".imports[-1].via" <<<"$st")" = task ] && grep -q "The DSM task installed the certificate" <<<"$(jq -r .log <<<"$j")"' "$(jq -r .log <<<"$j")"
+check "stuck request with an unusable name removed" '[ ! -e "$V/dsm-task/queue/*.stuck.example.test.req" ]' "$(ls "$V/dsm-task/queue")"
+cgi action=remove "id=*.example.test" >/dev/null
 printf 'nonce=abc123\ndomain=bad.example.test\ndesc_b64=\nkey_b64=%s\ncert_b64=%s\nchain_b64=\n' "$(printf 'not a key' | base64)" "$(printf 'not a cert' | base64)" >"$V/dsm-task/queue/bad.example.test.req"
 for _ in $(seq 1 20); do [ -f "$W/run/bad.example.test.result" ] && break; sleep 1; done
 check "root task rejects an invalid certificate" 'grep -q "^status=fail$" "$W/run/bad.example.test.result" && grep -q "^code=invalid_cert$" "$W/run/bad.example.test.result"' "$(cat "$W/run/bad.example.test.result" 2>/dev/null)"
@@ -370,7 +381,7 @@ r="$(cgi action=status)"
 check "task that deleted itself on uninstall is no longer set up" '[ "$(jq -r .dsm.mode <<<"$r")" = none ] && [ ! -f "$V/dsm-task/task.conf" ] && [ "$(grep -c "\"dsm_task_removed\"" "$V/logs/activity.log")" = 2 ]' "$r"
 cgi action=dsm_task_remove >/dev/null
 r="$(cgi action=activity)"
-check "activity log lists the steps in order" '[ "$(jq -r "[.events[].e] | map(select(startswith(\"dsm_task\"))) | join(\",\")" <<<"$r")" = "dsm_task_created,dsm_task_installed,dsm_task_remove_requested,dsm_task_removed,dsm_task_created,dsm_task_removed" ]' "$r"
+check "activity log lists the steps in order" '[ "$(jq -r "[.events[].e] | map(select(startswith(\"dsm_task\"))) | join(\",\")" <<<"$r")" = "dsm_task_created,dsm_task_installed,dsm_task_installed,dsm_task_remove_requested,dsm_task_removed,dsm_task_created,dsm_task_removed" ]' "$r"
 curl -s "http://127.0.0.1:${MOCK_PORT}/_set?otp_enforced=0" >/dev/null
 cgi action=dsm_check "user=certbot" "pass=s3cret pass&=" >/dev/null
 
