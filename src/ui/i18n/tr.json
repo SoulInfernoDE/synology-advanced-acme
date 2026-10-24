@@ -278,6 +278,7 @@
   "settings.dsm_task_not_running": "DSM görevi bir süredir çalışmadı. DSM'de Denetim Masası > Görev Zamanlayıcı altında “{name}” görevinin etkin olduğunu kontrol edin.",
   "settings.dsm_task_outdated": "DSM görevinin daha yeni bir sürümü var. Güncellemek için görevi yeniden ayarlayın.",
   "settings.dsm_task_update": "Görevi güncelle",
+  "settings.dsm_task_setup_again": "Görevi yeniden ayarla",
   "settings.dsm_task_remove": "Görevi kaldır",
   "settings.dsm_task_remove_confirm": "“{name}” DSM görevi kaldırılsın mı? Yenilenen sertifikalar artık otomatik olarak yüklenemez.",
   "settings.dsm_task_removing": "DSM görevi bir dakika içinde kendini kaldırır.",

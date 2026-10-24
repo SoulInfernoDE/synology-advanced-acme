@@ -278,6 +278,7 @@
   "settings.dsm_task_not_running": "A DSM-feladat egy ideje nem futott. A DSM-ben ellenőrizze a Vezérlőpult > Feladatütemező részben, hogy a(z) „{name}” feladat engedélyezve van-e.",
   "settings.dsm_task_outdated": "A DSM-feladat újabb verziója érhető el. A frissítéshez állítsa be újra a feladatot.",
   "settings.dsm_task_update": "Feladat frissítése",
+  "settings.dsm_task_setup_again": "Feladat újbóli beállítása",
   "settings.dsm_task_remove": "Feladat eltávolítása",
   "settings.dsm_task_remove_confirm": "Eltávolítja a(z) „{name}” DSM-feladatot? A megújított tanúsítványokat ezután nem lehet automatikusan telepíteni.",
   "settings.dsm_task_removing": "A DSM-feladat egy percen belül eltávolítja önmagát.",

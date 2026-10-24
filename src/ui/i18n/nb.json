@@ -278,6 +278,7 @@
   "settings.dsm_task_not_running": "DSM-oppgaven har ikke kjørt på en stund. Sjekk i DSM under Kontrollpanel > Oppgaveplanlegger at oppgaven «{name}» er aktivert.",
   "settings.dsm_task_outdated": "En nyere versjon av DSM-oppgaven er tilgjengelig. Sett opp oppgaven på nytt for å oppdatere den.",
   "settings.dsm_task_update": "Oppdater oppgave",
+  "settings.dsm_task_setup_again": "Sett opp oppgaven på nytt",
   "settings.dsm_task_remove": "Fjern oppgave",
   "settings.dsm_task_remove_confirm": "Fjerne DSM-oppgaven «{name}»? Fornyede sertifikater kan da ikke lenger installeres automatisk.",
   "settings.dsm_task_removing": "DSM-oppgaven fjerner seg selv innen ett minutt.",

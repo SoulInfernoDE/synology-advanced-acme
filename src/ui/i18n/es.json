@@ -278,6 +278,7 @@
   "settings.dsm_task_not_running": "La tarea de DSM lleva un tiempo sin ejecutarse. En DSM, comprueba en Panel de control > Programador de tareas que la tarea «{name}» está activada.",
   "settings.dsm_task_outdated": "Hay una versión más reciente de la tarea de DSM. Vuelve a configurar la tarea para actualizarla.",
   "settings.dsm_task_update": "Actualizar tarea",
+  "settings.dsm_task_setup_again": "Volver a configurar la tarea",
   "settings.dsm_task_remove": "Eliminar tarea",
   "settings.dsm_task_remove_confirm": "¿Eliminar la tarea de DSM «{name}»? Los certificados renovados ya no se podrán instalar automáticamente.",
   "settings.dsm_task_removing": "La tarea de DSM se elimina a sí misma en menos de un minuto.",

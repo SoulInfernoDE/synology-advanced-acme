@@ -278,6 +278,7 @@
   "settings.dsm_task_not_running": "De DSM-taak is al een tijd niet uitgevoerd. Controleer in DSM onder Configuratiescherm > Taakplanner of de taak ‘{name}’ is ingeschakeld.",
   "settings.dsm_task_outdated": "Er is een nieuwere versie van de DSM-taak beschikbaar. Stel de taak opnieuw in om deze bij te werken.",
   "settings.dsm_task_update": "Taak bijwerken",
+  "settings.dsm_task_setup_again": "Taak opnieuw instellen",
   "settings.dsm_task_remove": "Taak verwijderen",
   "settings.dsm_task_remove_confirm": "De DSM-taak ‘{name}’ verwijderen? Vernieuwde certificaten kunnen dan niet meer automatisch worden geïnstalleerd.",
   "settings.dsm_task_removing": "De DSM-taak verwijdert zichzelf binnen een minuut.",

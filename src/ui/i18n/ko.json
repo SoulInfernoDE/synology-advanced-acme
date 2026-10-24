@@ -278,6 +278,7 @@
   "settings.dsm_task_not_running": "DSM 작업이 한동안 실행되지 않았습니다. DSM의 제어판 > 작업 스케줄러에서 '{name}' 작업이 활성화되어 있는지 확인하세요.",
   "settings.dsm_task_outdated": "DSM 작업의 새 버전이 있습니다. 업데이트하려면 작업을 다시 설정하세요.",
   "settings.dsm_task_update": "작업 업데이트",
+  "settings.dsm_task_setup_again": "작업 다시 설정",
   "settings.dsm_task_remove": "작업 제거",
   "settings.dsm_task_remove_confirm": "DSM 작업 '{name}'을(를) 제거할까요? 갱신된 인증서를 더 이상 자동으로 설치할 수 없습니다.",
   "settings.dsm_task_removing": "DSM 작업이 1분 이내에 스스로 제거됩니다.",

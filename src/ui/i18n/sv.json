@@ -278,6 +278,7 @@
   "settings.dsm_task_not_running": "DSM-uppgiften har inte körts på ett tag. Kontrollera i DSM under Kontrollpanelen > Aktivitetsschemaläggare att uppgiften ”{name}” är aktiverad.",
   "settings.dsm_task_outdated": "En nyare version av DSM-uppgiften finns. Konfigurera uppgiften igen för att uppdatera den.",
   "settings.dsm_task_update": "Uppdatera uppgift",
+  "settings.dsm_task_setup_again": "Konfigurera uppgiften igen",
   "settings.dsm_task_remove": "Ta bort uppgift",
   "settings.dsm_task_remove_confirm": "Ta bort DSM-uppgiften ”{name}”? Förnyade certifikat kan då inte längre installeras automatiskt.",
   "settings.dsm_task_removing": "DSM-uppgiften tar bort sig själv inom en minut.",

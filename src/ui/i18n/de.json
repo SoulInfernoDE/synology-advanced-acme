@@ -275,6 +275,7 @@
   "settings.dsm_task_not_running": "Die DSM-Aufgabe ist länger nicht gelaufen. Prüfen Sie in DSM unter Systemsteuerung > Aufgabenplaner, ob die Aufgabe „{name}“ aktiviert ist.",
   "settings.dsm_task_outdated": "Eine neuere Version der DSM-Aufgabe ist verfügbar. Richten Sie die Aufgabe erneut ein, um sie zu aktualisieren.",
   "settings.dsm_task_update": "Aufgabe aktualisieren",
+  "settings.dsm_task_setup_again": "Aufgabe neu einrichten",
   "settings.dsm_task_remove": "Aufgabe entfernen",
   "settings.dsm_task_remove_confirm": "Die DSM-Aufgabe „{name}“ entfernen? Erneuerte Zertifikate können dann nicht mehr automatisch installiert werden.",
   "settings.dsm_task_removing": "Die DSM-Aufgabe entfernt sich innerhalb einer Minute selbst.",

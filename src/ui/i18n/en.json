@@ -275,6 +275,7 @@
   "settings.dsm_task_not_running": "The DSM task has not run for a while. In DSM, check under Control Panel > Task Scheduler that the task “{name}” is enabled.",
   "settings.dsm_task_outdated": "A newer version of the DSM task is available. Set up the task again to update it.",
   "settings.dsm_task_update": "Update task",
+  "settings.dsm_task_setup_again": "Set up task again",
   "settings.dsm_task_remove": "Remove task",
   "settings.dsm_task_remove_confirm": "Remove the DSM task “{name}”? Renewed certificates can then no longer be installed automatically.",
   "settings.dsm_task_removing": "The DSM task removes itself within a minute.",

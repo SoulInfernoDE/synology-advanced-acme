@@ -278,6 +278,7 @@
   "settings.dsm_task_not_running": "Задача DSM давно не запускалась. В DSM проверьте в разделе Панель управления > Планировщик задач, что задача «{name}» включена.",
   "settings.dsm_task_outdated": "Доступна более новая версия задачи DSM. Настройте задачу заново, чтобы обновить её.",
   "settings.dsm_task_update": "Обновить задачу",
+  "settings.dsm_task_setup_again": "Настроить задачу заново",
   "settings.dsm_task_remove": "Удалить задачу",
   "settings.dsm_task_remove_confirm": "Удалить задачу DSM «{name}»? Обновлённые сертификаты больше не смогут устанавливаться автоматически.",
   "settings.dsm_task_removing": "Задача DSM удалит себя в течение минуты.",
