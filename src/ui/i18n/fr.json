@@ -92,6 +92,7 @@
   "hint.dsm_password": "DSM a refusé le nom d'utilisateur ou le mot de passe. Vérifiez le compte DSM dans les paramètres.",
   "hint.dsm_admin": "Le compte DSM n'est pas administrateur. Seuls les administrateurs peuvent installer des certificats.",
   "hint.dsm_missing": "Aucun compte DSM n'est configuré. Ouvrez les paramètres et saisissez un compte administrateur DSM.",
+  "hint.ca_processing": "Le fournisseur a accepté la commande, mais émettait encore le certificat au bout d'environ 9 minutes. Faites simplement une nouvelle demande plus tard ; le fournisseur termine généralement en quelques minutes.",
   "hint.rate_limit": "Le fournisseur de certificats limite le nombre de demandes. Veuillez patienter un moment avant de réessayer.",
   "hint.dns_verify": "Le fournisseur n'a pas pu confirmer l'entrée DNS. Vérifiez que le domaine est correctement orthographié et géré par le fournisseur DNS choisi. Il suffit parfois de réessayer après quelques minutes.",
   "hint.caa": "Une entrée CAA de votre DNS n'autorise pas ce fournisseur de certificats. Ajoutez le fournisseur à l'entrée CAA ou supprimez l'entrée.",

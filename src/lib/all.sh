@@ -12,6 +12,8 @@
 . "${AACME_TARGET}/lib/dns.sh"
 # shellcheck source=jobs.sh
 . "${AACME_TARGET}/lib/jobs.sh"
+# shellcheck source=acmepatch.sh
+. "${AACME_TARGET}/lib/acmepatch.sh"
 # shellcheck source=acmeupdate.sh
 . "${AACME_TARGET}/lib/acmeupdate.sh"
 # shellcheck source=status.sh

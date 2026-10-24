@@ -26,6 +26,10 @@ cp -a src/share/. "$T/share/"
 cp -a vendor/acme.sh/acme.sh vendor/acme.sh/dnsapi vendor/acme.sh/deploy vendor/acme.sh/notify "$T/acme.sh/"
 cp vendor/acme.sh/LICENSE.md "$T/acme.sh/LICENSE.md"
 cp src/acme-hooks/deploy/*.sh "$T/acme.sh/deploy/"
+# Wait longer for certificates that the CA is still issuing (see the file).
+. src/lib/acmepatch.sh
+acme_patch "$T/acme.sh/acme.sh"
+acme_patched "$T/acme.sh/acme.sh" || echo "note: acme.sh polling patch not applied (code changed upstream)" >&2
 python3 -I tools/gen-dnsapi.py vendor/acme.sh/dnsapi "$T/ui/dnsapi.json" "$T/share/dnsapi.keys"
 echo "$VERSION" > "$T/VERSION"
 # DSM serves the UI without cache headers: version the asset URLs so browsers

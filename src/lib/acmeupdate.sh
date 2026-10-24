@@ -110,6 +110,7 @@ job_acme_update() {
   fi
   mkdir -p "$new"
   cp -a "$src/acme.sh" "$src/dnsapi" "$src/deploy" "$src/notify" "$new/"
+  acme_patch "$new/acme.sh"
   [ -f "$src/LICENSE.md" ] && cp "$src/LICENSE.md" "$new/"
   # Our deploy hook must sit next to acme.sh's own hooks.
   cp "${ACME_BUNDLED}/deploy/advanced_acme_dsm.sh" "$new/deploy/"

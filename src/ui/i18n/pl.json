@@ -92,6 +92,7 @@
   "hint.dsm_password": "DSM odrzucił nazwę użytkownika lub hasło. Sprawdź konto DSM w ustawieniach.",
   "hint.dsm_admin": "Konto DSM nie jest kontem administratora. Tylko administratorzy mogą instalować certyfikaty.",
   "hint.dsm_missing": "Nie skonfigurowano konta DSM. Otwórz ustawienia i wpisz konto administratora DSM.",
+  "hint.ca_processing": "Dostawca przyjął zamówienie, ale po około 9 minutach nadal wystawiał certyfikat. Po prostu zamów go ponownie później; zwykle dostawca kończy w ciągu kilku minut.",
   "hint.rate_limit": "Dostawca certyfikatów ogranicza liczbę żądań. Odczekaj chwilę przed ponowną próbą.",
   "hint.dns_verify": "Dostawca nie mógł potwierdzić wpisu DNS. Sprawdź, czy domena jest poprawnie zapisana i zarządzana przez wybranego dostawcę DNS. Czasem wystarczy spróbować ponownie po kilku minutach.",
   "hint.caa": "Wpis CAA w Twoim DNS nie zezwala na tego dostawcę certyfikatów. Dodaj dostawcę do wpisu CAA lub usuń wpis.",
