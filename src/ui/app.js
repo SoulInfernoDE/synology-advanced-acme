@@ -262,6 +262,7 @@
     [/externalAccountRequired|eab-kid|External Account Binding/i, "hint.eab"],
     [/You didn't specify an IONOS api prefix/i, "hint.ionos_key"],
     [/Cannot find this domain in your IONOS account/i, "hint.ionos_domain"],
+    [/No available certificate found for the requested domain/i, "hint.ionos_no_cert"],
     [/Enter OTP code|2FA-OTP|SYNO_DEVICE_ID \(may be expired/i, "hint.dsm_otp"],
     [/no such account or incorrect password|non-existent account/i, "hint.dsm_password"],
     [/not administrator/i, "hint.dsm_admin"],
@@ -279,7 +280,8 @@
     for (const [re, key] of LOG_HINTS) {
       if (re.test(log) && !out.includes(key)) out.push(key);
     }
-    return out;
+    // A specific reason makes the generic "provider rejected" hint redundant.
+    return out.length > 1 ? out.filter((k) => k !== "hint.ca_rejected") : out;
   }
 
   // Poll a background job and render its progress into `box`.
@@ -943,9 +945,12 @@
     const out = [];
     if (d.zone) {
       const host = d.host.trim().replace(/\.$/, "");
+      // The first name becomes the main name of the certificate. Wildcard
+      // certificates are named after *.domain (IONOS issues only a certificate
+      // that matches the one in the contract), so the wildcard goes first.
+      if (d.wildcard) out.push("*." + d.zone);
       if (host) out.push(host + "." + d.zone);
       if (d.includeApex || !host) out.push(d.zone);
-      if (d.wildcard) out.push("*." + d.zone);
     }
     for (const line of d.extra.split(/[\s,]+/)) {
       const v = line.trim().toLowerCase();
@@ -984,7 +989,7 @@
         field(t("wiz.domains.host"), hostIn, t("wiz.domains.host_help")),
         el("label", { class: "check" }, apex, t("wiz.domains.apex")),
         el("label", { class: "check" }, wild, t("wiz.domains.wildcard")));
-      if (d.provider === "ionos") add(form, el("div", { class: "help" }, t("wiz.domains.wildcard_ionos")));
+      if (d.provider === "ionos") add(form, notice("info", t("wiz.domains.wildcard_ionos")));
     } else {
       d.zone = "";
     }
