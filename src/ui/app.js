@@ -680,11 +680,12 @@
 
   // Step 0: connect to DSM (only while no DSM account is set up)
   function wizConnect(body) {
-    add(body, el("h2", null, t("wiz.connect.title")), el("p", { class: "muted" }, t("wiz.connect.intro")),
+    const intro = el("p", { class: "muted" }, t("wiz.connect.intro"));
+    add(body, el("h2", null, t("wiz.connect.title")), intro,
       dsmAccountForm(async () => {
         await refresh();
         wizGo(wizard.data.step);
-      }));
+      }, false, null, [intro]));
   }
 
   function wizGo(step) {
@@ -842,16 +843,27 @@
     const saved = await api("dns_saved", { keys: "IONOS_PREFIX,IONOS_SECRET" });
     const hasSaved = saved.ok && saved.saved.IONOS_PREFIX && saved.saved.IONOS_SECRET;
 
-    add(area, el("ol", { class: "howto" },
-      el("li", null, richText("wiz.dns.ionos_step1", { link: { href: t("link.ionos_dev"), text: t("link.ionos_dev_text") } })),
-      el("li", null, t("wiz.dns.ionos_step2")),
-      el("li", null, t("wiz.dns.ionos_step3"))));
-
+    // A stored key is used as it is; entering another one stays possible.
+    const keyForm = el("div", null,
+      el("ol", { class: "howto" },
+        el("li", null, richText("wiz.dns.ionos_step1", { link: { href: t("link.ionos_dev"), text: t("link.ionos_dev_text") } })),
+        el("li", null, t("wiz.dns.ionos_step2")),
+        el("li", null, t("wiz.dns.ionos_step3"))));
     const prefixIn = input({ placeholder: t("wiz.dns.prefix_placeholder"), value: d.dnsEnv.IONOS_PREFIX || "" });
     const secretIn = input({ type: "password", placeholder: t("wiz.dns.secret_placeholder"), value: d.dnsEnv.IONOS_SECRET || "" });
-    add(area, el("div", { class: "form" },
+    add(keyForm, el("div", { class: "form" },
       field(t("wiz.dns.prefix"), prefixIn),
       field(t("wiz.dns.secret"), secretIn, hasSaved ? t("wiz.dns.saved_hint") : t("wiz.dns.secret_help"))));
+    const useSaved = hasSaved && !d.dnsEnv.IONOS_PREFIX;
+    keyForm.hidden = useSaved;
+    if (useSaved) {
+      add(area, notice("ok", t("wiz.dns.key_saved"), " ",
+        button(t("wiz.dns.other_key"), {
+          small: true,
+          onclick: (ev) => { keyForm.hidden = false; ev.target.hidden = true; prefixIn.focus(); }
+        })));
+    }
+    add(area, keyForm);
 
     const result = el("div");
     add(area, result);
@@ -891,6 +903,7 @@
     }
 
     if (d.ionosZones) showZones(d.ionosZones);
+    else if (useSaved) check();
 
     add(area, el("div", { class: "actions wizard-nav" },
       button(t("common.back"), { onclick: () => wizGo(1) }),
@@ -1022,9 +1035,11 @@
   // DSM account form, used by the wizard and the settings page. By default
   // Advanced ACME creates its own account "advanced-acme" with a one-time
   // sign-in; an existing account can be entered instead. For NAS that enforce
-  // 2-step verification for all administrators, a DSM task (no account) is
-  // offered as a third way; it stays hidden until needed.
-  function dsmAccountForm(onSuccess, compact, startMode) {
+  // 2-step verification for all administrators, a DSM task (no account) is the
+  // third way. When DSM refuses the account for that reason, the form switches
+  // to a focused view with only what the task needs; "aside" lists elements
+  // around the form that are hidden in that view.
+  function dsmAccountForm(onSuccess, compact, startMode, aside) {
     const userIn = input({ autocomplete: "username" });
     const passIn = input({ type: "password", autocomplete: "current-password" });
     const otpIn = input({ inputmode: "numeric", maxlength: "8", placeholder: t("dsm.otp_placeholder") });
@@ -1052,27 +1067,53 @@
         el("div", null, el("strong", null, title), el("div", { class: "sub" }, sub)));
     }
     const taskOpt = opt("task", t("dsm.mode_task"), t("dsm.mode_task_help"));
-    const moreLink = el("button", { type: "button", class: "link-button", onclick: () => showTask(false) },
-      t("dsm.more_options"));
+    const choice = el("div", { class: "radio-list" },
+      opt("auto", t("dsm.mode_auto"), t("dsm.mode_auto_help")),
+      opt("existing", t("dsm.mode_existing"), t("dsm.mode_existing_help")),
+      taskOpt);
+    let taskShown = mode === "task";
+    const moreLink = el("button", { type: "button", class: "link-button",
+      onclick: () => { taskShown = true; render(); } }, t("dsm.more_options"));
 
-    function showTask(select) {
-      taskOpt.hidden = false;
-      moreLink.hidden = true;
-      if (select) {
-        mode = "task";
-        radios.task.checked = true;
-        render(true);
-      }
+    // Focused view for the DSM task.
+    const focusInfo = el("div");
+    const how = el("details", { class: "advanced" }, el("summary", null, t("dsm.task_how")),
+      el("p", null, t("dsm.task_intro", { name: "Advanced ACME" })),
+      el("p", null, t("dsm.task_exempt")));
+    const backLink = el("button", { type: "button", class: "link-button", onclick: () => unfocus() },
+      t("dsm.back_to_choice"));
+    let focused = false;
+
+    function focusTask(refused) {
+      focused = true;
+      taskShown = true;
+      mode = "task";
+      radios.task.checked = true;
+      fill(focusInfo, notice("info", refused ? t("dsm.task_focus_otp") : t("dsm.task_focus")));
+      fill(result);
+      render();
+      (userIn.value ? passIn : userIn).focus();
     }
 
-    function render(keepResult) {
+    function unfocus() {
+      focused = false;
+      taskShown = true;
+      fill(focusInfo);
+      render();
+    }
+
+    function render() {
+      for (const e of [choice, intro].concat(aside || [])) e.hidden = focused;
+      taskOpt.hidden = !taskShown;
+      moreLink.hidden = focused || taskShown;
+      if (compact) intro.hidden = true;
+      how.hidden = backLink.hidden = !focused;
       intro.textContent = mode === "auto" ? t("dsm.auto_intro", { name: "advanced-acme" }) :
         mode === "task" ? t("dsm.task_intro", { name: "Advanced ACME" }) : t("dsm.intro");
       dedicated.hidden = mode !== "existing";
       userLabel.textContent = mode === "existing" ? t("dsm.user") : t("dsm.admin_user");
       otpHelp.textContent = mode === "existing" ? t("dsm.otp_help") : t("dsm.otp_once_help");
       submit.textContent = mode === "auto" ? t("dsm.create") : mode === "task" ? t("dsm.task_create") : t("dsm.check");
-      if (!keepResult) fill(result);
     }
 
     async function run() {
@@ -1083,12 +1124,12 @@
       const r = await api(action, { user: userIn.value.trim(), pass: passIn.value, otp: otpIn.value.trim() });
       passIn.value = "";
       otpIn.value = "";
+      // DSM enforces 2-step verification for every administrator: go straight
+      // to the DSM task instead of showing an error.
+      if (!r.ok && r.error === "dsm_svc_otp") return focusTask(true);
       if (!r.ok) {
-        // The DSM error code helps to tell DSM policies apart. When DSM
-        // enforces 2-step verification for every administrator, offer the task.
-        fill(result, notice("error", errText(r.error), r.code ? " (DSM " + r.code + ")" : null,
-          r.error === "dsm_svc_otp" ? el("div", { class: "actions" },
-            button(t("dsm.use_task"), { small: true, onclick: () => showTask(true) })) : null));
+        // The DSM error code helps to tell DSM policies apart.
+        fill(result, notice("error", errText(r.error), r.code ? " (DSM " + r.code + ")" : null));
         return;
       }
       if (mode !== "existing") userIn.value = "";
@@ -1098,21 +1139,21 @@
     }
 
     const wrap = el("div", null,
-      el("div", { class: "radio-list" },
-        opt("auto", t("dsm.mode_auto"), t("dsm.mode_auto_help")),
-        opt("existing", t("dsm.mode_existing"), t("dsm.mode_existing_help")),
-        taskOpt),
-      mode === "task" ? null : moreLink,
-      compact ? null : intro,
+      choice,
+      moreLink,
+      focusInfo,
+      intro,
       dedicated,
       el("div", { class: "form" },
         field(userLabel, userIn),
         field(t("dsm.password"), passIn),
         field(t("dsm.otp"), otpIn, otpHelp)),
       result,
-      el("div", { class: "actions" }, submit));
-    taskOpt.hidden = mode !== "task";
-    render();
+      el("div", { class: "actions" }, submit),
+      backLink,
+      how);
+    if (startMode === "task") focusTask(false);
+    else render();
     return wrap;
   }
 

@@ -183,6 +183,7 @@ job_issue() {
   echo "@@STEP issue"
   acme "${args[@]}"
   rc=$?
+  [ "$rc" = 0 ] || [ "$rc" = 2 ] && dns_save_env "$plugin"
   if [ "$rc" = 2 ]; then
     echo "@@INFO already_valid"
   elif [ "$rc" != 0 ]; then

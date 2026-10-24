@@ -33,6 +33,13 @@ cmd_ionos_zones() {
       return 0
       ;;
   esac
+  # The key works: keep it for renewals. acme.sh's IONOS plugin would only
+  # save it when it actually creates a DNS entry, which it skips while IONOS
+  # still remembers an earlier validation.
+  if [ -n "${IONOS_PREFIX:-}" ]; then
+    acme_conf_set "$acc" SAVED_IONOS_PREFIX "$prefix"
+    acme_conf_set "$acc" SAVED_IONOS_SECRET "$secret"
+  fi
   names="$(printf '%s' "$body" | grep -o '"name" *: *"[^"]*"' | sed 's/.*"\([^"]*\)"$/\1/' | sort -u)"
   printf '{"ok":true,"saved":%s,"zones":[' "$(json_bool "$([ -z "${IONOS_PREFIX:-}" ] && echo 1)")"
   local first=1 n
@@ -57,6 +64,16 @@ cmd_dns_saved() {
     printf '%s:%s' "$(json_str "$k")" "$(json_bool "$(grep -qE "^(SAVED_)?${k}=" "$acc" 2>/dev/null && echo 1)")"
   done
   printf '}}'
+}
+
+# dns_save_env PLUGIN: store the plugin's credentials from the environment in
+# acme.sh's account.conf (after a successful issue; see cmd_ionos_zones).
+dns_save_env() {
+  local k
+  while read -r _ k; do
+    [ -n "${!k:-}" ] && acme_conf_set "${ACME_CFG}/account.conf" "SAVED_$k" "${!k}"
+  done < <(grep "^$1 " "${AACME_TARGET}/share/dnsapi.keys" 2>/dev/null)
+  return 0
 }
 
 # dns_key_allowed PLUGIN KEY: only variables declared by the plugin may be set.
