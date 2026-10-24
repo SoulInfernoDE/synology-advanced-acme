@@ -127,6 +127,8 @@ tools/                           Hilfsskripte für den Build
 
 Das Ergebnis liegt in `dist/AdvancedACME-<version>-noarch.spk`. Benötigt werden bash, tar und python3. Die Version steht in `VERSION`.
 
+Andere Paketsysteme können nur die Paketinhalte übernehmen: `./build.sh --stage VERZEICHNIS` schreibt die Dateien von `package.tgz` nach `VERZEICHNIS` und verwendet ein dort unter `acme.sh` bereits vorhandenes acme.sh statt `vendor/acme.sh`. Mit `ACME_UPDATES=0` entfallen die optionalen acme.sh-Updates in der Oberfläche; acme.sh wird dann nur mit dem Paket aktualisiert. Advanced ACME ermittelt Paketnamen und Paketbenutzer zur Laufzeit, das Paket darf also anders heißen (zum Beispiel `advanced-acme` mit dem Benutzer `sc-advanced-acme`).
+
 ## Tests
 
 Der Ende-zu-Ende-Test durchläuft den kompletten Ablauf über die CGI-API gegen [Pebble](https://github.com/letsencrypt/pebble). Pebble ist eingerichtet wie der IONOS-ACME-Server: External Account Binding ist Pflicht, Zertifikate gelten 180 Tage. Ein Mock der DSM-WebAPI (Anmeldung, 2-Faktor-Authentifizierung, Zertifikatsliste und Import, Benutzerverwaltung) und der IONOS-DNS-API vertritt die NAS. Geprüft werden Registrierung mit EAB, Wildcard-Zertifikat per DNS-01, Installation in DSM, Ersetzen des DSM-Standardzertifikats, 2FA-Geräte-Token, Erneuerung, ECDSA, Expertenkonsole, Dienst und Eingabeprüfung.

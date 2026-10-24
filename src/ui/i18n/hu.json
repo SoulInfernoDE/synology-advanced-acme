@@ -357,6 +357,7 @@
 
   "err.unknown": "Ismeretlen hiba történt.",
   "err.unknown_code": "Hiba: {code}",
+  "err.acme_update_disabled": "Az acme.sh frissítései nem érhetők el az Advanced ACME ezen kiadásában. Az acme.sh a csomaggal együtt frissül.",
   "err.network": "A NAS nem válaszolt. Ellenőrizze a kapcsolatot, és töltse be újra az oldalt.",
   "err.bad_response": "A NAS váratlan választ küldött. Töltse be újra az oldalt.",
   "err.not_logged_in": "A DSM-munkamenete lejárt. Jelentkezzen be újra a DSM-be.",
@@ -412,6 +413,7 @@
 
   "acme.title": "acme.sh-verzió",
   "acme.intro": "Az Advanced ACME a mellékelt acme.sh {bundled} verzióval lett tesztelve. Telepíthet újabb hivatalos acme.sh-verziókat. A mellékelt verzió mindig elérhető marad, és bármikor visszatérhet hozzá.",
+  "acme.intro_fixed": "Ez a csomag a mellékelt acme.sh {bundled} verziót használja. Az acme.sh az Advanced ACME-vel együtt frissül a Csomagkezelőn keresztül.",
   "acme.active": "Aktív verzió",
   "acme.active_bundled": "{version} (mellékelt, tesztelt)",
   "acme.active_updated": "{version} (frissített, kísérleti)",

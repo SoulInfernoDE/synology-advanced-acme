@@ -1467,6 +1467,15 @@
         toast(r.ok ? t("common.saved") : errText(r.error), r.ok ? "" : "error");
         if (r.ok) state.status.settings.acme_auto_update = auto.checked;
       });
+      // Builds without acme.sh updates (e.g. SynoCommunity) update acme.sh with the package.
+      if (a.updates === false) {
+        return fill(panel,
+          el("h2", null, t("acme.title")),
+          el("p", { class: "muted" }, t("acme.intro_fixed", { bundled: a.bundled })),
+          el("dl", { class: "facts" },
+            el("dt", null, t("acme.active")),
+            el("dd", null, t("acme.active_bundled", { version: a.active }))));
+      }
       fill(panel,
         el("h2", null, t("acme.title")),
         el("p", { class: "muted" }, t("acme.intro", { bundled: a.bundled })),

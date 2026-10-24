@@ -23,9 +23,9 @@ cmd_status() {
     "$(json_num "$(setting renew_before_days)")" "$(json_bool "$(setting notify)")" \
     "$(json_str "$(setting dsm_host)")" "$(json_str "$(setting dsm_scheme)")" "$(json_str "$(setting dsm_port)")" \
     "$(json_bool "$(setting acme_auto_update)")"
-  printf '"acme":{"active":%s,"bundled":%s,"updated":%s,"latest":%s,"checked":%s},' \
+  printf '"acme":{"active":%s,"bundled":%s,"updated":%s,"updates":%s,"latest":%s,"checked":%s},' \
     "$(json_str "$(acme_sh_version)")" "$(json_str "$(acme_sh_version "$ACME_BUNDLED")")" \
-    "$(json_bool "$([ "$ACME_HOME" = "$ACME_UPDATED" ] && echo 1)")" \
+    "$(json_bool "$([ "$ACME_HOME" = "$ACME_UPDATED" ] && echo 1)")" "$(json_bool "$(acme_updates_allowed && echo 1)")" \
     "$(json_str "$(kv_get "$ACME_UPDATE_STATE" latest | sed 's/^v//')")" "$(json_num "$(kv_get "$ACME_UPDATE_STATE" checked)")"
   printf '"paths":{"var":%s,"acme_home":%s,"acme_config":%s,"cli":"/usr/local/bin/advanced-acme"}}' \
     "$(json_str "$AACME_VAR")" "$(json_str "$ACME_HOME")" "$(json_str "$ACME_CFG")"

@@ -359,6 +359,7 @@
 
   "err.unknown": "An unknown error occurred.",
   "err.unknown_code": "Error: {code}",
+  "err.acme_update_disabled": "acme.sh updates are not available in this build of Advanced ACME. acme.sh is updated together with the package.",
   "err.network": "The NAS did not answer. Check the connection and reload the page.",
   "err.bad_response": "The NAS sent an unexpected answer. Reload the page.",
   "err.not_logged_in": "Your DSM session has expired. Please sign in to DSM again.",
@@ -407,6 +408,7 @@
   "err.ionos_http_error": "The IONOS API returned an error.",
   "acme.title": "acme.sh version",
   "acme.intro": "Advanced ACME is tested with the bundled acme.sh {bundled}. You can install newer official acme.sh releases. The bundled version always stays available, and you can return to it at any time.",
+  "acme.intro_fixed": "This package uses the bundled acme.sh {bundled}. acme.sh is updated together with Advanced ACME through the Package Center.",
   "acme.active": "Active version",
   "acme.active_bundled": "{version} (bundled, tested)",
   "acme.active_updated": "{version} (updated, experimental)",

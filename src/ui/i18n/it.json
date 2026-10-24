@@ -359,6 +359,7 @@
 
   "err.unknown": "Si è verificato un errore sconosciuto.",
   "err.unknown_code": "Errore: {code}",
+  "err.acme_update_disabled": "Gli aggiornamenti di acme.sh non sono disponibili in questa build di Advanced ACME. acme.sh viene aggiornato insieme al pacchetto.",
   "err.network": "Il NAS non ha risposto. Controlla la connessione e ricarica la pagina.",
   "err.bad_response": "Il NAS ha inviato una risposta inattesa. Ricarica la pagina.",
   "err.not_logged_in": "La tua sessione DSM è scaduta. Accedi di nuovo a DSM.",
@@ -414,6 +415,7 @@
 
   "acme.title": "Versione di acme.sh",
   "acme.intro": "Advanced ACME è testato con l'acme.sh incluso {bundled}. Puoi installare versioni ufficiali più recenti di acme.sh. La versione inclusa resta sempre disponibile e puoi tornarci in qualsiasi momento.",
+  "acme.intro_fixed": "Questo pacchetto usa l'acme.sh incluso {bundled}. acme.sh viene aggiornato insieme ad Advanced ACME tramite il Centro pacchetti.",
   "acme.active": "Versione attiva",
   "acme.active_bundled": "{version} (inclusa, testata)",
   "acme.active_updated": "{version} (aggiornata, sperimentale)",

@@ -357,6 +357,7 @@
 
   "err.unknown": "Došlo k neznámé chybě.",
   "err.unknown_code": "Chyba: {code}",
+  "err.acme_update_disabled": "Aktualizace acme.sh nejsou v tomto sestavení Advanced ACME k dispozici. acme.sh se aktualizuje společně s balíčkem.",
   "err.network": "NAS neodpověděl. Zkontrolujte připojení a znovu načtěte stránku.",
   "err.bad_response": "NAS poslal neočekávanou odpověď. Znovu načtěte stránku.",
   "err.not_logged_in": "Vaše relace DSM vypršela. Znovu se přihlaste do DSM.",
@@ -412,6 +413,7 @@
 
   "acme.title": "Verze acme.sh",
   "acme.intro": "Advanced ACME je otestován s dodaným acme.sh {bundled}. Můžete nainstalovat novější oficiální verze acme.sh. Dodaná verze zůstává vždy k dispozici a můžete se k ní kdykoli vrátit.",
+  "acme.intro_fixed": "Tento balíček používá dodaný acme.sh {bundled}. acme.sh se aktualizuje společně s Advanced ACME prostřednictvím Centra balíčků.",
   "acme.active": "Aktivní verze",
   "acme.active_bundled": "{version} (dodaná, otestovaná)",
   "acme.active_updated": "{version} (aktualizovaná, experimentální)",

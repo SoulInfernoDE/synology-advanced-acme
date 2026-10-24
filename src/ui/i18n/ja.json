@@ -357,6 +357,7 @@
 
   "err.unknown": "不明なエラーが発生しました。",
   "err.unknown_code": "エラー: {code}",
+  "err.acme_update_disabled": "この Advanced ACME のビルドでは acme.sh の更新は利用できません。acme.sh はパッケージと一緒に更新されます。",
   "err.network": "NAS から応答がありません。接続を確認し、ページを再読み込みしてください。",
   "err.bad_response": "NAS から予期しない応答がありました。ページを再読み込みしてください。",
   "err.not_logged_in": "DSM のセッションが切れました。もう一度 DSM にサインインしてください。",
@@ -412,6 +413,7 @@
 
   "acme.title": "acme.sh のバージョン",
   "acme.intro": "Advanced ACME は同梱の acme.sh {bundled} でテストされています。より新しい acme.sh の公式リリースをインストールできます。同梱バージョンは常に残り、いつでも戻せます。",
+  "acme.intro_fixed": "このパッケージは同梱の acme.sh {bundled} を使用します。acme.sh はパッケージセンターから Advanced ACME と一緒に更新されます。",
   "acme.active": "使用中のバージョン",
   "acme.active_bundled": "{version} (同梱、テスト済み)",
   "acme.active_updated": "{version} (更新済み、試験的)",

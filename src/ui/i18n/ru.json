@@ -357,6 +357,7 @@
 
   "err.unknown": "Произошла неизвестная ошибка.",
   "err.unknown_code": "Ошибка: {code}",
+  "err.acme_update_disabled": "Обновления acme.sh недоступны в этой сборке Advanced ACME. acme.sh обновляется вместе с пакетом.",
   "err.network": "NAS не ответил. Проверьте подключение и перезагрузите страницу.",
   "err.bad_response": "NAS отправил неожиданный ответ. Перезагрузите страницу.",
   "err.not_logged_in": "Сеанс DSM истёк. Войдите в DSM снова.",
@@ -412,6 +413,7 @@
 
   "acme.title": "Версия acme.sh",
   "acme.intro": "Advanced ACME протестирован со встроенным acme.sh {bundled}. Можно установить более новые официальные версии acme.sh. Встроенная версия всегда остаётся доступной, и к ней можно вернуться в любой момент.",
+  "acme.intro_fixed": "Этот пакет использует встроенный acme.sh {bundled}. acme.sh обновляется вместе с Advanced ACME через Центр пакетов.",
   "acme.active": "Активная версия",
   "acme.active_bundled": "{version} (встроенная, протестирована)",
   "acme.active_updated": "{version} (обновлена, экспериментально)",

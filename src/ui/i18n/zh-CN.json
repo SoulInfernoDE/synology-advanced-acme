@@ -357,6 +357,7 @@
 
   "err.unknown": "发生未知错误。",
   "err.unknown_code": "错误：{code}",
+  "err.acme_update_disabled": "此 Advanced ACME 版本不提供 acme.sh 更新。acme.sh 会随套件一起更新。",
   "err.network": "NAS 没有响应。请检查连接并重新加载页面。",
   "err.bad_response": "NAS 返回了意外的响应。请重新加载页面。",
   "err.not_logged_in": "您的 DSM 会话已过期。请重新登录 DSM。",
@@ -412,6 +413,7 @@
 
   "acme.title": "acme.sh 版本",
   "acme.intro": "Advanced ACME 已使用随附的 acme.sh {bundled} 进行测试。您可以安装更新的 acme.sh 官方版本。随附版本始终保留，可随时恢复。",
+  "acme.intro_fixed": "此套件使用随附的 acme.sh {bundled}。acme.sh 会通过套件中心与 Advanced ACME 一起更新。",
   "acme.active": "当前版本",
   "acme.active_bundled": "{version}（随附，已测试）",
   "acme.active_updated": "{version}（已更新，实验性）",

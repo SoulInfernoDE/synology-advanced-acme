@@ -357,6 +357,7 @@
 
   "err.unknown": "알 수 없는 오류가 발생했습니다.",
   "err.unknown_code": "오류: {code}",
+  "err.acme_update_disabled": "이 Advanced ACME 빌드에서는 acme.sh 업데이트를 사용할 수 없습니다. acme.sh는 패키지와 함께 업데이트됩니다.",
   "err.network": "NAS가 응답하지 않습니다. 연결을 확인하고 페이지를 새로 고치세요.",
   "err.bad_response": "NAS가 예상하지 못한 응답을 보냈습니다. 페이지를 새로 고치세요.",
   "err.not_logged_in": "DSM 세션이 만료되었습니다. DSM에 다시 로그인하세요.",
@@ -412,6 +413,7 @@
 
   "acme.title": "acme.sh 버전",
   "acme.intro": "Advanced ACME는 함께 제공되는 acme.sh {bundled}로 테스트되었습니다. 더 새로운 acme.sh 공식 릴리스를 설치할 수 있습니다. 함께 제공된 버전은 항상 남아 있으며 언제든지 되돌릴 수 있습니다.",
+  "acme.intro_fixed": "이 패키지는 함께 제공된 acme.sh {bundled}을(를) 사용합니다. acme.sh는 패키지 센터를 통해 Advanced ACME와 함께 업데이트됩니다.",
   "acme.active": "사용 중인 버전",
   "acme.active_bundled": "{version} (기본 제공, 테스트됨)",
   "acme.active_updated": "{version} (업데이트됨, 실험적)",
