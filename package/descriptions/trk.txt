@@ -1,0 +1,1 @@
+IONOS SSL (External Account Binding ile ACME), Let's Encrypt, ZeroSSL veya herhangi bir ACME sunucusundan DSM için otomatik SSL sertifikaları. Rehberli kurulum, IONOS dahil 200'den fazla DNS sağlayıcısı için DNS doğrulaması, otomatik yenileme ve DSM sertifika yöneticisine yükleme. acme.sh tabanlıdır, root olmadan çalışır ve DSM güncellemelerinden etkilenmez.

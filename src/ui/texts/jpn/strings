@@ -1,0 +1,10 @@
+[app]
+title="Advanced ACME"
+desc="DSM 用の自動 SSL 証明書 (IONOS、Let's Encrypt、その他の ACME プロバイダー)"
+
+[notify]
+issued="新しい証明書が発行され、DSM にインストールされました。"
+issue_failed="証明書を発行できませんでした。詳細は Advanced ACME を開いてください。"
+deploy_failed="証明書を DSM にインストールできませんでした。詳細は Advanced ACME を開いてください。"
+renew_failed="証明書の自動更新に失敗しました。詳細は Advanced ACME を開いてください。"
+acme_updated="acme.sh が新しいバージョンに更新されました (Advanced ACME では試験的)。"

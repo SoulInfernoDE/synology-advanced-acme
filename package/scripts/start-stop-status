@@ -1,0 +1,46 @@
+#!/bin/sh
+# DSM service control for the Advanced ACME renewal service.
+
+PKG_TARGET="${SYNOPKG_PKGDEST:-/var/packages/AdvancedACME/target}"
+PKG_VAR="${SYNOPKG_PKGVAR:-/var/packages/AdvancedACME/var}"
+BIN="${PKG_TARGET}/bin/advanced-acme"
+PIDFILE="${PKG_VAR}/service.pid"
+
+is_running() {
+  [ -f "$PIDFILE" ] && kill -0 "$(cat "$PIDFILE")" 2>/dev/null
+}
+
+case "$1" in
+  start)
+    is_running && exit 0
+    if command -v setsid >/dev/null 2>&1; then
+      setsid "$BIN" service-loop </dev/null >/dev/null 2>&1 &
+    else
+      nohup "$BIN" service-loop </dev/null >/dev/null 2>&1 &
+    fi
+    exit 0
+    ;;
+  stop)
+    if is_running; then
+      kill "$(cat "$PIDFILE")" 2>/dev/null
+      i=0
+      while is_running && [ "$i" -lt 10 ]; do
+        sleep 1
+        i=$((i + 1))
+      done
+    fi
+    rm -f "$PIDFILE"
+    exit 0
+    ;;
+  status)
+    is_running && exit 0
+    exit 3
+    ;;
+  log)
+    echo "${PKG_VAR}/logs/service.log"
+    exit 0
+    ;;
+  *)
+    exit 0
+    ;;
+esac

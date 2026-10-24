@@ -1,0 +1,10 @@
+[app]
+title="Advanced ACME"
+desc="DSM용 자동 SSL 인증서 (IONOS, Let's Encrypt 및 기타 ACME 공급자)"
+
+[notify]
+issued="새 인증서가 발급되어 DSM에 설치되었습니다."
+issue_failed="인증서를 발급하지 못했습니다. 자세한 내용은 Advanced ACME를 여세요."
+deploy_failed="인증서를 DSM에 설치하지 못했습니다. 자세한 내용은 Advanced ACME를 여세요."
+renew_failed="인증서 자동 갱신에 실패했습니다. 자세한 내용은 Advanced ACME를 여세요."
+acme_updated="acme.sh가 새 버전으로 업데이트되었습니다 (Advanced ACME에서는 실험적)."

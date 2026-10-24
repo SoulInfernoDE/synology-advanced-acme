@@ -1,0 +1,10 @@
+[app]
+title="Advanced ACME"
+desc="ใบรับรอง SSL อัตโนมัติ (IONOS, Let's Encrypt และผู้ให้บริการ ACME อื่น) สำหรับ DSM"
+
+[notify]
+issued="ออกใบรับรองใหม่และติดตั้งลงใน DSM แล้ว"
+issue_failed="ไม่สามารถออกใบรับรองได้ เปิด Advanced ACME เพื่อดูรายละเอียด"
+deploy_failed="ไม่สามารถติดตั้งใบรับรองลงใน DSM ได้ เปิด Advanced ACME เพื่อดูรายละเอียด"
+renew_failed="การต่ออายุใบรับรองอัตโนมัติล้มเหลว เปิด Advanced ACME เพื่อดูรายละเอียด"
+acme_updated="acme.sh ได้รับการอัปเดตเป็นเวอร์ชันใหม่กว่า (เป็นการทดลองกับ Advanced ACME)"

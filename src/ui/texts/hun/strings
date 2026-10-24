@@ -1,0 +1,10 @@
+[app]
+title="Advanced ACME"
+desc="Automatikus SSL-tanúsítványok (IONOS, Let's Encrypt és más ACME-szolgáltatók) a DSM-hez"
+
+[notify]
+issued="Új tanúsítvány készült, és telepítve lett a DSM-be."
+issue_failed="Egy tanúsítványt nem sikerült kiadni. A részletekért nyissa meg az Advanced ACME-t."
+deploy_failed="Egy tanúsítványt nem sikerült telepíteni a DSM-be. A részletekért nyissa meg az Advanced ACME-t."
+renew_failed="Az automatikus tanúsítványmegújítás sikertelen. A részletekért nyissa meg az Advanced ACME-t."
+acme_updated="Az acme.sh újabb verzióra frissült (az Advanced ACME-vel kísérleti)."

@@ -1,0 +1,127 @@
+#!/bin/bash
+# Advanced ACME command line interface.
+#
+#   advanced-acme acme <acme.sh arguments>   run the bundled acme.sh with the
+#                                            package's directories
+#   advanced-acme cron                       renew all due certificates now
+#   advanced-acme status | certs | accounts | jobs
+#
+# Root is dropped to the package user, so files keep the right owner.
+
+SELF="$(readlink -f "$0" 2>/dev/null || echo "$0")"
+AACME_TARGET="${AACME_TARGET:-$(dirname "$(dirname "$SELF")")}"
+LIB="${AACME_TARGET}/lib"
+
+# shellcheck source=../lib/all.sh
+. "${LIB}/all.sh"
+
+drop_root() {
+  [ "$(id -u)" = 0 ] || return 0
+  [ -n "${AACME_ALLOW_ROOT:-}" ] && return 0
+  if id "$AACME_PKG" >/dev/null 2>&1; then
+    if command -v sudo >/dev/null 2>&1; then
+      exec sudo -u "$AACME_PKG" -- "$SELF" "$@"
+    fi
+    exec su -s /bin/bash "$AACME_PKG" -c "$(printf '%q ' "$SELF" "$@")"
+  fi
+}
+
+usage() {
+  cat <<EOF
+Advanced ACME $(aacme_version) (acme.sh $(acme_sh_version))
+
+Usage: advanced-acme <command> [arguments]
+
+  acme <args...>   Run acme.sh with the package directories, for example:
+                     advanced-acme acme --list
+                     advanced-acme acme --renew -d nas.example.com --force
+  cron             Renew all certificates that are due and deploy them to DSM
+  acme-check       Look up the latest acme.sh release
+  acme-update [v]  Install a newer acme.sh release (experimental with Advanced ACME)
+  acme-revert      Go back to the acme.sh bundled with the package
+  status           Package status (JSON)
+  certs            Certificates (JSON)
+  accounts         Registered ACME accounts (JSON)
+  jobs             Recent background jobs (JSON)
+  job <id>         Log of a background job
+  dsm-forget       Forget the stored DSM account (deletes the account
+                   "advanced-acme" from DSM if Advanced ACME created it)
+
+Data directory: ${AACME_VAR}
+EOF
+}
+
+# The renewal service started by DSM through start-stop-status.
+service_loop() {
+  local child="" id
+  echo "$$" >"${AACME_VAR}/service.pid"
+  trap '[ -n "$child" ] && kill "$child" 2>/dev/null; rm -f "${AACME_VAR}/service.pid"; exit 0' TERM INT
+  log_line "service started"
+  # First run shortly after start (boot, DSM update, package update).
+  sleep 300 &
+  child=$!
+  wait "$child"
+  while true; do
+    rotate_log "${AACME_LOGS}/service.log"
+    if acme_auto_update_due; then
+      kv_set "$ACME_UPDATE_STATE" auto_checked "$(date +%s)"
+      id="$(job_prepare acme_update "auto")"
+      log_line "automatic acme.sh update check (job ${id})"
+      (job_run acme_update "$id")
+      acme_select_home
+    fi
+    id="$(job_prepare cron "")"
+    log_line "renewal check (job ${id})"
+    (job_run cron "$id")
+    log_line "renewal check finished: $(cat "${AACME_JOBS}/${id}.state" 2>/dev/null)"
+    # Twice a day with some jitter, as recommended for ACME clients.
+    sleep $((43200 + RANDOM % 1800)) &
+    child=$!
+    wait "$child"
+  done
+}
+
+main() {
+  local cmd="${1:-help}"
+  [ $# -gt 0 ] && shift
+  drop_root "$cmd" "$@"
+  aacme_init_dirs
+  case "$cmd" in
+    acme)
+      case " $* " in
+        *" --upgrade "* | *" --install"* | *" --uninstall"* | *" --home "* | *" --config-home "*)
+          echo "This option is managed by the Advanced ACME package." >&2
+          echo "To update acme.sh use: advanced-acme acme-update" >&2
+          exit 1
+          ;;
+      esac
+      acme "$@"
+      ;;
+    cron)
+      id="$(job_prepare cron "cli")"
+      (job_run cron "$id")
+      cat "${AACME_JOBS}/${id}.log"
+      [ "$(cat "${AACME_JOBS}/${id}.state")" = "done 0" ]
+      ;;
+    acme-check) cmd_acme_check; echo ;;
+    acme-update)
+      id="$(job_prepare acme_update "cli")"
+      (job_run acme_update "$id" "$@")
+      strip_ansi <"${AACME_JOBS}/${id}.log" | grep -v '^@@'
+      [ "$(cat "${AACME_JOBS}/${id}.state")" = "done 0" ]
+      ;;
+    acme-revert) cmd_acme_revert; echo ;;
+    status) cmd_status; echo ;;
+    certs) cmd_certs; echo ;;
+    accounts) cmd_accounts; echo ;;
+    jobs) cmd_jobs; echo ;;
+    job) valid_job_id "$1" && strip_ansi <"${AACME_JOBS}/$1.log" ;;
+    dsm-forget) cmd_dsm_forget; echo ;;
+    service-loop) service_loop ;;
+    _job) job_run "$@" ;;
+    help | -h | --help) usage ;;
+    *) usage; exit 1 ;;
+  esac
+}
+
+main "$@"
