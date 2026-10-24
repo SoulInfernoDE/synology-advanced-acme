@@ -278,6 +278,7 @@
   "settings.dsm_task_not_running": "L'attività DSM non viene eseguita da un po'. In DSM verifica in Pannello di controllo > Utilità di pianificazione che l'attività «{name}» sia attivata.",
   "settings.dsm_task_outdated": "È disponibile una versione più recente dell'attività DSM. Configura di nuovo l'attività per aggiornarla.",
   "settings.dsm_task_update": "Aggiorna attività",
+  "settings.dsm_task_setup_again": "Configura di nuovo l'attività",
   "settings.dsm_task_remove": "Rimuovi attività",
   "settings.dsm_task_remove_confirm": "Rimuovere l'attività DSM «{name}»? I certificati rinnovati non potranno più essere installati automaticamente.",
   "settings.dsm_task_removing": "L'attività DSM si rimuove da sola entro un minuto.",

@@ -278,6 +278,7 @@
   "settings.dsm_task_not_running": "A tarefa do DSM não é executada há algum tempo. No DSM, verifique em Painel de Controle > Agendador de tarefas se a tarefa “{name}” está ativada.",
   "settings.dsm_task_outdated": "Há uma versão mais recente da tarefa do DSM. Configure a tarefa novamente para atualizá-la.",
   "settings.dsm_task_update": "Atualizar tarefa",
+  "settings.dsm_task_setup_again": "Configurar a tarefa novamente",
   "settings.dsm_task_remove": "Remover tarefa",
   "settings.dsm_task_remove_confirm": "Remover a tarefa do DSM “{name}”? Certificados renovados não poderão mais ser instalados automaticamente.",
   "settings.dsm_task_removing": "A tarefa do DSM se remove sozinha em até um minuto.",

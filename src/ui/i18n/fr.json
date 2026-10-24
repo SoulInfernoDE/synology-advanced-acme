@@ -278,6 +278,7 @@
   "settings.dsm_task_not_running": "La tâche DSM ne s'est pas exécutée depuis un moment. Dans DSM, vérifiez sous Panneau de configuration > Planificateur de tâches que la tâche « {name} » est activée.",
   "settings.dsm_task_outdated": "Une version plus récente de la tâche DSM est disponible. Configurez de nouveau la tâche pour la mettre à jour.",
   "settings.dsm_task_update": "Mettre à jour la tâche",
+  "settings.dsm_task_setup_again": "Reconfigurer la tâche",
   "settings.dsm_task_remove": "Supprimer la tâche",
   "settings.dsm_task_remove_confirm": "Supprimer la tâche DSM « {name} » ? Les certificats renouvelés ne pourront alors plus être installés automatiquement.",
   "settings.dsm_task_removing": "La tâche DSM se supprime elle-même dans la minute.",

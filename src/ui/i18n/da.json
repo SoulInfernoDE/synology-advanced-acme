@@ -278,6 +278,7 @@
   "settings.dsm_task_not_running": "DSM-opgaven har ikke kørt i et stykke tid. Kontrollér i DSM under Kontrolpanel > Opgaveplanlægning, at opgaven »{name}« er aktiveret.",
   "settings.dsm_task_outdated": "Der findes en nyere version af DSM-opgaven. Opsæt opgaven igen for at opdatere den.",
   "settings.dsm_task_update": "Opdater opgave",
+  "settings.dsm_task_setup_again": "Opsæt opgaven igen",
   "settings.dsm_task_remove": "Fjern opgave",
   "settings.dsm_task_remove_confirm": "Fjern DSM-opgaven »{name}«? Fornyede certifikater kan så ikke længere installeres automatisk.",
   "settings.dsm_task_removing": "DSM-opgaven fjerner sig selv inden for et minut.",

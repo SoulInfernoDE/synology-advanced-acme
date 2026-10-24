@@ -349,8 +349,16 @@ r="$(cgi action=status)"
 check "removing: the task deletes itself, logged" '[ "$(mock_state | jq ".tasks | length")" = 0 ] && [ "$(jq -r .dsm.mode <<<"$r")" = none ] && grep -q "\"dsm_task_removed\"" "$V/logs/activity.log"' "$r"
 rm -f "$W/task.sh"
 wait "$TASK_LOOP" 2>/dev/null
+# Uninstalled with the data kept: the task deleted itself (it confirms in its
+# run folder). After the reinstall it must not count as set up any more.
+cgi action=dsm_create_task "user=certbot" "pass=s3cret pass&=" >/dev/null
+sleep 1
+printf 'time=%s\n' "$(date +%s)" >"$W/run/removed"
+r="$(cgi action=status)"
+check "task that deleted itself on uninstall is no longer set up" '[ "$(jq -r .dsm.mode <<<"$r")" = none ] && [ ! -f "$V/dsm-task/task.conf" ] && [ "$(grep -c "\"dsm_task_removed\"" "$V/logs/activity.log")" = 2 ]' "$r"
+cgi action=dsm_task_remove >/dev/null
 r="$(cgi action=activity)"
-check "activity log lists the steps in order" '[ "$(jq -r "[.events[].e] | map(select(startswith(\"dsm_task\"))) | join(\",\")" <<<"$r")" = "dsm_task_created,dsm_task_installed,dsm_task_remove_requested,dsm_task_removed" ]' "$r"
+check "activity log lists the steps in order" '[ "$(jq -r "[.events[].e] | map(select(startswith(\"dsm_task\"))) | join(\",\")" <<<"$r")" = "dsm_task_created,dsm_task_installed,dsm_task_remove_requested,dsm_task_removed,dsm_task_created,dsm_task_removed" ]' "$r"
 curl -s "http://127.0.0.1:${MOCK_PORT}/_set?otp_enforced=0" >/dev/null
 cgi action=dsm_check "user=certbot" "pass=s3cret pass&=" >/dev/null
 

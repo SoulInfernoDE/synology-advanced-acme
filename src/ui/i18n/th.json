@@ -278,6 +278,7 @@
   "settings.dsm_task_not_running": "งาน DSM ไม่ได้ทำงานมาระยะหนึ่ง ใน DSM ให้ตรวจสอบที่ แผงควบคุม > ตัวจัดกำหนดการงาน ว่างาน “{name}” เปิดใช้งานอยู่",
   "settings.dsm_task_outdated": "มีงาน DSM เวอร์ชันใหม่กว่า ตั้งค่างานอีกครั้งเพื่ออัปเดต",
   "settings.dsm_task_update": "อัปเดตงาน",
+  "settings.dsm_task_setup_again": "ตั้งค่างานอีกครั้ง",
   "settings.dsm_task_remove": "นำงานออก",
   "settings.dsm_task_remove_confirm": "นำงาน DSM “{name}” ออกหรือไม่ ใบรับรองที่ต่ออายุแล้วจะไม่สามารถติดตั้งโดยอัตโนมัติได้อีก",
   "settings.dsm_task_removing": "งาน DSM จะนำตัวเองออกภายในหนึ่งนาที",

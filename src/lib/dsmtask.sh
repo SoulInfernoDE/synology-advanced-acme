@@ -164,6 +164,14 @@ task_collect() {
   # The task confirmed that it deletes itself. The marker stays, so a task that
   # could not delete itself tries again; creating a task clears it.
   removed="$(kv_get "${AACME_TASK_RUN}/removed" time)"
+  # The package was uninstalled with the data kept: the task deleted itself
+  # after it was created, so it is no longer set up.
+  if task_configured && [[ "$removed" =~ ^[0-9]+$ ]] &&
+    [ "$removed" -ge "$(kv_get "$AACME_TASK_CONF" created 0)" ]; then
+    rm -f "$AACME_TASK_CONF"
+    activity_log dsm_task_removed name "$TASK_NAME"
+    return 0
+  fi
   if [ -f "${AACME_TASK_Q}/remove" ] && [ "$(kv_get "${AACME_TASK_Q}/remove" logged)" != 1 ] &&
     [[ "$removed" =~ ^[0-9]+$ ]] && [ "$removed" -ge "$(stat -c %Y "${AACME_TASK_Q}/remove")" ]; then
     kv_set "${AACME_TASK_Q}/remove" logged 1

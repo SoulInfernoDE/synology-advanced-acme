@@ -278,6 +278,7 @@
   "settings.dsm_task_not_running": "DSM タスクがしばらく実行されていません。DSM の「コントロールパネル > タスク スケジューラ」で、タスク「{name}」が有効か確認してください。",
   "settings.dsm_task_outdated": "DSM タスクの新しいバージョンがあります。更新するにはタスクをもう一度設定してください。",
   "settings.dsm_task_update": "タスクを更新",
+  "settings.dsm_task_setup_again": "タスクを再設定",
   "settings.dsm_task_remove": "タスクを削除",
   "settings.dsm_task_remove_confirm": "DSM タスク「{name}」を削除しますか? 更新された証明書は自動でインストールされなくなります。",
   "settings.dsm_task_removing": "DSM タスクは 1 分以内に自身を削除します。",

@@ -278,6 +278,7 @@
   "settings.dsm_task_not_running": "Zadanie DSM od dłuższego czasu się nie wykonało. W DSM sprawdź w Panel sterowania > Harmonogram zadań, czy zadanie „{name}” jest włączone.",
   "settings.dsm_task_outdated": "Dostępna jest nowsza wersja zadania DSM. Skonfiguruj zadanie ponownie, aby je zaktualizować.",
   "settings.dsm_task_update": "Zaktualizuj zadanie",
+  "settings.dsm_task_setup_again": "Skonfiguruj zadanie ponownie",
   "settings.dsm_task_remove": "Usuń zadanie",
   "settings.dsm_task_remove_confirm": "Usunąć zadanie DSM „{name}”? Odnowione certyfikaty nie będą już instalowane automatycznie.",
   "settings.dsm_task_removing": "Zadanie DSM usunie się samo w ciągu minuty.",

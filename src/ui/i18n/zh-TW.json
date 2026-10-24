@@ -278,6 +278,7 @@
   "settings.dsm_task_not_running": "DSM 任務已有一段時間未執行。請在 DSM 的「控制台 > 任務排程表」中確認任務「{name}」已啟用。",
   "settings.dsm_task_outdated": "DSM 任務有新版本可用。請重新設定任務以進行更新。",
   "settings.dsm_task_update": "更新任務",
+  "settings.dsm_task_setup_again": "重新設定任務",
   "settings.dsm_task_remove": "移除任務",
   "settings.dsm_task_remove_confirm": "要移除 DSM 任務「{name}」嗎？之後更新的憑證將無法再自動安裝。",
   "settings.dsm_task_removing": "DSM 任務會在一分鐘內自行移除。",

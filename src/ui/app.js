@@ -1220,7 +1220,8 @@
         const task = st.task;
         const stale = !task.last_run || Date.now() / 1000 - task.last_run > 600;
         add(dsmBox, notice("ok", t("settings.dsm_task_active", { name: task.name })),
-          stale ? notice("warn", t("settings.dsm_task_not_running", { name: task.name })) :
+          stale ? notice("warn", t("settings.dsm_task_not_running", { name: task.name }), " ",
+            button(t("settings.dsm_task_setup_again"), { small: true, onclick: () => showForm("task") })) :
             el("p", { class: "muted" }, t("settings.dsm_task_last_run", { time: fmtDate(task.last_run) })),
           task.version && task.version < task.current_version ? notice("info", t("settings.dsm_task_outdated")) : null,
           el("div", { class: "actions" },

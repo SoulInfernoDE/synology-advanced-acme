@@ -278,6 +278,7 @@
   "settings.dsm_task_not_running": "Úloha DSM se delší dobu nespustila. V DSM zkontrolujte v části Ovládací panel > Plánovač úloh, zda je úloha „{name}“ povolena.",
   "settings.dsm_task_outdated": "Je k dispozici novější verze úlohy DSM. Nastavte úlohu znovu, abyste ji aktualizovali.",
   "settings.dsm_task_update": "Aktualizovat úlohu",
+  "settings.dsm_task_setup_again": "Nastavit úlohu znovu",
   "settings.dsm_task_remove": "Odebrat úlohu",
   "settings.dsm_task_remove_confirm": "Odebrat úlohu DSM „{name}“? Obnovené certifikáty pak už nebude možné instalovat automaticky.",
   "settings.dsm_task_removing": "Úloha DSM se do minuty sama odebere.",
