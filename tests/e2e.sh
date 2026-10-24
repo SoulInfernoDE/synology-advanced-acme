@@ -21,6 +21,8 @@ PIDS=()
 cleanup() {
   for p in "${PIDS[@]}"; do kill "$p" 2>/dev/null; done
   SYNOPKG_PKGDEST="$T" SYNOPKG_PKGVAR="$V" "$ROOT/package/scripts/start-stop-status" stop >/dev/null 2>&1
+  # DSM task scripts the mock started in the background
+  pkill -f "Q='$V/dsm-task'" 2>/dev/null
 }
 trap cleanup EXIT
 
@@ -37,7 +39,7 @@ V="$W/var"
 cp -a build/stage/target "$T"
 cp tests/dns_pebble.sh "$T/acme.sh/dnsapi/"
 echo "dns_pebble PEBBLE_CHALL_URL" >>"$T/share/dnsapi.keys"
-mkdir -p "$V"
+mkdir -p "$V" "$W/pkgdir"
 printf 'administrators:x:101:admin,root\nusers:x:100:bob\n' >"$W/group"
 printf 'admin_port="%s"\nsecure_admin_port="15501"\n' "$MOCK_PORT" >"$W/synoinfo.conf"
 
@@ -63,8 +65,8 @@ export AACME_IONOS_API="http://127.0.0.1:${MOCK_PORT}/dns"
 export AACME_DSM_LAN_HOST=127.0.0.2
 # DSM task: results in a test folder, synowebapi and the package folder
 # replaced for the test.
-export AACME_TASK_RUN="$W/run" AACME_SYNOWEBAPI="$ROOT/tests/fake_synowebapi.py" AACME_TASK_PKGDIR="$T"
-export AACME_TASK_WAIT=30
+export AACME_TASK_RUN="$W/run" AACME_SYNOWEBAPI="$ROOT/tests/fake_synowebapi.py" AACME_TASK_PKGDIR="$W/pkgdir"
+export AACME_TASK_WAIT=30 AACME_TASK_INTERVAL=1 AACME_TASK_GRACE=3
 export CA_BUNDLE="$PEBBLE_SRC/test/certs/pebble.minica.pem"
 # Pebble's DNS is private: skip acme.sh's public DNS propagation check.
 export Le_DNSSleep=1
@@ -345,20 +347,34 @@ cgi action=remove id=ecc.example.test_ecc >/dev/null
 
 echo "== DSM task (2-step verification enforced for all administrators)"
 curl -s "http://127.0.0.1:${MOCK_PORT}/_set?otp_enforced=1" >/dev/null
+# A scheduled task of the same name, as script version 1 created it.
+curl -s "http://127.0.0.1:${MOCK_PORT}/_set?addtask=Advanced%20ACME" >/dev/null
+event_tasks() { mock_state | jq '[.tasks[] | select(.event)] | length'; }
+task_pid() { sed -n 's/^pid=//p' "$W/run/heartbeat" 2>/dev/null; }
+# running PID: the process exists and has not ended (the mock, as its parent,
+# collects ended processes only later)
+running() { [ -n "$1" ] && ps -o stat= -p "$1" 2>/dev/null | grep -qv "^Z"; }
 r="$(cgi action=dsm_create_task user=certbot pass=wrong)"
-check "task needs a valid administrator sign-in" '[ "$(jq -r .error <<<"$r")" = dsm_auth_400 ] && [ "$(mock_state | jq ".tasks | length")" = 0 ]' "$r"
+check "task needs a valid administrator sign-in" '[ "$(jq -r .error <<<"$r")" = dsm_auth_400 ] && [ "$(event_tasks)" = 0 ]' "$r"
 r="$(cgi action=dsm_create_task "user=certbot" "pass=s3cret pass&=")"
 st="$(mock_state)"
-check "root task created with password confirmation, ran once, replaces the account" '[ "$(jq -r .ok <<<"$r")" = true ] && [ "$(jq -r .mode <<<"$r")" = task ] && [ "$(jq -r ".tasks[0].owner" <<<"$st")" = root ] && [ "$(jq -r ".tasks[0].schedule.repeat_min" <<<"$st")" = 1 ] && [ ! -f "$V/secrets/dsm.conf" ] && [ -f "$W/run/heartbeat" ]' "$r"
-script="$(jq -r ".tasks[0].script" <<<"$st")"
+check "boot-up task created as root with password confirmation, started, replaces the account and the minute task" '[ "$(jq -r .ok <<<"$r")" = true ] && [ "$(jq -r .mode <<<"$r")" = task ] && [ "$(jq -r "[.tasks[] | select(.event)][0] | \"\(.event) \(.owner) \(.type)\"" <<<"$st")" = "bootup root script" ] && [ "$(jq "[.tasks[] | select(.schedule)] | length" <<<"$st")" = 0 ] && [ ! -f "$V/secrets/dsm.conf" ] && grep -q "^version=2$" "$W/run/heartbeat"' "$r $st"
+script="$(jq -r "[.tasks[] | select(.event)][0].script" <<<"$st")"
 check "task script carries this NAS's paths and runs no package files" 'grep -q "^Q=.$V/dsm-task.$" <<<"$script" && ! grep -qE "advanced-acme |lib/|acme\.sh" <<<"$script"' "$script"
 check "certificate list of the first run returned" '[ "$(jq -r ".dsm.data.certificates[0].id" <<<"$r")" = def01 ]' "$r"
 r="$(cgi action=status)"
-check "status shows the DSM task" '[ "$(jq -r .dsm.mode <<<"$r")" = task ] && [ "$(jq -r .dsm.configured <<<"$r")" = true ] && [ "$(jq -r ".dsm.task.last_run > 0" <<<"$r")" = true ]' "$r"
-# Stand-in for the DSM Task Scheduler: run the stored script every second.
-printf '%s' "$script" >"$W/task.sh"
-( while [ -f "$W/task.sh" ]; do FAKE_SYNO_URL="http://127.0.0.1:${MOCK_PORT}/_syno" sh "$W/task.sh" >/dev/null 2>&1; sleep 1; done ) &
-TASK_LOOP=$!
+check "status shows the DSM task" '[ "$(jq -r .dsm.mode <<<"$r")" = task ] && [ "$(jq -r .dsm.configured <<<"$r")" = true ] && [ "$(jq -r ".dsm.task.last_run > 0" <<<"$r")" = true ] && [ "$(jq -r ".dsm.task.version == .dsm.task.current_version" <<<"$r")" = true ]' "$r"
+pid1="$(task_pid)"
+sleep 3
+check "the task stays in the background" 'running "$pid1"' "$pid1"
+# While there is nothing to do, nothing is written to the package folder (on
+# the disks); results and signs of life go to the run folder (RAM).
+touch "$W/idle"
+sleep 4
+check "idle task writes nothing to the package folder" '[ -z "$(find "$V" -newer "$W/idle")" ]' "$(find "$V" -newer "$W/idle")"
+curl -s "http://127.0.0.1:${MOCK_PORT}/_set?addcert=Added%20in%20DSM" >/dev/null
+r="$(cgi action=dsm_check)"
+check "certificate list read anew on request" '[ "$(jq -r "[.dsm.data.certificates[].desc] | index(\"Added in DSM\") != null" <<<"$r")" = true ]' "$r"
 n_imports="$(mock_state | jq ".imports | length")"
 r="$(cgi action=deploy id=nas.example.test)"
 j="$(wait_job "$(jq -r .job <<<"$r")")"
@@ -380,22 +396,28 @@ printf 'nonce=abc123\ndomain=bad.example.test\ndesc_b64=\nkey_b64=%s\ncert_b64=%
 for _ in $(seq 1 20); do [ -f "$W/run/bad.example.test.result" ] && break; sleep 1; done
 check "root task rejects an invalid certificate" 'grep -q "^status=fail$" "$W/run/bad.example.test.result" && grep -q "^code=invalid_cert$" "$W/run/bad.example.test.result"' "$(cat "$W/run/bad.example.test.result" 2>/dev/null)"
 rm -f "$V/dsm-task/queue/bad.example.test.req"
+# Setting the task up again (e.g. a newer script): the running instance ends,
+# the new one takes over.
+r="$(cgi action=dsm_create_task "user=certbot" "pass=s3cret pass&=")"
+pid2="$(task_pid)"
+check "task set up again: old instance ended, new one running, still one task" '[ "$(jq -r .ok <<<"$r")" = true ] && [ -n "$pid2" ] && [ "$pid2" != "$pid1" ] && ! running "$pid1" && running "$pid2" && [ "$(event_tasks)" = 1 ]' "$r pid1=$pid1 pid2=$pid2"
 r="$(cgi action=dsm_task_remove)"
-for _ in $(seq 1 20); do [ "$(mock_state | jq ".tasks | length")" = 0 ] && break; sleep 1; done
+for _ in $(seq 1 20); do [ "$(event_tasks)" = 0 ] && break; sleep 1; done
+sleep 2
 r="$(cgi action=status)"
-check "removing: the task deletes itself, logged" '[ "$(mock_state | jq ".tasks | length")" = 0 ] && [ "$(jq -r .dsm.mode <<<"$r")" = none ] && grep -q "\"dsm_task_removed\"" "$V/logs/activity.log"' "$r"
-rm -f "$W/task.sh"
-wait "$TASK_LOOP" 2>/dev/null
-# Uninstalled with the data kept: the task deleted itself (it confirms in its
-# run folder). After the reinstall it must not count as set up any more.
+check "removing: the task deletes itself and ends, logged" '[ "$(event_tasks)" = 0 ] && ! running "$pid2" && [ "$(jq -r .dsm.mode <<<"$r")" = none ] && grep -q "\"dsm_task_removed\"" "$V/logs/activity.log"' "tasks=$(event_tasks) $(ps -o pid,stat,args -p "$pid2" 2>/dev/null | tail -n +2) $r"
+# Uninstalled with the data kept: the package folder stays missing, the task
+# deletes itself and ends. After the reinstall it must not count as set up.
 cgi action=dsm_create_task "user=certbot" "pass=s3cret pass&=" >/dev/null
-sleep 1
-printf 'time=%s\n' "$(date +%s)" >"$W/run/removed"
+pid3="$(task_pid)"
+rmdir "$W/pkgdir"
+for _ in $(seq 1 20); do [ "$(event_tasks)" = 0 ] && break; sleep 1; done
+sleep 2
+mkdir "$W/pkgdir"
 r="$(cgi action=status)"
-check "task that deleted itself on uninstall is no longer set up" '[ "$(jq -r .dsm.mode <<<"$r")" = none ] && [ ! -f "$V/dsm-task/task.conf" ] && [ "$(grep -c "\"dsm_task_removed\"" "$V/logs/activity.log")" = 2 ]' "$r"
-cgi action=dsm_task_remove >/dev/null
+check "task deletes itself when the package stays uninstalled, no longer set up" '[ "$(event_tasks)" = 0 ] && ! running "$pid3" && [ "$(jq -r .dsm.mode <<<"$r")" = none ] && [ ! -f "$V/dsm-task/task.conf" ] && [ "$(grep -c "\"dsm_task_removed\"" "$V/logs/activity.log")" = 2 ]' "tasks=$(event_tasks) $(ps -o pid,stat,args -p "$pid3" 2>/dev/null | tail -n +2) $r"
 r="$(cgi action=activity)"
-check "activity log lists the steps in order" '[ "$(jq -r "[.events[].e] | map(select(startswith(\"dsm_task\"))) | join(\",\")" <<<"$r")" = "dsm_task_created,dsm_task_installed,dsm_task_installed,dsm_task_remove_requested,dsm_task_removed,dsm_task_created,dsm_task_removed" ]' "$r"
+check "activity log lists the steps in order" '[ "$(jq -r "[.events[].e] | map(select(startswith(\"dsm_task\"))) | join(\",\")" <<<"$r")" = "dsm_task_created,dsm_task_installed,dsm_task_installed,dsm_task_updated,dsm_task_remove_requested,dsm_task_removed,dsm_task_created,dsm_task_removed" ]' "$r"
 curl -s "http://127.0.0.1:${MOCK_PORT}/_set?otp_enforced=0" >/dev/null
 cgi action=dsm_check "user=certbot" "pass=s3cret pass&=" >/dev/null
 

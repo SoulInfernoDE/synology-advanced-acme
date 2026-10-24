@@ -47,13 +47,8 @@ export AACME_IONOS_API="http://127.0.0.1:${MOCK_PORT}/dns"
 export AACME_DSM_LAN_HOST=127.0.0.2
 export CA_BUNDLE="$PEBBLE_SRC/test/certs/pebble.minica.pem" Le_DNSSleep=1
 export AACME_TASK_RUN="$W/run" AACME_SYNOWEBAPI="$ROOT/tests/fake_synowebapi.py" AACME_TASK_PKGDIR="$T"
-# Stand-in for the DSM Task Scheduler: run the DSM task's script every 5 s.
-(
-  while sleep 5; do
-    curl -s "http://127.0.0.1:${MOCK_PORT}/_state" | jq -r '.tasks[0].script // empty' >"$W/task.sh"
-    [ -s "$W/task.sh" ] && FAKE_SYNO_URL="http://127.0.0.1:${MOCK_PORT}/_syno" sh "$W/task.sh" >/dev/null 2>&1
-  done
-) &
-PIDS+=($!)
+# The DSM mock starts the DSM task's script in the background when Advanced
+# ACME sets it up, like DSM; stop it together with the environment.
+trap 'for p in "${PIDS[@]}"; do kill "$p" 2>/dev/null; done; pkill -f "Q='"'"'$W/var/dsm-task'"'"'" 2>/dev/null' EXIT
 echo "UI: http://127.0.0.1:${PORT}/index.html"
 python3 -I tests/devserver.py "$PORT"

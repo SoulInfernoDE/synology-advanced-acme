@@ -3,9 +3,15 @@
 #
 # For NAS that enforce 2-step verification for all administrators, Advanced
 # ACME can create a task "Advanced ACME" in the DSM Task Scheduler. It runs
-# as root every minute and imports certificates locally with synowebapi, the
-# way DSM installs its own Let's Encrypt certificates. Creating it needs an
+# as root and imports certificates locally with synowebapi, the way DSM
+# installs its own Let's Encrypt certificates. Creating it needs an
 # administrator sign-in once; nothing of that sign-in is stored.
+#
+# The task is a triggered task (event "boot-up"): DSM starts it at boot and
+# Advanced ACME starts it once when it sets it up. It then stays in the
+# background and looks for requests every few seconds without touching the
+# disks, so they can go to sleep. (Script version 1 was a scheduled task that
+# ran every minute; DSM records every run on the system partition.)
 #
 # The task's script (share/dsm-task.sh) is stored in the task itself and only
 # reads data from the package folder, so the package user cannot change what
@@ -16,8 +22,11 @@
 AACME_TASK_Q="${AACME_VAR}/dsm-task"
 AACME_TASK_RUN="${AACME_TASK_RUN:-/run/advanced-acme}"
 AACME_TASK_CONF="${AACME_TASK_Q}/task.conf"
+AACME_TASK_INTERVAL="${AACME_TASK_INTERVAL:-5}"
+# A package update replaces the package folder only for a moment.
+AACME_TASK_GRACE="${AACME_TASK_GRACE:-120}"
 TASK_NAME="Advanced ACME"
-TASK_SCRIPT_VERSION=1
+TASK_SCRIPT_VERSION=2
 
 task_configured() { [ -f "$AACME_TASK_CONF" ]; }
 
@@ -27,12 +36,13 @@ task_script() {
     -e "s|@SYNOWEBAPI@|${AACME_SYNOWEBAPI:-/usr/syno/bin/synowebapi}|g" \
     -e "s|@PKGDIR@|${AACME_TASK_PKGDIR:-/var/packages/${AACME_PKG}}|g" \
     -e "s|@NAME@|${TASK_NAME}|g" -e "s|@SCRIPT_VERSION@|${TASK_SCRIPT_VERSION}|g" \
+    -e "s|@INTERVAL@|${AACME_TASK_INTERVAL}|g" -e "s|@GRACE@|${AACME_TASK_GRACE}|g" \
     "${AACME_TARGET}/share/dsm-task.sh"
 }
 
 task_heartbeat() { kv_get "${AACME_TASK_RUN}/heartbeat" "$1"; }
 
-# task_wait_heartbeat SINCE SECONDS: wait for a task run after SINCE.
+# task_wait_heartbeat SINCE SECONDS: wait for a sign of life after SINCE.
 task_wait_heartbeat() {
   local since="$1" i t
   for i in $(seq 1 "$2"); do
@@ -43,16 +53,31 @@ task_wait_heartbeat() {
   return 1
 }
 
-# task_find_id: id of our task in the current administrator session.
+# task_alive: the task gave a sign of life recently (it does so every minute).
+task_alive() {
+  local t
+  t="$(task_heartbeat time)"
+  [[ "$t" =~ ^[0-9]+$ ]] && [ $(($(date +%s) - t)) -le 180 ]
+}
+
+# task_find_id: id of a scheduled task of script version 1 in the current
+# administrator session. The list also contains triggered tasks (type
+# "event_script"), so only scheduled scripts count.
 task_find_id() {
   DSM_API_VERSION=3 dsm_call SYNO.Core.TaskScheduler list offset=0 limit=-1 |
-    jq -r --arg n "$TASK_NAME" '[.data.tasks[]? | select(.name == $n and .owner == "root")][0].id // empty' 2>/dev/null
+    jq -r --arg n "$TASK_NAME" '[.data.tasks[]? | select(.name == $n and .owner == "root" and .type == "script")][0].id // empty' 2>/dev/null
+}
+
+# task_exists: the triggered task is set up in DSM (administrator session).
+task_exists() {
+  [ "$(DSM_API_VERSION=1 dsm_call SYNO.Core.EventScheduler get "task_name=$(json_str "$TASK_NAME")" |
+    jq -r '.data.task_name // empty' 2>/dev/null)" = "$TASK_NAME" ]
 }
 
 # cmd_dsm_create_task USER PASS [OTP]: create (or update) the DSM task with a
 # one-time administrator sign-in and switch to it.
 cmd_dsm_create_task() {
-  local admin="$1" apass="$2" otp="$3" resp token id sched extra started
+  local admin="$1" apass="$2" otp="$3" resp token id old method started i
   if [ -z "$admin" ] || [ -z "$apass" ]; then
     printf '{"ok":false,"error":"dsm_no_credentials"}'
     return 0
@@ -71,30 +96,51 @@ cmd_dsm_create_task() {
   fi
   rm -f "${AACME_TASK_Q}/remove"
   mkdir -p "${AACME_TASK_Q}/queue"
-  sched="$(printf '{"date_type":0,"week_day":"0,1,2,3,4,5,6","hour":0,"minute":0,"repeat_hour":0,"repeat_min":1,"last_work_hour":23,"monthly_week":[],"repeat_date":1001,"date":"%s"}' "$(date +%Y/%m/%d)")"
-  extra="$(task_script | jq -Rs '{script: .}')"
-  id="$(task_find_id)"
-  local args=("name=$(json_str "$TASK_NAME")" 'owner="root"' enable=true 'type="script"' "schedule=$sched"
-    "extra=$extra" "SynoConfirmPWToken=$(json_str "$token")")
-  if [ -n "$id" ]; then
-    resp="$(DSM_API_VERSION=4 dsm_call SYNO.Core.TaskScheduler.Root set "id=$id" "${args[@]}")"
-  else
-    resp="$(DSM_API_VERSION=4 dsm_call SYNO.Core.TaskScheduler.Root create "${args[@]}")"
+  local args=("task_name=$(json_str "$TASK_NAME")" 'owner={"0":"root"}' 'event="bootup"' enable=true
+    'depend_on_task=""' notify_enable=false 'notify_mail=""' notify_if_error=false 'operation_type="script"'
+    "SynoConfirmPWToken=$(json_str "$token")")
+  method=set
+  resp='{"success":true}'
+  # DSM 7.2 aborts "create" with a script of a few kilobytes but stores it
+  # with "set": create the task with a placeholder first.
+  if ! task_exists; then
+    method=create
+    resp="$(DSM_API_VERSION=1 dsm_call SYNO.Core.EventScheduler.Root create "${args[@]}" 'operation="exit 0"')"
   fi
+  dsm_ok "$resp" && resp="$(DSM_API_VERSION=1 dsm_call SYNO.Core.EventScheduler.Root set "${args[@]}" \
+    "old_task_name=$(json_str "$TASK_NAME")" "operation=$(task_script | jq -Rs .)")"
   if ! dsm_ok "$resp"; then
     dsm_logout
     printf '{"ok":false,"error":"dsm_task_create","code":%s}' "$(json_str "$(dsm_error_code "$resp")")"
     return 0
   fi
-  [ -n "$id" ] && activity_log dsm_task_updated name "$TASK_NAME" || activity_log dsm_task_created name "$TASK_NAME"
-  [ -n "$id" ] || id="$(printf '%s' "$resp" | jq -r '.data.id // empty')"
-  # Run it once now to check that it works.
+  [ "$method" = set ] && activity_log dsm_task_updated name "$TASK_NAME" || activity_log dsm_task_created name "$TASK_NAME"
+  # Script version 1 was a scheduled task of the same name; it is replaced.
+  id="$(task_find_id)"
+  if [ -n "$id" ]; then
+    DSM_API_VERSION=2 dsm_call SYNO.Core.TaskScheduler delete "tasks=[{\"id\":${id},\"real_owner\":\"root\"}]" \
+      "SynoConfirmPWToken=$(json_str "$token")" >/dev/null
+  fi
+  # DSM does not start a task that is still running: ask a running instance
+  # to end (it removes its start marker), then start the new script.
+  old="$(task_heartbeat pid)"
+  : >"${AACME_TASK_Q}/restart"
+  if [[ "$old" =~ ^[0-9]+$ ]]; then
+    for i in $(seq 1 $((AACME_TASK_INTERVAL * 3 + 5))); do
+      [ -e "${AACME_TASK_RUN}/.started.${old}" ] || break
+      sleep 1
+    done
+  fi
+  # DSM notes the end of the old instance a moment later and ignores "run"
+  # until then: try again until the new instance reports.
   started="$(date +%s)"
-  DSM_API_VERSION=2 dsm_call SYNO.Core.TaskScheduler run "tasks=[{\"id\":${id:-0},\"real_owner\":\"root\"}]" >/dev/null
+  for i in 1 2 3 4 5; do
+    DSM_API_VERSION=1 dsm_call SYNO.Core.EventScheduler run "task_name=$(json_str "$TASK_NAME")" >/dev/null
+    task_wait_heartbeat "$started" 6 && break
+  done
   dsm_logout
 
   rm -f "$AACME_TASK_CONF"
-  kv_set "$AACME_TASK_CONF" id "$id"
   kv_set "$AACME_TASK_CONF" version "$TASK_SCRIPT_VERSION"
   kv_set "$AACME_TASK_CONF" created "$started"
   # The task replaces a stored DSM account.
@@ -124,7 +170,21 @@ task_certs_json() {
   case "$j" in \{*\}) printf '%s' "$j" ;; *) printf '{"certificates":[]}' ;; esac
 }
 
-# task_remove: ask the task to delete itself (it runs every minute).
+# task_certs_json_fresh: ask the running task for a current certificate list
+# (it no longer refreshes it on its own) and print it.
+task_certs_json_fresh() {
+  local i
+  if task_alive; then
+    : >"${AACME_TASK_Q}/list"
+    for i in $(seq 1 $((AACME_TASK_INTERVAL * 2 + 5))); do
+      [ "${AACME_TASK_RUN}/.listed" -nt "${AACME_TASK_Q}/list" ] && break
+      sleep 1
+    done
+  fi
+  task_certs_json
+}
+
+# task_remove: ask the task to delete itself (it checks every few seconds).
 task_remove() {
   task_configured || return 0
   : >"${AACME_TASK_Q}/remove"

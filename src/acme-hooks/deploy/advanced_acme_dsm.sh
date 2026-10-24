@@ -101,7 +101,8 @@ advanced_acme_dsm_deploy() {
 }
 
 # _aad_task_deploy DOMAIN KEY CERT CA FULLCHAIN: queue the certificate for the
-# DSM task and wait for its result. The task runs every minute.
+# DSM task and wait for its result. The task checks for requests every few
+# seconds.
 _aad_task_deploy() {
   _aad_q="$_aad_var/dsm-task/queue"
   _aad_run="${AACME_TASK_RUN:-/run/advanced-acme}"
