@@ -229,6 +229,17 @@ acme_updated_active() {
 }
 
 # Read a value from an acme.sh domain/account conf (format KEY='value').
+# acme_conf_set FILE KEY VALUE: write KEY='VALUE' the way acme.sh saves its
+# settings. acme.sh evaluates these lines, so quotes and line breaks are not
+# allowed in VALUE.
+acme_conf_set() {
+  local f="$1" key="$2" val="$3" tmp
+  case "$val" in *"'"* | *$'\n'* | *$'\r'*) return 1 ;; esac
+  tmp="${f}.tmp.$$"
+  { grep -v "^${key}=" "$f" 2>/dev/null; printf "%s='%s'\n" "$key" "$val"; } >"$tmp" &&
+    chmod 600 "$tmp" && mv -f "$tmp" "$f"
+}
+
 acme_conf_get() {
   local f="$1" key="$2" line
   [ -f "$f" ] || return 0

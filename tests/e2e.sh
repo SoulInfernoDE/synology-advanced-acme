@@ -130,9 +130,13 @@ cgi action=settings_set key=renew_before_days value=30 >/dev/null
 
 echo "== IONOS DNS key check"
 r="$(cgi action=ionos_zones prefix=pfx123 secret=wrong)"
-check "wrong IONOS key rejected" '[ "$(jq -r .error <<<"$r")" = ionos_key_rejected ]' "$r"
+check "wrong IONOS key rejected and not stored" '[ "$(jq -r .error <<<"$r")" = ionos_key_rejected ] && ! grep -q "^SAVED_IONOS" "$V/acme/account.conf" 2>/dev/null' "$r"
 r="$(cgi action=ionos_zones prefix=pfx123 secret=secret456)"
 check "IONOS zones listed" '[ "$(jq -c .zones <<<"$r")" = "[\"example.test\",\"other.test\"]" ]' "$r"
+r="$(cgi action=dns_saved keys=IONOS_PREFIX,IONOS_SECRET)"
+check "working IONOS key stored for renewals (acme.sh format)" '[ "$(jq -r ".saved.IONOS_PREFIX and .saved.IONOS_SECRET" <<<"$r")" = true ] && grep -qx "SAVED_IONOS_SECRET=.secret456." "$V/acme/account.conf"' "$r"
+r="$(cgi action=ionos_zones)"
+check "stored IONOS key is used without entering it again" '[ "$(jq -r .saved <<<"$r")" = true ] && [ "$(jq -r ".zones | length" <<<"$r")" = 2 ]' "$r"
 
 echo "== DSM account"
 r="$(cgi action=dsm_check user=certbot pass=wrong)"
@@ -212,6 +216,7 @@ conf="$V/acme/nas.example.test/nas.example.test.conf"
 check "renewal scheduled relative to expiry (--days -30)" 'grep -q "^Le_RenewalDays=.-30.$" "$conf"' "$(cat "$conf" 2>/dev/null)"
 check "DSM password not copied into domain config" '! grep -q "SYNO_PASSWORD\|SYNO_USERNAME" "$conf"' "$(grep SYNO "$conf")"
 check "deploy hook saved for renewals" 'grep -q "^Le_DeployHook=.advanced_acme_dsm" "$conf"'
+check "DNS credentials of the issue stored for renewals" 'grep -qx "SAVED_PEBBLE_CHALL_URL=.http://127.0.0.1:8055." "$V/acme/account.conf"' "$(cat "$V/acme/account.conf")"
 r="$(cgi action=certs)"
 c="$(jq '.certs[0]' <<<"$r")"
 na="$(jq -r '.not_after // 0' <<<"$c")"
