@@ -92,6 +92,7 @@
   "hint.dsm_password": "A DSM elutasította a felhasználónevet vagy a jelszót. Ellenőrizze a DSM-fiókot a beállításokban.",
   "hint.dsm_admin": "A DSM-fiók nem rendszergazda. Tanúsítványokat csak rendszergazdák telepíthetnek.",
   "hint.dsm_missing": "Nincs beállítva DSM-fiók. Nyissa meg a beállításokat, és adjon meg egy DSM-rendszergazdai fiókot.",
+  "hint.ca_processing": "A szolgáltató elfogadta a rendelést, de körülbelül 9 perc után még mindig a tanúsítvány kiállításán dolgozott. Kérje egyszerűen újra később; a szolgáltató általában néhány percen belül végez.",
   "hint.rate_limit": "A tanúsítványszolgáltató korlátozza a kérések számát. Várjon egy kicsit, mielőtt újra próbálkozik.",
   "hint.dns_verify": "A szolgáltató nem tudta megerősíteni a DNS-bejegyzést. Ellenőrizze, hogy a tartomány helyesen van-e írva, és a kiválasztott DNS-szolgáltató kezeli-e. Néha elég néhány perc múlva újra próbálkozni.",
   "hint.caa": "A DNS egyik CAA-bejegyzése nem engedélyezi ezt a tanúsítványszolgáltatót. Vegye fel a szolgáltatót a CAA-bejegyzésbe, vagy törölje a bejegyzést.",

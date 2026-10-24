@@ -92,6 +92,7 @@
   "hint.dsm_password": "DSM rechazó el nombre de usuario o la contraseña. Comprueba la cuenta de DSM en la configuración.",
   "hint.dsm_admin": "La cuenta de DSM no es de administrador. Solo los administradores pueden instalar certificados.",
   "hint.dsm_missing": "No hay ninguna cuenta de DSM configurada. Abre la configuración e introduce una cuenta de administrador de DSM.",
+  "hint.ca_processing": "El proveedor aceptó el pedido, pero tras unos 9 minutos seguía emitiendo el certificado. Vuelve a solicitarlo más tarde; normalmente el proveedor termina en pocos minutos.",
   "hint.rate_limit": "El proveedor de certificados limita el número de solicitudes. Espera un rato antes de volver a intentarlo.",
   "hint.dns_verify": "El proveedor no pudo confirmar la entrada DNS. Comprueba que el dominio esté bien escrito y lo gestione el proveedor de DNS elegido. A veces basta con volver a intentarlo al cabo de unos minutos.",
   "hint.caa": "Una entrada CAA de tu DNS no permite este proveedor de certificados. Añade el proveedor a la entrada CAA o elimina la entrada.",

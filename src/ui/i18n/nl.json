@@ -92,6 +92,7 @@
   "hint.dsm_password": "DSM heeft de gebruikersnaam of het wachtwoord geweigerd. Controleer het DSM-account in de instellingen.",
   "hint.dsm_admin": "Het DSM-account is geen beheerder. Alleen beheerders kunnen certificaten installeren.",
   "hint.dsm_missing": "Er is geen DSM-account ingesteld. Open de instellingen en voer een DSM-beheerdersaccount in.",
+  "hint.ca_processing": "De certificaatleverancier heeft de bestelling aangenomen, maar was na ongeveer 9 minuten nog bezig met uitgeven. Vraag het later gewoon opnieuw aan; meestal is de leverancier binnen enkele minuten klaar.",
   "hint.rate_limit": "De certificaatprovider beperkt het aantal aanvragen. Wacht even voordat je het opnieuw probeert.",
   "hint.dns_verify": "De provider kon de DNS-vermelding niet bevestigen. Controleer of het domein juist is gespeld en door de gekozen DNS-provider wordt beheerd. Soms helpt het om het na enkele minuten gewoon opnieuw te proberen.",
   "hint.caa": "Een CAA-vermelding in je DNS staat deze certificaatprovider niet toe. Voeg de provider toe aan de CAA-vermelding of verwijder de vermelding.",

@@ -108,6 +108,9 @@ wait_job() {
 
 mock_state() { curl -s "http://127.0.0.1:${MOCK_PORT}/_state"; }
 
+echo "== Bundled acme.sh"
+check "bundled acme.sh waits longer for certificates still being issued" '[ "$(grep -c "_sleep \"\$(_retry_backoff_sec \"\$(_math \"\$_link_cert_retry\" + 1)\")\"" "$T/acme.sh/acme.sh")" = 2 ] && grep -q "_MAX_CERT_RETRY=\"\${MAX_CERT_RETRY_TIMES:-30}\"" "$T/acme.sh/acme.sh"'
+
 echo "== API security"
 r="$(XAACME="" cgi action=status)"
 check "request without X-AACME header is refused" '[ "$(jq -r .error <<<"$r")" = csrf ]' "$r"
@@ -288,7 +291,11 @@ r="$(cgi action=acme_update tag=3.1.99)"
 j="$(wait_job "$(jq -r .job <<<"$r")")"
 st="$(cgi action=status)"
 check "update installs newer acme.sh next to the bundled one" '[ "$(jq -r .rc <<<"$j")" = 0 ] && [ "$(jq -r .acme.active <<<"$st")" = 3.1.99 ] && [ "$(jq -r .acme.bundled <<<"$st")" = "$BUNDLED_VER" ] && [ "$(jq -r .acme.updated <<<"$st")" = true ] && [ -f "$V/acme-sh/deploy/advanced_acme_dsm.sh" ]' "$(jq -r .log <<<"$j")"
-check "bundled acme.sh untouched" 'cmp -s "$T/acme.sh/acme.sh" vendor/acme.sh/acme.sh'
+check "updated acme.sh gets the longer certificate polling too" 'grep -q "_MAX_CERT_RETRY=\"\${MAX_CERT_RETRY_TIMES:-30}\"" "$V/acme-sh/acme.sh"'
+# The bundled copy is the vendored release plus src/lib/acmepatch.sh.
+cp vendor/acme.sh/acme.sh "$W/acme-expected.sh"
+bash -c '. src/lib/acmepatch.sh; acme_patch "$1"' _ "$W/acme-expected.sh"
+check "bundled acme.sh untouched by the update" 'cmp -s "$T/acme.sh/acme.sh" "$W/acme-expected.sh"'
 n="$(mock_state | jq '.imports | length')"
 r="$(cgi action=renew id=nas.example.test)"
 j="$(wait_job "$(jq -r .job <<<"$r")")"

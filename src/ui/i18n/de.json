@@ -89,6 +89,7 @@
   "hint.dsm_password": "DSM hat Benutzername oder Passwort abgelehnt. Prüfen Sie das DSM-Konto in den Einstellungen.",
   "hint.dsm_admin": "Das DSM-Konto ist kein Administrator. Nur Administratoren dürfen Zertifikate installieren.",
   "hint.dsm_missing": "Es ist kein DSM-Konto eingerichtet. Öffnen Sie die Einstellungen und tragen Sie ein DSM-Administratorkonto ein.",
+  "hint.ca_processing": "Der Zertifikatsanbieter hat die Bestellung angenommen, war aber nach etwa 9 Minuten noch mit dem Ausstellen beschäftigt. Fordern Sie das Zertifikat später einfach erneut an; meist ist der Anbieter nach wenigen Minuten fertig.",
   "hint.rate_limit": "Der Zertifikatsanbieter begrenzt, wie viele Zertifikate angefordert werden dürfen. Bitte warten Sie eine Weile, bevor Sie es erneut versuchen.",
   "hint.dns_verify": "Der Anbieter konnte den DNS-Eintrag nicht bestätigen. Prüfen Sie, ob die Domain richtig geschrieben ist und vom gewählten DNS-Anbieter verwaltet wird. Manchmal hilft es, es nach einigen Minuten einfach noch einmal zu versuchen.",
   "hint.caa": "Ein CAA-Eintrag in Ihrem DNS erlaubt diesen Zertifikatsanbieter nicht. Ergänzen Sie den Anbieter im CAA-Eintrag oder entfernen Sie den Eintrag.",

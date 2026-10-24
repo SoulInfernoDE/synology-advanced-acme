@@ -92,6 +92,7 @@
   "hint.dsm_password": "DSM afviste brugernavnet eller adgangskoden. Kontrollér DSM-kontoen i indstillingerne.",
   "hint.dsm_admin": "DSM-kontoen er ikke administrator. Kun administratorer kan installere certifikater.",
   "hint.dsm_missing": "Der er ikke konfigureret en DSM-konto. Åbn indstillingerne, og angiv en DSM-administratorkonto.",
+  "hint.ca_processing": "Udbyderen modtog bestillingen, men var stadig ved at udstede certifikatet efter cirka 9 minutter. Anmod blot om det igen senere; som regel er udbyderen færdig inden for få minutter.",
   "hint.rate_limit": "Certifikatudbyderen begrænser antallet af anmodninger. Vent lidt, før du prøver igen.",
   "hint.dns_verify": "Udbyderen kunne ikke bekræfte DNS-posten. Kontrollér, at domænet er stavet korrekt og administreres af den valgte DNS-udbyder. Nogle gange hjælper det blot at prøve igen efter et par minutter.",
   "hint.caa": "En CAA-post i din DNS tillader ikke denne certifikatudbyder. Tilføj udbyderen til CAA-posten, eller fjern posten.",

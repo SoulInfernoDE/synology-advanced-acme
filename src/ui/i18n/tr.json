@@ -92,6 +92,7 @@
   "hint.dsm_password": "DSM kullanıcı adını veya parolayı reddetti. Ayarlar'da DSM hesabını kontrol edin.",
   "hint.dsm_admin": "DSM hesabı yönetici değil. Sertifikaları yalnızca yöneticiler yükleyebilir.",
   "hint.dsm_missing": "DSM hesabı ayarlanmadı. Ayarlar'ı açın ve bir DSM yönetici hesabı girin.",
+  "hint.ca_processing": "Sertifika sağlayıcı siparişi kabul etti ancak yaklaşık 9 dakika sonra hâlâ sertifikayı düzenliyordu. Daha sonra yeniden isteyin; sağlayıcı genellikle birkaç dakika içinde bitirir.",
   "hint.rate_limit": "Sertifika sağlayıcısı istek sayısını sınırlıyor. Yeniden denemeden önce biraz bekleyin.",
   "hint.dns_verify": "Sağlayıcı DNS kaydını doğrulayamadı. Alan adının doğru yazıldığını ve seçilen DNS sağlayıcısı tarafından yönetildiğini kontrol edin. Bazen birkaç dakika sonra yeniden denemek yeterlidir.",
   "hint.caa": "DNS'inizdeki bir CAA kaydı bu sertifika sağlayıcısına izin vermiyor. Sağlayıcıyı CAA kaydına ekleyin veya kaydı silin.",

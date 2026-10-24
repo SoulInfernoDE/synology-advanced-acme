@@ -89,6 +89,7 @@
   "hint.dsm_password": "DSM rejected the user name or password. Check the DSM account in Settings.",
   "hint.dsm_admin": "The DSM account is not an administrator. Only administrators can install certificates.",
   "hint.dsm_missing": "No DSM account is set up. Open Settings and enter a DSM administrator account.",
+  "hint.ca_processing": "The certificate provider accepted the order but was still issuing the certificate after about 9 minutes. Simply request it again later; the provider usually finishes within a few minutes.",
   "hint.rate_limit": "The certificate provider limits how many certificates can be requested. Please wait a while before trying again.",
   "hint.dns_verify": "The provider could not confirm the DNS entry. Check that the domain is spelled correctly and is managed by the selected DNS provider. Sometimes it helps to simply try again after a few minutes.",
   "hint.caa": "A CAA entry in your DNS does not allow this certificate provider. Add the provider to the CAA entry or remove the entry.",

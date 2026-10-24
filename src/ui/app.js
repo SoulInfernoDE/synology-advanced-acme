@@ -267,6 +267,7 @@
     [/no such account or incorrect password|non-existent account/i, "hint.dsm_password"],
     [/not administrator/i, "hint.dsm_admin"],
     [/No DSM account configured/i, "hint.dsm_missing"],
+    [/stopped retrying after reaching the retry limit/i, "hint.ca_processing"],
     [/rateLimited|too many/i, "hint.rate_limit"],
     [/Invalid status|Verify error|Incorrect TXT record|NXDOMAIN/i, "hint.dns_verify"],
     [/caa|CAA record/i, "hint.caa"],

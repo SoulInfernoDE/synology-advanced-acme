@@ -92,6 +92,7 @@
   "hint.dsm_password": "DSM odmítl uživatelské jméno nebo heslo. Zkontrolujte účet DSM v nastavení.",
   "hint.dsm_admin": "Účet DSM není správce. Certifikáty mohou instalovat jen správci.",
   "hint.dsm_missing": "Není nastaven účet DSM. Otevřete nastavení a zadejte účet správce DSM.",
+  "hint.ca_processing": "Poskytovatel objednávku přijal, ale ani po přibližně 9 minutách certifikát ještě nevystavil. Jednoduše o něj požádejte později znovu; obvykle je poskytovatel hotový během několika minut.",
   "hint.rate_limit": "Poskytovatel certifikátů omezuje počet žádostí. Chvíli počkejte, než to zkusíte znovu.",
   "hint.dns_verify": "Poskytovatel nemohl potvrdit záznam DNS. Zkontrolujte, zda je doména správně napsaná a spravuje ji zvolený poskytovatel DNS. Někdy pomůže to po několika minutách jednoduše zkusit znovu.",
   "hint.caa": "Záznam CAA ve vašem DNS nepovoluje tohoto poskytovatele certifikátů. Přidejte poskytovatele do záznamu CAA, nebo záznam odstraňte.",

@@ -34,7 +34,7 @@ Der Zertifikatsdialog gehört zum Betriebssystem und liegt unter `/usr/syno`. Je
 | Cronjobs | keine, der Sicherheitsberater von DSM meldet also keine Warnung. Erneuert wird im Paketdienst |
 | Daten | `/var/packages/AdvancedACME/var`, übersteht DSM- und Paket-Updates |
 | Zertifikatsinstallation | offizielle DSM-WebAPI, derselbe Weg wie beim `synology_dsm`-Hook von acme.sh |
-| acme.sh | das Original, gebündelt als offizielles Release 3.1.6; neuere Releases lassen sich optional installieren |
+| acme.sh | das Original, gebündelt als offizielles Release 3.1.6 mit einer kleinen Anpassung (siehe unten); neuere Releases lassen sich optional installieren |
 
 ## Installation
 
@@ -69,6 +69,7 @@ Voraussetzungen: DSM 7.0 oder neuer, beliebige CPU-Architektur (`noarch`).
 Das Paket bringt das acme.sh-Release mit, mit dem es getestet wurde (derzeit 3.1.6). Unter *Einstellungen > acme.sh-Version* können Sie nach neueren offiziellen Releases suchen, eines installieren oder neue Releases einmal täglich automatisch vom Erneuerungsdienst installieren lassen. Diese Versionen sind **mit Advanced ACME experimentell**, solange eine aktiv ist, zeigt die Oberfläche einen Hinweis.
 
 - Das Update kommt aus den offiziellen acme.sh-Releases auf GitHub und wird im Datenordner installiert (`var/acme-sh`). Die mitgelieferte Kopie wird nie verändert.
+- Am mitgelieferten acme.sh und an jedem Update wird eine kleine Anpassung vorgenommen ([src/lib/acmepatch.sh](src/lib/acmepatch.sh)): Nach dem Abschluss der Bestellung fragte acme.sh nur 30-mal im Abstand von 2 Sekunden nach dem Zertifikat. Der IONOS-ACME-Server braucht oft mehrere Minuten, daher gab acme.sh auf, obwohl IONOS das Zertifikat ausgestellt hat. Mit der Anpassung fragt es mit wachsenden Pausen (2, 5, 10, danach 20 Sekunden) etwa 9 Minuten lang nach. Ändert ein späteres acme.sh-Release diesen Code, entfällt die Anpassung.
 - Ein Update wird abgelehnt, wenn das Archiv nicht die erwartete Version enthält, wenn der Synology-Hook oder das IONOS-Plugin fehlt oder wenn ein DNS-Plugin entfernt wurde, das eines Ihrer Zertifikate nutzt.
 - *Zur mitgelieferten Version zurückkehren* löscht die aktualisierte Kopie. Zertifikate und Einstellungen bleiben unverändert.
 - Bringt ein späteres Paket-Update ein neueres acme.sh mit als das installierte Update, wird automatisch wieder die mitgelieferte Version verwendet.

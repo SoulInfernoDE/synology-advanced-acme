@@ -34,7 +34,7 @@ The DSM certificate dialog is part of the operating system, under `/usr/syno`. A
 | Cron jobs | none, so the DSM Security Advisor raises no warning. Renewals run in the package service |
 | Data | `/var/packages/AdvancedACME/var`, survives DSM and package updates |
 | Certificate installation | official DSM Web API, the same path as acme.sh's `synology_dsm` hook |
-| acme.sh | the original, bundled as the official release 3.1.6; newer releases can be installed optionally |
+| acme.sh | the original, bundled as the official release 3.1.6 with one small adjustment (see below); newer releases can be installed optionally |
 
 ## Installation
 
@@ -69,6 +69,7 @@ Requirements: DSM 7.0 or newer, any CPU architecture (`noarch`).
 The package ships the acme.sh release it was tested with (currently 3.1.6). Under *Settings > acme.sh version*, you can check for newer official releases, install one, or let the renewal service install new releases automatically once a day. These versions are **experimental with Advanced ACME**, and the interface shows a warning while one is active.
 
 - The update is downloaded from the official acme.sh releases on GitHub and installed in the data folder (`var/acme-sh`). The bundled copy is never modified.
+- One small adjustment is applied to the bundled acme.sh and to every update ([src/lib/acmepatch.sh](src/lib/acmepatch.sh)): after the order is finalized, acme.sh only polled 30 times, 2 seconds apart, for the certificate. The IONOS ACME server often needs several minutes, so acme.sh gave up although IONOS issued the certificate. With the adjustment it polls with increasing pauses (2, 5, 10, then 20 seconds) for about 9 minutes. If a later acme.sh release changes this code, the adjustment is skipped.
 - An update is refused if the archive does not contain the expected version, if the Synology hook or the IONOS plugin is missing, or if a DNS plugin used by one of your certificates was removed.
 - *Return to bundled version* deletes the updated copy. Certificates and settings are not affected.
 - If a later package update ships a newer acme.sh than the installed update, the bundled version is used again automatically.
