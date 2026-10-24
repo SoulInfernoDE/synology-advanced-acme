@@ -2,11 +2,40 @@
 # Shared helpers for Advanced ACME. Sourced by the CLI, the CGI and the service.
 # Requires bash >= 4.4 (DSM 7 ships 4.4).
 
-AACME_PKG="${AACME_PKG:-AdvancedACME}"
+# The package name differs between builds (AdvancedACME from this repository,
+# a lower-case name in SynoCommunity builds). DSM passes it to package scripts;
+# the CLI and the CGI find it from the folder they run from
+# (/var/packages/<name>/target -> /volume1/@appstore/<name>).
+aacme_detect_pkg() {
+  local dir
+  [ -n "${SYNOPKG_PKGNAME:-}" ] && { printf '%s' "$SYNOPKG_PKGNAME"; return; }
+  dir="$(readlink -f "${AACME_TARGET:-$(dirname "${BASH_SOURCE[0]}")/..}" 2>/dev/null)"
+  if [ "$(basename "$(dirname "$dir")")" = "@appstore" ]; then
+    basename "$dir"
+  else
+    printf 'AdvancedACME'
+  fi
+}
+AACME_PKG="${AACME_PKG:-$(aacme_detect_pkg)}"
 AACME_TARGET="${AACME_TARGET:-/var/packages/${AACME_PKG}/target}"
 AACME_VAR="${AACME_VAR:-/var/packages/${AACME_PKG}/var}"
+# DSM desktop application id (INFO dsmappname), the same in every build.
+AACME_APP="SYNO.SDS.AdvancedACME.Application"
+# Build options (share/build.conf, written by build.sh), e.g. acme_updates=0.
+AACME_BUILD_CONF="${AACME_TARGET}/share/build.conf"
 
-export AACME_TARGET AACME_VAR
+export AACME_PKG AACME_TARGET AACME_VAR
+
+# aacme_user: the package's user account. DSM names it after the package
+# unless conf/privilege sets "username" (SynoCommunity: sc-<name>).
+aacme_user() {
+  local u
+  u="$(jq -r '.username // empty' "/var/packages/${AACME_PKG}/conf/privilege" 2>/dev/null)"
+  printf '%s' "${AACME_USER:-${u:-$AACME_PKG}}"
+}
+
+# acme_updates_allowed: the build lets users install newer acme.sh releases.
+acme_updates_allowed() { [ "$(kv_get "$AACME_BUILD_CONF" acme_updates 1)" != 0 ]; }
 
 # acme.sh shipped with the package, and an optional newer copy installed by
 # the acme.sh update function (see acmeupdate.sh). ACME_HOME is chosen at the
@@ -223,8 +252,9 @@ version_gt() {
 
 # The updated acme.sh is used only while it is newer than the bundled one, so a
 # package update that ships a newer acme.sh takes precedence automatically.
+# Builds without acme.sh updates always use the bundled acme.sh.
 acme_updated_active() {
-  [ -f "${ACME_UPDATED}/acme.sh" ] &&
+  acme_updates_allowed && [ -f "${ACME_UPDATED}/acme.sh" ] &&
     version_gt "$(acme_sh_version "$ACME_UPDATED")" "$(acme_sh_version "$ACME_BUNDLED")"
 }
 
@@ -289,7 +319,8 @@ notify_admins() {
   local key="$1"
   [ "$(setting notify)" = "1" ] || return 0
   command -v synodsmnotify >/dev/null 2>&1 || return 0
-  synodsmnotify -c "SYNO.SDS.${AACME_PKG}.Application" @administrators \
+  # The text ids are prefixed with the package name (its webman/3rdparty folder).
+  synodsmnotify -c "$AACME_APP" @administrators \
     "${AACME_PKG}:app:title" "${AACME_PKG}:notify:${key}" >/dev/null 2>&1 || true
 }
 

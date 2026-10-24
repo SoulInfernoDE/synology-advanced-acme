@@ -357,6 +357,7 @@
 
   "err.unknown": "Er is een onbekende fout opgetreden.",
   "err.unknown_code": "Fout: {code}",
+  "err.acme_update_disabled": "Updates van acme.sh zijn niet beschikbaar in deze build van Advanced ACME. acme.sh wordt samen met het pakket bijgewerkt.",
   "err.network": "De NAS reageerde niet. Controleer de verbinding en laad de pagina opnieuw.",
   "err.bad_response": "De NAS stuurde een onverwacht antwoord. Laad de pagina opnieuw.",
   "err.not_logged_in": "Je DSM-sessie is verlopen. Meld je opnieuw aan bij DSM.",
@@ -412,6 +413,7 @@
 
   "acme.title": "acme.sh-versie",
   "acme.intro": "Advanced ACME is getest met de meegeleverde acme.sh {bundled}. Je kunt nieuwere officiële acme.sh-versies installeren. De meegeleverde versie blijft altijd beschikbaar en je kunt er op elk moment naar terugkeren.",
+  "acme.intro_fixed": "Dit pakket gebruikt de meegeleverde acme.sh {bundled}. acme.sh wordt samen met Advanced ACME bijgewerkt via het Package Center.",
   "acme.active": "Actieve versie",
   "acme.active_bundled": "{version} (meegeleverd, getest)",
   "acme.active_updated": "{version} (bijgewerkt, experimenteel)",

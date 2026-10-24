@@ -41,6 +41,10 @@ used_dns_plugins() {
 # cmd_acme_check: JSON with the latest release and whether it is an update.
 cmd_acme_check() {
   local tag
+  if ! acme_updates_allowed; then
+    printf '{"ok":false,"error":"acme_update_disabled"}'
+    return 0
+  fi
   if ! tag="$(acme_latest_release)"; then
     printf '{"ok":false,"error":"acme_check_failed"}'
     return 0
@@ -53,6 +57,11 @@ cmd_acme_check() {
 job_acme_update() {
   local tag="${1:-}" tmp src ver new old url placeholder="{tag}"
   echo "@@STEP acme_update"
+  if ! acme_updates_allowed; then
+    echo "acme.sh updates are disabled in this build of the package. acme.sh is updated with the package."
+    echo "@@FAIL acme_update"
+    return 1
+  fi
   if [ -z "$tag" ]; then
     echo "Looking up the latest acme.sh release..."
     if ! tag="$(acme_latest_release)"; then
@@ -144,6 +153,7 @@ cmd_acme_revert() {
 # acme_auto_update_due: auto update enabled and last check older than a day.
 acme_auto_update_due() {
   local last
+  acme_updates_allowed || return 1
   [ "$(setting acme_auto_update)" = "1" ] || return 1
   last="$(kv_get "$ACME_UPDATE_STATE" auto_checked 0)"
   [[ "$last" =~ ^[0-9]+$ ]] || last=0

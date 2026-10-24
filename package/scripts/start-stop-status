@@ -1,8 +1,8 @@
 #!/bin/sh
 # DSM service control for the Advanced ACME renewal service.
 
-PKG_TARGET="${SYNOPKG_PKGDEST:-/var/packages/AdvancedACME/target}"
-PKG_VAR="${SYNOPKG_PKGVAR:-/var/packages/AdvancedACME/var}"
+PKG_TARGET="${SYNOPKG_PKGDEST:-/var/packages/${SYNOPKG_PKGNAME:-AdvancedACME}/target}"
+PKG_VAR="${SYNOPKG_PKGVAR:-/var/packages/${SYNOPKG_PKGNAME:-AdvancedACME}/var}"
 BIN="${PKG_TARGET}/bin/advanced-acme"
 PIDFILE="${PKG_VAR}/service.pid"
 

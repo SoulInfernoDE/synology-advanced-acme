@@ -1,6 +1,6 @@
 #!/bin/sh
 # Prepare the persistent data directory. It survives package and DSM updates.
-PKG_VAR="${SYNOPKG_PKGVAR:-/var/packages/AdvancedACME/var}"
+PKG_VAR="${SYNOPKG_PKGVAR:-/var/packages/${SYNOPKG_PKGNAME:-AdvancedACME}/var}"
 mkdir -p "$PKG_VAR/acme" "$PKG_VAR/secrets" "$PKG_VAR/meta" "$PKG_VAR/jobs" "$PKG_VAR/logs"
 chmod 700 "$PKG_VAR" "$PKG_VAR/secrets"
 exit 0

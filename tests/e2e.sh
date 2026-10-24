@@ -315,6 +315,20 @@ printf 'auto_checked=%s\n' "$(date +%s)" >>"$V/acme_update.conf"
 check "auto update not due again within a day" '! due'
 cgi action=settings_set key=acme_auto_update value=0 >/dev/null
 check "auto update off" '! due'
+# Builds such as SynoCommunity's update acme.sh only with the package.
+"$T/bin/advanced-acme" acme-update >/dev/null 2>&1
+echo "acme_updates=0" >"$T/share/build.conf"
+st="$(cgi action=status)"
+r1="$(cgi action=acme_check)"
+r2="$(cgi action=acme_update tag=3.1.99)"
+check "build without acme.sh updates: bundled acme.sh only, update actions refused" '[ "$(jq -r .acme.updates <<<"$st")" = false ] && [ "$(jq -r .acme.active <<<"$st")" = "$BUNDLED_VER" ] && [ "$(jq -r .error <<<"$r1")" = acme_update_disabled ] && [ "$(jq -r .error <<<"$r2")" = acme_update_disabled ]' "$st $r1 $r2"
+sed -i '/^auto_checked=/d' "$V/acme_update.conf"
+cgi action=settings_set key=acme_auto_update value=1 >/dev/null
+check "no automatic acme.sh updates in such a build" '! due'
+cgi action=settings_set key=acme_auto_update value=0 >/dev/null
+echo "acme_updates=1" >"$T/share/build.conf"
+check "acme.sh updates available again" '[ "$(jq -r .acme.updates <<<"$(cgi action=status)")" = true ]'
+"$T/bin/advanced-acme" acme-revert >/dev/null
 
 echo "== ECDSA certificate"
 r="$(cgi action=issue server="$PEBBLE_DIR" plugin=dns_pebble keylength=ec-256 provider=custom domains=ecc.example.test)"
@@ -405,6 +419,15 @@ r="$(cgi action=remove id=nas.example.test)"
 check "certificate removed from management" '[ "$(jq -r .ok <<<"$r")" = true ] && [ "$(jq ".certs | length" <<<"$(cgi action=certs)")" = 0 ]' "$r"
 r="$(cgi action=remove "id=../../etc")"
 check "path traversal in id rejected" '[ "$(jq -r .error <<<"$r")" = cert_not_found ]' "$r"
+
+echo "== Package name"
+pkgname() { env -u SYNOPKG_PKGNAME "$@" bash -c '. "$AACME_TARGET/lib/common.sh"; printf %s "$AACME_PKG"'; }
+mkdir -p "$W/@appstore"
+cp -a "$T" "$W/@appstore/advanced-acme"
+check "package name defaults to AdvancedACME outside DSM" '[ "$(pkgname)" = AdvancedACME ]'
+check "package name follows the install folder (@appstore/<name>)" '[ "$(pkgname AACME_TARGET="$W/@appstore/advanced-acme")" = advanced-acme ]'
+check "package name from DSM wins" '[ "$(pkgname SYNOPKG_PKGNAME=other)" = other ]'
+rm -rf "$W/@appstore"
 
 echo "== Uninstall with \"delete data\""
 cgi action=dsm_create_service "user=certbot" "pass=s3cret pass&=" >/dev/null

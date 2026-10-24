@@ -357,6 +357,7 @@
 
   "err.unknown": "Bilinmeyen bir hata oluştu.",
   "err.unknown_code": "Hata: {code}",
+  "err.acme_update_disabled": "acme.sh güncellemeleri Advanced ACME'nin bu derlemesinde kullanılamaz. acme.sh paketle birlikte güncellenir.",
   "err.network": "NAS yanıt vermedi. Bağlantıyı kontrol edin ve sayfayı yeniden yükleyin.",
   "err.bad_response": "NAS beklenmeyen bir yanıt gönderdi. Sayfayı yeniden yükleyin.",
   "err.not_logged_in": "DSM oturumunuzun süresi doldu. Lütfen DSM'de yeniden oturum açın.",
@@ -412,6 +413,7 @@
 
   "acme.title": "acme.sh sürümü",
   "acme.intro": "Advanced ACME, birlikte gelen acme.sh {bundled} ile test edilmiştir. acme.sh'ın daha yeni resmi sürümlerini yükleyebilirsiniz. Birlikte gelen sürüm her zaman kullanılabilir kalır ve istediğiniz zaman ona geri dönebilirsiniz.",
+  "acme.intro_fixed": "Bu paket, birlikte gelen acme.sh {bundled} sürümünü kullanır. acme.sh, Paket Merkezi üzerinden Advanced ACME ile birlikte güncellenir.",
   "acme.active": "Etkin sürüm",
   "acme.active_bundled": "{version} (birlikte gelen, test edildi)",
   "acme.active_updated": "{version} (güncellendi, deneysel)",

@@ -357,6 +357,7 @@
 
   "err.unknown": "Ein unbekannter Fehler ist aufgetreten.",
   "err.unknown_code": "Fehler: {code}",
+  "err.acme_update_disabled": "acme.sh-Updates sind in diesem Build von Advanced ACME nicht verfügbar. acme.sh wird zusammen mit dem Paket aktualisiert.",
   "err.network": "Die NAS hat nicht geantwortet. Prüfen Sie die Verbindung und laden Sie die Seite neu.",
   "err.bad_response": "Die NAS hat eine unerwartete Antwort gesendet. Laden Sie die Seite neu.",
   "err.not_logged_in": "Ihre DSM-Sitzung ist abgelaufen. Bitte melden Sie sich erneut bei DSM an.",
@@ -405,6 +406,7 @@
   "err.ionos_http_error": "Die IONOS-API hat einen Fehler gemeldet.",
   "acme.title": "acme.sh-Version",
   "acme.intro": "Advanced ACME ist mit dem mitgelieferten acme.sh {bundled} getestet. Neuere offizielle acme.sh-Versionen lassen sich installieren. Die mitgelieferte Version bleibt immer erhalten, Sie können jederzeit zu ihr zurückkehren.",
+  "acme.intro_fixed": "Dieses Paket verwendet das mitgelieferte acme.sh {bundled}. acme.sh wird zusammen mit Advanced ACME über das Paketzentrum aktualisiert.",
   "acme.active": "Aktive Version",
   "acme.active_bundled": "{version} (mitgeliefert, getestet)",
   "acme.active_updated": "{version} (aktualisiert, experimentell)",

@@ -8,7 +8,12 @@
 export LC_ALL=C
 SELF="$(readlink -f "$0" 2>/dev/null || echo "$0")"
 AACME_TARGET="${AACME_TARGET:-$(dirname "$(dirname "$SELF")")}"
-[ -f "${AACME_TARGET}/lib/all.sh" ] || AACME_TARGET="/var/packages/AdvancedACME/target"
+# Without readlink: DSM serves this file as /webman/3rdparty/<package>/api.cgi.
+if [ ! -f "${AACME_TARGET}/lib/all.sh" ]; then
+  AACME_PKG="${SCRIPT_NAME#*/3rdparty/}"
+  AACME_PKG="${AACME_PKG%%/*}"
+  AACME_TARGET="/var/packages/${AACME_PKG:-AdvancedACME}/target"
+fi
 
 # shellcheck source=../lib/all.sh
 . "${AACME_TARGET}/lib/all.sh"
@@ -225,6 +230,7 @@ case "$(p action)" in
   expert) act_expert ;;
   acme_check) respond "$(cmd_acme_check)" ;;
   acme_update)
+    acme_updates_allowed || fail acme_update_disabled
     tag="$(p tag)"
     [ -z "$tag" ] || valid_release_tag "$tag" || fail invalid_tag
     respond "{\"ok\":true,\"job\":$(json_str "$(job_spawn acme_update "${tag:-latest}" -- $tag)")}"

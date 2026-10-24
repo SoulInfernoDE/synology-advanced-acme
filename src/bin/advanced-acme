@@ -18,11 +18,13 @@ LIB="${AACME_TARGET}/lib"
 drop_root() {
   [ "$(id -u)" = 0 ] || return 0
   [ -n "${AACME_ALLOW_ROOT:-}" ] && return 0
-  if id "$AACME_PKG" >/dev/null 2>&1; then
+  local user
+  user="$(aacme_user)"
+  if id "$user" >/dev/null 2>&1; then
     if command -v sudo >/dev/null 2>&1; then
-      exec sudo -u "$AACME_PKG" -- "$SELF" "$@"
+      exec sudo -u "$user" -- "$SELF" "$@"
     fi
-    exec su -s /bin/bash "$AACME_PKG" -c "$(printf '%q ' "$SELF" "$@")"
+    exec su -s /bin/bash "$user" -c "$(printf '%q ' "$SELF" "$@")"
   fi
 }
 

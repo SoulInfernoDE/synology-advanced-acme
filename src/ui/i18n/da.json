@@ -357,6 +357,7 @@
 
   "err.unknown": "Der opstod en ukendt fejl.",
   "err.unknown_code": "Fejl: {code}",
+  "err.acme_update_disabled": "acme.sh-opdateringer er ikke tilgængelige i denne udgave af Advanced ACME. acme.sh opdateres sammen med pakken.",
   "err.network": "NAS'en svarede ikke. Kontrollér forbindelsen, og genindlæs siden.",
   "err.bad_response": "NAS'en sendte et uventet svar. Genindlæs siden.",
   "err.not_logged_in": "Din DSM-session er udløbet. Log ind i DSM igen.",
@@ -412,6 +413,7 @@
 
   "acme.title": "acme.sh-version",
   "acme.intro": "Advanced ACME er testet med den medfølgende acme.sh {bundled}. Du kan installere nyere officielle acme.sh-versioner. Den medfølgende version forbliver altid tilgængelig, og du kan til enhver tid vende tilbage til den.",
+  "acme.intro_fixed": "Denne pakke bruger den medfølgende acme.sh {bundled}. acme.sh opdateres sammen med Advanced ACME via Pakkecenter.",
   "acme.active": "Aktiv version",
   "acme.active_bundled": "{version} (medfølgende, testet)",
   "acme.active_updated": "{version} (opdateret, eksperimentel)",
