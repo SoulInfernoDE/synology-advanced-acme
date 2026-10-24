@@ -7,6 +7,7 @@ import os
 import subprocess
 import sys
 import threading
+import time
 import urllib.parse
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 
@@ -22,6 +23,8 @@ STATE = {"certs": [{"desc": "", "id": "def01", "is_default": True, "renewable": 
                     "subject": {"common_name": "synology"}, "valid_till": "Jan  1 00:00:00 2030 GMT",
                     "services": [{"display_name": "DSM Desktop Service"}]}],
          "imports": [], "sessions": {}, "logins": [], "tasks": []}
+# Running triggered tasks by name (subprocess.Popen).
+RUNNING = {}
 IONOS_KEY = "pfx123.secret456"
 
 
@@ -78,6 +81,14 @@ class H(BaseHTTPRequestHandler):
                 USERS[q["adduser"]] = {"password": "x", "otp": None, "admin": False, "desc": q.get("desc", "")}
             if "deluser" in q:
                 USERS.pop(q["deluser"], None)
+            if "addcert" in q:
+                STATE["certs"].append({"desc": q["addcert"], "id": "add%02d" % len(STATE["certs"]), "is_default": False,
+                                       "subject": {"common_name": "added"}, "services": []})
+            if "addtask" in q:
+                # A scheduled task as script version 1 created it.
+                STATE["tasks"].append({"id": max([t.get("id", 0) for t in STATE["tasks"]] + [0]) + 1,
+                                       "name": q["addtask"], "owner": "root", "real_owner": "root",
+                                       "script": "exit 0", "schedule": {"repeat_min": 1}})
             return self.send({"success": True})
         if path == "/dns/v1/zones":
             if self.headers.get("X-API-Key") != IONOS_KEY:
@@ -129,7 +140,8 @@ class H(BaseHTTPRequestHandler):
         # Like DSM: no user management in sessions from the loopback address.
         # The test reaches the "LAN address" as 127.0.0.2.
         host = (self.headers.get("Host") or "").rsplit(":", 1)[0]
-        if (api in ("SYNO.Core.User.Group", "SYNO.Core.TaskScheduler.Root", "SYNO.Core.User.PasswordConfirm")
+        if (api in ("SYNO.Core.User.Group", "SYNO.Core.TaskScheduler.Root", "SYNO.Core.EventScheduler.Root",
+                    "SYNO.Core.User.PasswordConfirm")
                 or api == "SYNO.Core.User" and method != "get") and host in ("localhost", "127.0.0.1"):
             return self.send({"error": {"code": 105}, "success": False})
         if api == "SYNO.Core.User.PasswordConfirm" and method == "auth":
@@ -138,6 +150,8 @@ class H(BaseHTTPRequestHandler):
             return self.send({"data": {"SynoConfirmPWToken": "pwtok-" + user}, "success": True})
         if api.startswith("SYNO.Core.TaskScheduler"):
             return self.task_api(user, api, method, p)
+        if api.startswith("SYNO.Core.EventScheduler"):
+            return self.event_api(user, api, method, p)
         if api == "SYNO.Core.User":
             return self.user_api(user, method, p)
         if api == "SYNO.Core.User.Group" and method == "join":
@@ -198,11 +212,59 @@ class H(BaseHTTPRequestHandler):
         return self.send({"error": {"code": 103}, "success": False})
 
 
+    def event_api(self, user, api, method, p):
+        """Triggered tasks (event "bootup"). Like DSM, "run" does not start a
+        task that is still running, and "delete" does not stop it."""
+        tasks = STATE["tasks"]
+        if api == "SYNO.Core.EventScheduler.Root" and method in ("create", "set"):
+            if json.loads(p.get("SynoConfirmPWToken", '""')) != "pwtok-" + user or p.get("version") != "1":
+                return self.send({"error": {"code": 4800}, "success": False})
+            name = json.loads(p["task_name"])
+            task = {"name": name, "owner": list(json.loads(p["owner"]).values())[0], "real_owner": "root",
+                    "event": json.loads(p["event"]), "type": json.loads(p["operation_type"]),
+                    "script": json.loads(p["operation"]), "enable": p.get("enable") == "true"}
+            same = [t for t in tasks if t.get("event") and t["name"] == name]
+            if method == "set":
+                old = [t for t in tasks if t.get("event") and t["name"] == json.loads(p.get("old_task_name", '""'))]
+                if not old:
+                    return self.send({"error": {"code": 4800}, "success": False})
+                old[0].update(task)
+                return self.send({"success": True})
+            if same:
+                return self.send({"errors": "DUPLICATE_PRIMARY_KEY", "success": False})
+            tasks.append(task)
+            return self.send({"success": True})
+        if api == "SYNO.Core.EventScheduler" and method == "get":
+            name = json.loads(p["task_name"])
+            found = [t for t in tasks if t.get("event") and t["name"] == name]
+            data = {"task_name": name, "event": found[0]["event"], "operation": found[0]["script"]} if found else None
+            return self.send(dict({"success": True}, **({"data": data} if data else {})))
+        if api == "SYNO.Core.EventScheduler" and method == "run":
+            name = json.loads(p["task_name"])
+            for t in tasks:
+                if t.get("event") and t["name"] == name:
+                    # DSM notes the end of a run a moment later; until then
+                    # the task still counts as running.
+                    run = RUNNING.get(name)
+                    if run is None or run["ended"] is not None and time.time() - run["ended"] > 2:
+                        env = dict(os.environ, FAKE_SYNO_URL="http://127.0.0.1:%d/_syno" % self.server.server_port)
+                        proc = subprocess.Popen(["sh", "-c", t["script"]], env=env,
+                                                stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+                        run = RUNNING[name] = {"proc": proc, "ended": None}
+                        threading.Thread(target=lambda r=run: (r["proc"].wait(), r.update(ended=time.time())),
+                                         daemon=True).start()
+                    STATE["runs"] = STATE.get("runs", 0) + 1
+            return self.send({"success": True})
+        return self.send({"error": {"code": 103}, "success": False})
+
     def task_api(self, user, api, method, p):
         tasks = STATE["tasks"]
         if api == "SYNO.Core.TaskScheduler" and method == "list":
-            return self.send({"data": {"tasks": [{k: t[k] for k in ("id", "name", "owner", "real_owner")}
-                                                 for t in tasks], "total": len(tasks)}, "success": True})
+            # Like DSM, the list contains triggered tasks too (type "event_script").
+            listed = [{"id": 1000 + i, "name": t["name"], "owner": "root", "real_owner": None, "type": "event_script"}
+                      for i, t in enumerate(t for t in tasks if t.get("event"))]
+            listed += [dict({k: t[k] for k in ("id", "name", "owner", "real_owner")}, type="script") for t in tasks if "id" in t]
+            return self.send({"data": {"tasks": listed, "total": len(listed)}, "success": True})
         if api == "SYNO.Core.TaskScheduler.Root" and method in ("create", "set"):
             # Root tasks need the password confirmation token.
             if json.loads(p.get("SynoConfirmPWToken", '""')) != "pwtok-" + user or p.get("version") != "4":
@@ -218,6 +280,15 @@ class H(BaseHTTPRequestHandler):
             task["id"] = max([t["id"] for t in tasks] + [0]) + 1
             tasks.append(task)
             return self.send({"data": {"id": task["id"]}, "success": True})
+        if api == "SYNO.Core.TaskScheduler" and method == "delete":
+            if p.get("version") != "2":
+                return self.send({"error": {"code": 104}, "success": False})
+            ids = [t["id"] for t in json.loads(p["tasks"])]
+            # Triggered tasks are deleted by their list id as well.
+            events = [t for t in tasks if t.get("event")]
+            gone = [events[i - 1000] for i in ids if 1000 <= i < 1000 + len(events)]
+            STATE["tasks"] = [t for t in tasks if t.get("id") not in ids and t not in gone]
+            return self.send({"success": True})
         if api == "SYNO.Core.TaskScheduler" and method == "run":
             for item in json.loads(p["tasks"]):
                 for t in tasks:
@@ -252,10 +323,13 @@ class H(BaseHTTPRequestHandler):
             return self.send({"data": {"id": cid}, "httpd_restart": False, "success": True})
         if api == "SYNO.Core.TaskScheduler" and method == "list":
             return self.send({"data": {"tasks": [{k: t[k] for k in ("id", "name", "owner", "real_owner")}
-                                                 for t in STATE["tasks"]]}, "success": True})
+                                                 for t in STATE["tasks"] if "id" in t]}, "success": True})
         if api == "SYNO.Core.TaskScheduler" and method == "delete":
             ids = [t["id"] for t in p["tasks"]]
-            STATE["tasks"] = [t for t in STATE["tasks"] if t["id"] not in ids]
+            STATE["tasks"] = [t for t in STATE["tasks"] if t.get("id") not in ids]
+            return self.send({"success": True})
+        if api == "SYNO.Core.EventScheduler" and method == "delete":
+            STATE["tasks"] = [t for t in STATE["tasks"] if not (t.get("event") and t["name"] == p["task_name"])]
             return self.send({"success": True})
         return self.send({"error": {"code": 103}, "success": False})
 

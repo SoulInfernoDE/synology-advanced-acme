@@ -167,9 +167,9 @@ dsm_has_credentials() {
 # on success and print the DSM certificate list as JSON.
 cmd_dsm_check() {
   local user="${1:-}" pass="${2:-}" otp="${3:-}" save=0 list code
-  # DSM task: the certificate list comes from its last run.
+  # DSM task: the task reads the certificate list.
   if [ -z "$user" ] && task_configured; then
-    printf '{"ok":true,"mode":"task","user":"","dsm":{"data":%s}}' "$(task_certs_json)"
+    printf '{"ok":true,"mode":"task","user":"","dsm":{"data":%s}}' "$(task_certs_json_fresh)"
     return 0
   fi
   if [ -n "$user" ]; then
