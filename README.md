@@ -18,6 +18,7 @@ Since 10 March 2026, IONOS issues SSL certificates with a technical validity of 
 - **Expert mode**: an acme.sh console in the browser and an `advanced-acme` command for SSH. Certificates created there also appear in the overview and are renewed automatically.
 - **acme.sh updates (optional, experimental)**: newer official acme.sh releases can be installed from *Settings*, manually or automatically once a day. The bundled version stays in place, and you can return to it with one click. Advanced ACME is tested with the bundled version only.
 - **All 20 DSM languages**: English, German, French, Italian, Spanish, Dutch, Polish, Portuguese, Russian, Swedish, Danish, Norwegian, Czech, Turkish, Hungarian, Thai, Japanese, Korean, Simplified and Traditional Chinese. The app follows the DSM language, or the browser language outside DSM.
+- **Light or dark**: light like DSM by default; under *Settings > Appearance* an own dark design, or automatic switching with the light/dark mode of the operating system (DSM 7 has no dark mode of its own).
 
 | Assistant: provider | Assistant: IONOS account | Expert mode |
 |---|---|---|

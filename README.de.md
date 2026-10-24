@@ -18,6 +18,7 @@ Seit dem 10. März 2026 stellt IONOS SSL-Zertifikate mit einer technischen Gült
 - **Expertenmodus**: eine acme.sh-Konsole im Browser und der Befehl `advanced-acme` für SSH. Dort erstellte Zertifikate erscheinen ebenfalls in der Übersicht und werden automatisch erneuert.
 - **acme.sh-Updates (optional, experimentell)**: Neuere offizielle acme.sh-Releases lassen sich unter *Einstellungen* installieren, von Hand oder automatisch einmal täglich. Die mitgelieferte Version bleibt erhalten, ein Klick führt zu ihr zurück. Getestet ist Advanced ACME nur mit der mitgelieferten Version.
 - **Alle 20 DSM-Sprachen**: Deutsch, Englisch, Französisch, Italienisch, Spanisch, Niederländisch, Polnisch, Portugiesisch, Russisch, Schwedisch, Dänisch, Norwegisch, Tschechisch, Türkisch, Ungarisch, Thai, Japanisch, Koreanisch sowie vereinfachtes und traditionelles Chinesisch. Die App folgt der DSM-Sprache, außerhalb von DSM der Browsersprache.
+- **Hell oder dunkel**: standardmäßig hell wie DSM; unter *Einstellungen > Darstellung* ein eigenes dunkles Design oder automatischer Wechsel mit dem Hell-/Dunkelmodus des Betriebssystems (DSM 7 hat keinen eigenen dunklen Modus).
 
 | Assistent: Anbieter | Assistent: IONOS-Konto | Expertenmodus |
 |---|---|---|

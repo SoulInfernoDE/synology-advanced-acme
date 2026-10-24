@@ -22,26 +22,25 @@
   color-scheme: light;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) {
-    --bg: #12161c;
-    --surface: #1a2029;
-    --surface-2: #202834;
-    --text: #e6ebf1;
-    --muted: #9aa8b8;
-    --border: #2e3846;
-    --primary: #4c9ff0;
-    --primary-hover: #6bb0f4;
-    --primary-soft: #1d3350;
-    --ok: #5fcf8e;
-    --ok-soft: #173525;
-    --warn: #f0b85a;
-    --warn-soft: #3a2d14;
-    --bad: #f07a6e;
-    --bad-soft: #3d1d1b;
-    --code-bg: #0b0f14;
-    color-scheme: dark;
-  }
+/* Own dark design (DSM 7 has none). theme.js sets data-theme. */
+:root[data-theme="dark"] {
+  --bg: #12161c;
+  --surface: #1a2029;
+  --surface-2: #202834;
+  --text: #e6ebf1;
+  --muted: #9aa8b8;
+  --border: #2e3846;
+  --primary: #4c9ff0;
+  --primary-hover: #6bb0f4;
+  --primary-soft: #1d3350;
+  --ok: #5fcf8e;
+  --ok-soft: #173525;
+  --warn: #f0b85a;
+  --warn-soft: #3a2d14;
+  --bad: #f07a6e;
+  --bad-soft: #3d1d1b;
+  --code-bg: #0b0f14;
+  color-scheme: dark;
 }
 
 * { box-sizing: border-box; }

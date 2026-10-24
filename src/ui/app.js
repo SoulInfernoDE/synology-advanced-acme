@@ -1428,6 +1428,16 @@
     add(view, el("section", { class: "panel" }, el("h2", null, t("settings.lang_title")),
       el("div", { class: "form" }, field(t("settings.lang"), lang))));
 
+    // Appearance (theme.js applies it)
+    const theme = el("select", null,
+      el("option", { value: "light" }, t("settings.theme_light")),
+      el("option", { value: "dark" }, t("settings.theme_dark")),
+      el("option", { value: "auto" }, t("settings.theme_auto")));
+    theme.value = window.aacmeTheme.get();
+    theme.addEventListener("change", () => window.aacmeTheme.set(theme.value));
+    add(view, el("section", { class: "panel" }, el("h2", null, t("settings.theme_title")),
+      el("div", { class: "form" }, field(t("settings.theme"), theme, t("settings.theme_help")))));
+
     // Service log
     const logPre = el("pre", { class: "log" });
     add(view, el("section", { class: "panel" },
@@ -1665,8 +1675,6 @@ add(view, notice("info", t("expert.intro")));
   // ---------------------------------------------------------------------------
 
   async function start() {
-    // DSM itself has no dark theme: match it when running inside a DSM window.
-    if (window.parent !== window) document.documentElement.setAttribute("data-theme", "light");
     try {
       await loadI18n();
     } catch (e) {
