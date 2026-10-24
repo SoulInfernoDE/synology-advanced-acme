@@ -11,7 +11,6 @@
   "common.cancel": "Annulla",
   "common.save": "Salva",
   "common.saved": "Salvato.",
-  "common.refresh": "Aggiorna panoramica",
   "common.advanced": "Opzioni avanzate",
   "common.save_and_install": "Salva e installa",
 
@@ -76,6 +75,7 @@
   "job.step.renew": "Rinnovo e installazione",
   "job.step.acme_update": "Download e installazione di acme.sh",
   "job.waiting_task": "In attesa dell'attività DSM (eseguita ogni minuto)…",
+  "job.reconnecting": "Riconnessione al NAS…",
   "jobtype.register": "Connessione account",
   "jobtype.issue": "Nuovo certificato",
   "jobtype.renew": "Rinnovo",

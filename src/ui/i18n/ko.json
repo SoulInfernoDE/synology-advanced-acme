@@ -11,7 +11,6 @@
   "common.cancel": "취소",
   "common.save": "저장",
   "common.saved": "저장했습니다.",
-  "common.refresh": "개요 새로 고침",
   "common.advanced": "고급 옵션",
   "common.save_and_install": "저장 후 설치",
 
@@ -76,6 +75,7 @@
   "job.step.renew": "갱신 및 설치",
   "job.step.acme_update": "acme.sh 다운로드 및 설치",
   "job.waiting_task": "DSM 작업을 기다리는 중 (매분 실행)…",
+  "job.reconnecting": "NAS에 다시 연결하는 중…",
   "jobtype.register": "계정 연결",
   "jobtype.issue": "새 인증서",
   "jobtype.renew": "갱신",

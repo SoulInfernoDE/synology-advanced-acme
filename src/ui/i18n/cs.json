@@ -11,7 +11,6 @@
   "common.cancel": "Zrušit",
   "common.save": "Uložit",
   "common.saved": "Uloženo.",
-  "common.refresh": "Obnovit přehled",
   "common.advanced": "Pokročilé možnosti",
   "common.save_and_install": "Uložit a nainstalovat",
 
@@ -76,6 +75,7 @@
   "job.step.renew": "Obnovení a instalace",
   "job.step.acme_update": "Stažení a instalace acme.sh",
   "job.waiting_task": "Čekání na úlohu DSM (spouští se každou minutu)…",
+  "job.reconnecting": "Obnovování spojení s NAS…",
   "jobtype.register": "Připojení účtu",
   "jobtype.issue": "Nový certifikát",
   "jobtype.renew": "Obnovení",

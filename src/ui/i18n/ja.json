@@ -11,7 +11,6 @@
   "common.cancel": "キャンセル",
   "common.save": "保存",
   "common.saved": "保存しました。",
-  "common.refresh": "概要を更新",
   "common.advanced": "詳細オプション",
   "common.save_and_install": "保存してインストール",
 
@@ -76,6 +75,7 @@
   "job.step.renew": "更新してインストール",
   "job.step.acme_update": "acme.sh をダウンロードしてインストール",
   "job.waiting_task": "DSM タスクを待っています (毎分実行)…",
+  "job.reconnecting": "NAS に再接続しています…",
   "jobtype.register": "アカウント接続",
   "jobtype.issue": "新しい証明書",
   "jobtype.renew": "更新",

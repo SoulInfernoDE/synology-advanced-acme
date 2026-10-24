@@ -11,7 +11,6 @@
   "common.cancel": "Cancel",
   "common.save": "Save",
   "common.saved": "Saved.",
-  "common.refresh": "Refresh overview",
   "common.advanced": "Advanced options",
   "common.save_and_install": "Save and install",
 
@@ -428,6 +427,7 @@
   "acme.auto_confirm": "Enable automatic acme.sh updates?\n\nThis is experimental: new versions are installed without testing with Advanced ACME (tested version: {bundled}). You can return to the bundled version at any time.",
   "job.step.acme_update": "Download and install acme.sh",
   "job.waiting_task": "Waiting for the DSM task (runs every minute)…",
+  "job.reconnecting": "Reconnecting to the NAS…",
   "jobtype.acme_update": "acme.sh update",
   "err.acme_check_failed": "The latest acme.sh release could not be determined. Check the internet connection of the NAS.",
   "err.invalid_tag": "Invalid acme.sh version.",

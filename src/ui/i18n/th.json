@@ -11,7 +11,6 @@
   "common.cancel": "ยกเลิก",
   "common.save": "บันทึก",
   "common.saved": "บันทึกแล้ว",
-  "common.refresh": "รีเฟรชภาพรวม",
   "common.advanced": "ตัวเลือกขั้นสูง",
   "common.save_and_install": "บันทึกและติดตั้ง",
 
@@ -76,6 +75,7 @@
   "job.step.renew": "ต่ออายุและติดตั้ง",
   "job.step.acme_update": "ดาวน์โหลดและติดตั้ง acme.sh",
   "job.waiting_task": "กำลังรองาน DSM (ทำงานทุกนาที)…",
+  "job.reconnecting": "กำลังเชื่อมต่อกับ NAS อีกครั้ง…",
   "jobtype.register": "เชื่อมต่อบัญชี",
   "jobtype.issue": "ใบรับรองใหม่",
   "jobtype.renew": "การต่ออายุ",

@@ -11,7 +11,6 @@
   "common.cancel": "取消",
   "common.save": "儲存",
   "common.saved": "已儲存。",
-  "common.refresh": "重新整理概覽",
   "common.advanced": "進階選項",
   "common.save_and_install": "儲存並安裝",
 
@@ -76,6 +75,7 @@
   "job.step.renew": "更新並安裝",
   "job.step.acme_update": "下載並安裝 acme.sh",
   "job.waiting_task": "正在等待 DSM 任務（每分鐘執行）…",
+  "job.reconnecting": "正在重新連線至 NAS…",
   "jobtype.register": "連結帳號",
   "jobtype.issue": "新增憑證",
   "jobtype.renew": "更新",

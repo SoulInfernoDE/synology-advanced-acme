@@ -11,7 +11,6 @@
   "common.cancel": "Avbryt",
   "common.save": "Lagre",
   "common.saved": "Lagret.",
-  "common.refresh": "Oppdater oversikten",
   "common.advanced": "Avanserte alternativer",
   "common.save_and_install": "Lagre og installer",
 
@@ -76,6 +75,7 @@
   "job.step.renew": "Forny og installer",
   "job.step.acme_update": "Last ned og installer acme.sh",
   "job.waiting_task": "Venter på DSM-oppgaven (kjører hvert minutt) …",
+  "job.reconnecting": "Kobler til NAS-en på nytt …",
   "jobtype.register": "Koble til konto",
   "jobtype.issue": "Nytt sertifikat",
   "jobtype.renew": "Fornyelse",

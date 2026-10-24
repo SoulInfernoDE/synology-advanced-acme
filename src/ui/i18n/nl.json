@@ -11,7 +11,6 @@
   "common.cancel": "Annuleren",
   "common.save": "Opslaan",
   "common.saved": "Opgeslagen.",
-  "common.refresh": "Overzicht vernieuwen",
   "common.advanced": "Geavanceerde opties",
   "common.save_and_install": "Opslaan en installeren",
 
@@ -76,6 +75,7 @@
   "job.step.renew": "Vernieuwen en installeren",
   "job.step.acme_update": "acme.sh downloaden en installeren",
   "job.waiting_task": "Wachten op de DSM-taak (draait elke minuut)…",
+  "job.reconnecting": "Verbinding met de NAS wordt hersteld…",
   "jobtype.register": "Account verbinden",
   "jobtype.issue": "Nieuw certificaat",
   "jobtype.renew": "Vernieuwing",
