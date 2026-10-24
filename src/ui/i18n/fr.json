@@ -87,7 +87,7 @@
   "hint.eab": "Le fournisseur de certificats a refusé la liaison de compte. Vérifiez le Key ID et la clé HMAC. Chez IONOS, créez en cas de doute un nouvel External Account Binding : la clé HMAC n'est affichée qu'une seule fois.",
   "hint.ionos_key": "La clé API IONOS manque. Saisissez le préfixe et le secret à l'étape DNS.",
   "hint.ionos_domain": "Le domaine est introuvable dans votre compte IONOS. La clé API doit appartenir au compte IONOS qui gère le domaine, et le domaine doit utiliser les serveurs de noms IONOS.",
-  "hint.ionos_no_cert": "IONOS n'a dans votre contrat aucun certificat libre correspondant exactement à ces adresses. Dans votre compte IONOS, sous Certificats SSL, vérifiez quel certificat vous avez et quelles adresses il couvre. Un certificat à domaine unique couvre le domaine et www, un certificat wildcard le domaine et *.domaine. Faites ensuite une nouvelle demande avec exactement ces adresses.",
+  "hint.ionos_no_cert": "IONOS n'a aucun certificat disponible pour ACME correspondant à ces adresses. Si votre certificat a été configuré manuellement, migrez-le d'abord vers ACME : sur la page IONOS Certificats SSL, choisissez « Gérer » > « Paramètres avancés » > « Migrer vers ACME » et sélectionnez votre External Account Binding. Vérifiez aussi que les adresses correspondent au certificat : un certificat à domaine unique couvre le domaine et www, un certificat wildcard le domaine et *.domaine. Faites ensuite une nouvelle demande.",
   "hint.dsm_otp": "Votre compte DSM utilise la validation en 2 étapes. Saisissez le code actuel de votre application d'authentification et réessayez. Ce n'est nécessaire qu'une fois.",
   "hint.dsm_password": "DSM a refusé le nom d'utilisateur ou le mot de passe. Vérifiez le compte DSM dans les paramètres.",
   "hint.dsm_admin": "Le compte DSM n'est pas administrateur. Seuls les administrateurs peuvent installer des certificats.",
@@ -121,6 +121,7 @@
   "wiz.account.ionos_step2": "Cliquez sur « ACME External Account Bindings » dans le menu de droite et créez un nouveau compte. Le nom est libre, par exemple « NAS ».",
   "wiz.account.ionos_step3": "IONOS affiche alors un Key ID et une clé HMAC. Copiez les deux dans les champs ci-dessous.",
   "wiz.account.ionos_step4": "Important : la clé HMAC n'est affichée qu'une seule fois. Collez-la ici immédiatement.",
+  "wiz.account.ionos_step5": "Vous utilisez déjà ce certificat, configuré manuellement ? Associez-le d'abord à ACME : ouvrez {link}, choisissez « Gérer » pour le certificat, puis « Paramètres avancés » > « Migrer vers ACME », et sélectionnez l'External Account Binding que vous venez de créer.",
   "wiz.account.ionos_note": "Votre contrat IONOS doit disposer d'un certificat DV libre, et le domaine doit utiliser les serveurs de noms IONOS.",
   "wiz.account.ionos_help": "Guide IONOS",
   "wiz.account.le_intro": "Let's Encrypt ne nécessite pas de compte. Cliquez sur « Connecter » pour en créer un automatiquement.",
@@ -351,6 +352,8 @@
 
   "link.ionos_ssl": "https://ssl.ionos.fr/certificates/acme-accounts",
   "link.ionos_ssl_text": "votre compte IONOS",
+  "link.ionos_certs": "https://ssl.ionos.fr/certificates",
+  "link.ionos_certs_text": "Certificats SSL",
   "link.ionos_dev_text": "portail développeur IONOS",
 
   "err.unknown": "Une erreur inconnue s'est produite.",

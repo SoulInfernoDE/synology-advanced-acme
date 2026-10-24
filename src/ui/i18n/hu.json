@@ -87,7 +87,7 @@
   "hint.eab": "A tanúsítványszolgáltató elutasította a fiók összekapcsolását. Ellenőrizze a Key ID-t és a HMAC-kulcsot. Az IONOS-nál kétség esetén hozzon létre új External Account Bindingot: a HMAC-kulcs csak egyszer jelenik meg.",
   "hint.ionos_key": "Hiányzik az IONOS API-kulcs. Adja meg az előtagot és a titkos kulcsot a DNS-lépésben.",
   "hint.ionos_domain": "A tartomány nem található az IONOS-fiókjában. Az API-kulcsnak a tartományt kezelő IONOS-fiókhoz kell tartoznia, és a tartománynak az IONOS névszervereit kell használnia.",
-  "hint.ionos_no_cert": "Az IONOS-szerződésében nincs olyan szabad tanúsítvány, amely pontosan ezekhez a címekhez illik. IONOS-fiókjában az SSL-tanúsítványok alatt ellenőrizze, milyen tanúsítványa van, és mely címeket fedi le. Az egytartományos tanúsítvány a tartományt és a www-t fedi le, a wildcard tanúsítvány a tartományt és a *.tartomány címet. Ezután kérje újra pontosan ezekkel a címekkel.",
+  "hint.ionos_no_cert": "Az IONOS-nál nincs olyan, ACME-hez elérhető tanúsítvány, amely illik ezekhez a címekhez. Ha a tanúsítványt kézzel állították be, először migrálja ACME-re: az IONOS SSL-tanúsítványok oldalán válassza a „Manage” > „Advanced settings” > „Migrate to ACME” lehetőséget, és válassza ki az External Account Bindingjét. Ellenőrizze azt is, hogy a címek illenek-e a tanúsítványhoz: az egytartományos tanúsítvány a tartományt és a www-t, a wildcard tanúsítvány a tartományt és a *.tartomány címet fedi le. Ezután kérje újra.",
   "hint.dsm_otp": "DSM-fiókja kétlépéses ellenőrzést használ. Adja meg a hitelesítő alkalmazás aktuális kódját, és próbálja újra. Erre csak egyszer van szükség.",
   "hint.dsm_password": "A DSM elutasította a felhasználónevet vagy a jelszót. Ellenőrizze a DSM-fiókot a beállításokban.",
   "hint.dsm_admin": "A DSM-fiók nem rendszergazda. Tanúsítványokat csak rendszergazdák telepíthetnek.",
@@ -121,6 +121,7 @@
   "wiz.account.ionos_step2": "Kattintson a jobb oldali menüben az „ACME External Account Bindings” elemre, és hozzon létre egy új fiókot. A név tetszőleges, például „NAS”.",
   "wiz.account.ionos_step3": "Az IONOS most megjelenít egy Key ID-t és egy HMAC-kulcsot. Másolja mindkettőt az alábbi mezőkbe.",
   "wiz.account.ionos_step4": "Fontos: a HMAC-kulcs csak egyszer jelenik meg. Illessze be azonnal ide.",
+  "wiz.account.ionos_step5": "Már használja ezt a kézzel beállított tanúsítványt? Akkor először kapcsolja ACME-hez: nyissa meg a(z) {link} oldalt, a tanúsítványnál válassza a „Manage”, majd az „Advanced settings” > „Migrate to ACME” lehetőséget, és válassza ki az imént létrehozott External Account Bindinget.",
   "wiz.account.ionos_note": "IONOS-szerződésében lennie kell egy szabad DV-tanúsítványnak, és a tartománynak az IONOS névszervereit kell használnia.",
   "wiz.account.ionos_help": "IONOS-útmutató",
   "wiz.account.le_intro": "A Let's Encrypthez nem kell fiók. Kattintson a „Kapcsolódás” gombra az automatikus létrehozáshoz.",
@@ -350,6 +351,7 @@
   "help.link_acme_dsm": "acme.sh: deploy hook a Synology DSM-hez",
 
   "link.ionos_ssl_text": "IONOS-fiókjába",
+  "link.ionos_certs_text": "SSL-tanúsítványok",
   "link.ionos_dev_text": "az IONOS fejlesztői portált",
 
   "err.unknown": "Ismeretlen hiba történt.",

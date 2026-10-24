@@ -87,7 +87,7 @@
   "hint.eab": "인증서 공급자가 계정 연결을 거부했습니다. Key ID와 HMAC 키를 확인하세요. IONOS의 경우 확실하지 않으면 새 External Account Binding을 만드세요. HMAC 키는 한 번만 표시됩니다.",
   "hint.ionos_key": "IONOS API 키가 없습니다. DNS 단계에서 접두사와 시크릿을 입력하세요.",
   "hint.ionos_domain": "IONOS 계정에서 도메인을 찾을 수 없습니다. API 키는 도메인을 관리하는 IONOS 계정의 것이어야 하며, 도메인은 IONOS 네임서버를 사용해야 합니다.",
-  "hint.ionos_no_cert": "IONOS 계약에 이 주소와 정확히 일치하는 사용 가능한 인증서가 없습니다. IONOS 계정의 SSL 인증서에서 어떤 인증서가 있고 어떤 주소를 포함하는지 확인하세요. 단일 도메인 인증서는 도메인과 www를, 와일드카드 인증서는 도메인과 *.도메인을 포함합니다. 그런 다음 정확히 그 주소로 다시 요청하세요.",
+  "hint.ionos_no_cert": "IONOS에 이 주소와 일치하는 ACME용 인증서가 없습니다. 인증서를 수동으로 설정했다면 먼저 ACME로 마이그레이션하세요: IONOS SSL 인증서 페이지에서 'Manage' > 'Advanced settings' > 'Migrate to ACME'를 선택하고 External Account Binding을 선택합니다. 주소가 인증서와 일치하는지도 확인하세요. 단일 도메인 인증서는 도메인과 www를, 와일드카드 인증서는 도메인과 *.도메인을 포함합니다. 그런 다음 다시 요청하세요.",
   "hint.dsm_otp": "DSM 계정이 2단계 인증을 사용합니다. 인증 앱의 현재 코드를 입력하고 다시 시도하세요. 한 번만 필요합니다.",
   "hint.dsm_password": "DSM이 사용자 이름 또는 비밀번호를 거부했습니다. 설정에서 DSM 계정을 확인하세요.",
   "hint.dsm_admin": "DSM 계정이 관리자가 아닙니다. 관리자만 인증서를 설치할 수 있습니다.",
@@ -121,6 +121,7 @@
   "wiz.account.ionos_step2": "오른쪽 메뉴에서 'ACME External Account Bindings'를 클릭하고 새 계정을 만듭니다. 이름은 자유롭게 정하면 됩니다 (예: 'NAS').",
   "wiz.account.ionos_step3": "IONOS에 Key ID와 HMAC 키가 표시됩니다. 둘 다 아래 입력란에 복사하세요.",
   "wiz.account.ionos_step4": "중요: HMAC 키는 한 번만 표시됩니다. 바로 여기에 붙여 넣으세요.",
+  "wiz.account.ionos_step5": "이 인증서를 이미 수동으로 설정해 사용 중인가요? 그렇다면 먼저 ACME에 연결하세요: {link}을(를) 열고 인증서에서 'Manage', 이어서 'Advanced settings' > 'Migrate to ACME'를 선택한 다음 방금 만든 External Account Binding을 선택합니다.",
   "wiz.account.ionos_note": "IONOS 계약에 사용 가능한 DV 인증서가 있어야 하고, 도메인은 IONOS 네임서버를 사용해야 합니다.",
   "wiz.account.ionos_help": "IONOS 안내서",
   "wiz.account.le_intro": "Let's Encrypt는 계정이 필요 없습니다. '연결'을 클릭하면 자동으로 만들어집니다.",
@@ -350,6 +351,7 @@
   "help.link_acme_dsm": "acme.sh: Synology DSM용 deploy hook",
 
   "link.ionos_ssl_text": "IONOS 계정",
+  "link.ionos_certs_text": "SSL 인증서",
   "link.ionos_dev_text": "IONOS 개발자 포털",
 
   "err.unknown": "알 수 없는 오류가 발생했습니다.",
