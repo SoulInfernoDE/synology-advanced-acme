@@ -741,9 +741,11 @@
     const emailIn = input({ type: "email", value: d.email, placeholder: "name@example.com" });
     const kidIn = input({ placeholder: t("wiz.account.kid_placeholder") });
     const hmacIn = input({ type: "password", placeholder: t("wiz.account.hmac_placeholder") });
+    // Instructions and fields; hidden while an existing connection is offered.
+    const setup = el("div");
 
     if (d.provider === "ionos") {
-      add(body, el("ol", { class: "howto" },
+      add(setup, el("ol", { class: "howto" },
         el("li", null, richText("wiz.account.ionos_step1", { link: { href: t("link.ionos_ssl"), text: t("link.ionos_ssl_text") } })),
         el("li", null, t("wiz.account.ionos_step2")),
         el("li", null, t("wiz.account.ionos_step3")),
@@ -751,11 +753,11 @@
       notice("info", t("wiz.account.ionos_note"), " ",
         el("a", { href: t("link.ionos_acme_help"), target: "_blank", rel: "noopener noreferrer" }, t("wiz.account.ionos_help"))));
     } else if (d.provider === "letsencrypt") {
-      add(body, el("p", { class: "muted" }, t("wiz.account.le_intro")));
+      add(setup, el("p", { class: "muted" }, t("wiz.account.le_intro")));
     } else if (d.provider === "zerossl") {
-      add(body, el("p", { class: "muted" }, t("wiz.account.zerossl_intro")));
+      add(setup, el("p", { class: "muted" }, t("wiz.account.zerossl_intro")));
     } else {
-      add(body, el("p", { class: "muted" }, t("wiz.account.custom_intro")));
+      add(setup, el("p", { class: "muted" }, t("wiz.account.custom_intro")));
     }
 
     const form = el("div", { class: "form" });
@@ -767,14 +769,13 @@
     if (p.email !== "none") {
       add(form, field(p.email === "required" ? t("wiz.account.email_required") : t("wiz.account.email_optional"), emailIn));
     }
-    add(body, form);
+    add(setup, form);
 
     const jobBox = el("div");
     const known = d.server && accountExists(d.server);
-    if (known) {
-      add(body, notice("ok", t("wiz.account.already_connected")));
-    }
-    add(body, jobBox);
+    if (known) add(body, notice("ok", t("wiz.account.already_connected")));
+    setup.hidden = known;
+    add(body, setup, jobBox);
 
     async function connect() {
       d.server = (d.provider === "custom" ? serverIn.value.trim() : p.server);
@@ -800,11 +801,20 @@
       }
     }
 
-    const nav = el("div", { class: "actions wizard-nav" },
-      button(t("common.back"), { onclick: () => wizGo(0) }),
-      el("div", { class: "actions" },
-        known ? button(t("wiz.account.skip"), { onclick: () => wizGo(2) }) : null,
-        button(known ? t("wiz.account.reconnect") : t("wiz.account.connect"), { kind: known ? "secondary" : "primary", onclick: connect })));
+    // Already connected: using the connection is the main action (right).
+    // "Connect again" first shows the instructions and fields.
+    const nav = el("div", { class: "actions wizard-nav" });
+    function renderNav(reconnecting) {
+      const useExisting = () => wizGo(2);
+      fill(nav, button(t("common.back"), { onclick: () => wizGo(0) }),
+        el("div", { class: "actions" },
+          !known ? button(t("wiz.account.connect"), { kind: "primary", onclick: connect }) :
+            reconnecting ? [button(t("wiz.account.skip"), { onclick: useExisting }),
+              button(t("wiz.account.connect"), { kind: "primary", onclick: connect })] :
+              [button(t("wiz.account.reconnect"), { onclick: () => { setup.hidden = false; renderNav(true); } }),
+                button(t("wiz.account.skip"), { kind: "primary", onclick: useExisting })]));
+    }
+    renderNav(false);
     add(body, nav);
   }
 
