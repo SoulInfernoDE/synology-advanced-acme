@@ -55,7 +55,7 @@ echo "$VERSION" > "$T/VERSION"
 printf 'acme_updates=%s\n' "$([ "$ACME_UPDATES" = 0 ] && echo 0 || echo 1)" > "$T/share/build.conf"
 # DSM serves the UI without cache headers: version the asset URLs so browsers
 # load the new files after a package update.
-sed -i "s/\"app\.\(js\|css\)\"/\"app.\1?v=${VERSION}\"/" "$T/ui/index.html"
+sed -i "s/\"\(app\.js\|app\.css\|theme\.js\)\"/\"\1?v=${VERSION}\"/" "$T/ui/index.html"
 cp LICENSE "$T/LICENSE"
 
 find "$T" -type d -exec chmod 755 {} +
