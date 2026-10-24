@@ -749,7 +749,8 @@
         el("li", null, richText("wiz.account.ionos_step1", { link: { href: t("link.ionos_ssl"), text: t("link.ionos_ssl_text") } })),
         el("li", null, t("wiz.account.ionos_step2")),
         el("li", null, t("wiz.account.ionos_step3")),
-        el("li", null, t("wiz.account.ionos_step4"))),
+        el("li", null, t("wiz.account.ionos_step4")),
+        el("li", null, richText("wiz.account.ionos_step5", { link: { href: t("link.ionos_certs"), text: t("link.ionos_certs_text") } }))),
       notice("info", t("wiz.account.ionos_note"), " ",
         el("a", { href: t("link.ionos_acme_help"), target: "_blank", rel: "noopener noreferrer" }, t("wiz.account.ionos_help"))));
     } else if (d.provider === "letsencrypt") {

@@ -87,7 +87,7 @@
   "hint.eab": "Poskytovatel certifikátů odmítl propojení účtu. Zkontrolujte Key ID a klíč HMAC. U IONOS v případě pochybností vytvořte nový External Account Binding: klíč HMAC se zobrazí jen jednou.",
   "hint.ionos_key": "Chybí klíč API IONOS. Zadejte prefix a tajný klíč v kroku DNS.",
   "hint.ionos_domain": "Doména nebyla ve vašem účtu IONOS nalezena. Klíč API musí patřit účtu IONOS, který doménu spravuje, a doména musí používat jmenné servery IONOS.",
-  "hint.ionos_no_cert": "Ve vaší smlouvě IONOS není volný certifikát, který by přesně odpovídal těmto adresám. V účtu IONOS v části Certifikáty SSL zkontrolujte, jaký certifikát máte a které adresy pokrývá. Certifikát pro jednu doménu pokrývá doménu a www, wildcard certifikát doménu a *.doména. Pak ho požádejte znovu přesně s těmito adresami.",
+  "hint.ionos_no_cert": "IONOS nemá pro ACME dostupný certifikát, který odpovídá těmto adresám. Pokud byl certifikát nastaven ručně, nejprve ho převeďte na ACME: na stránce IONOS Certifikáty SSL zvolte „Manage“ > „Advanced settings“ > „Migrate to ACME“ a vyberte svůj External Account Binding. Zkontrolujte také, že adresy odpovídají certifikátu: certifikát pro jednu doménu pokrývá doménu a www, wildcard certifikát doménu a *.doména. Pak o něj požádejte znovu.",
   "hint.dsm_otp": "Váš účet DSM používá dvoufázové ověření. Zadejte aktuální kód z ověřovací aplikace a zkuste to znovu. Je to potřeba jen jednou.",
   "hint.dsm_password": "DSM odmítl uživatelské jméno nebo heslo. Zkontrolujte účet DSM v nastavení.",
   "hint.dsm_admin": "Účet DSM není správce. Certifikáty mohou instalovat jen správci.",
@@ -121,6 +121,7 @@
   "wiz.account.ionos_step2": "V nabídce vpravo klikněte na „ACME External Account Bindings“ a vytvořte nový účet. Název je libovolný, například „NAS“.",
   "wiz.account.ionos_step3": "IONOS nyní zobrazí Key ID a klíč HMAC. Zkopírujte obojí do polí níže.",
   "wiz.account.ionos_step4": "Důležité: klíč HMAC se zobrazí jen jednou. Vložte ho sem hned.",
+  "wiz.account.ionos_step5": "Tento certifikát už používáte a nastavili jste ho ručně? Pak ho nejprve propojte s ACME: otevřete {link}, u certifikátu zvolte „Manage“, pak „Advanced settings“ > „Migrate to ACME“ a vyberte právě vytvořený External Account Binding.",
   "wiz.account.ionos_note": "Ve smlouvě s IONOS musí být volný certifikát DV a doména musí používat jmenné servery IONOS.",
   "wiz.account.ionos_help": "Návod IONOS",
   "wiz.account.le_intro": "Let's Encrypt nepotřebuje účet. Klikněte na „Připojit“ a vytvoří se automaticky.",
@@ -350,6 +351,7 @@
   "help.link_acme_dsm": "acme.sh: deploy hook pro Synology DSM",
 
   "link.ionos_ssl_text": "svého účtu IONOS",
+  "link.ionos_certs_text": "Certifikáty SSL",
   "link.ionos_dev_text": "vývojářský portál IONOS",
 
   "err.unknown": "Došlo k neznámé chybě.",

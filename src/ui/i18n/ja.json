@@ -87,7 +87,7 @@
   "hint.eab": "証明書プロバイダーがアカウントの関連付けを拒否しました。Key ID と HMAC キーを確認してください。IONOS の場合、迷ったら新しい External Account Binding を作成してください。HMAC キーは一度しか表示されません。",
   "hint.ionos_key": "IONOS の API キーがありません。DNS の手順でプレフィックスとシークレットを入力してください。",
   "hint.ionos_domain": "IONOS アカウントにドメインが見つかりません。API キーはドメインを管理する IONOS アカウントのものである必要があり、ドメインは IONOS のネームサーバーを使用している必要があります。",
-  "hint.ionos_no_cert": "IONOS の契約に、これらのアドレスと完全に一致する空き証明書がありません。IONOS アカウントの「SSL 証明書」で、どの証明書があり、どのアドレスを対象にしているか確認してください。シングルドメイン証明書はドメインと www、ワイルドカード証明書はドメインと *.ドメイン を対象にします。そのアドレスどおりにもう一度申請してください。",
+  "hint.ionos_no_cert": "IONOS には、これらのアドレスに一致する ACME 用の証明書がありません。証明書を手動で設定していた場合は、先に ACME へ移行してください: IONOS の「SSL 証明書」ページで「Manage」>「Advanced settings」>「Migrate to ACME」を選び、External Account Binding を選択します。アドレスが証明書と一致しているかも確認してください。シングルドメイン証明書はドメインと www、ワイルドカード証明書はドメインと *.ドメイン を対象にします。その後もう一度申請してください。",
   "hint.dsm_otp": "DSM アカウントで 2 段階認証が有効です。認証アプリの現在のコードを入力して再試行してください。必要なのは一度だけです。",
   "hint.dsm_password": "DSM がユーザー名またはパスワードを拒否しました。設定で DSM アカウントを確認してください。",
   "hint.dsm_admin": "DSM アカウントが管理者ではありません。証明書をインストールできるのは管理者だけです。",
@@ -121,6 +121,7 @@
   "wiz.account.ionos_step2": "右側のメニューで「ACME External Account Bindings」をクリックし、新しいアカウントを作成します。名前は自由です (例: 「NAS」)。",
   "wiz.account.ionos_step3": "IONOS に Key ID と HMAC キーが表示されます。両方を下のフィールドにコピーしてください。",
   "wiz.account.ionos_step4": "重要: HMAC キーは一度しか表示されません。すぐにここへ貼り付けてください。",
+  "wiz.account.ionos_step5": "この証明書を手動で設定してすでに使っていますか? その場合は先に ACME に関連付けてください: {link} を開き、証明書の「Manage」、続いて「Advanced settings」>「Migrate to ACME」を選び、作成したばかりの External Account Binding を選択します。",
   "wiz.account.ionos_note": "IONOS の契約に空きの DV 証明書があり、ドメインが IONOS のネームサーバーを使用している必要があります。",
   "wiz.account.ionos_help": "IONOS のガイド",
   "wiz.account.le_intro": "Let's Encrypt はアカウント不要です。「接続」をクリックすると自動的に作成されます。",
@@ -350,6 +351,7 @@
   "help.link_acme_dsm": "acme.sh: Synology DSM 用 deploy hook",
 
   "link.ionos_ssl_text": "IONOS アカウント",
+  "link.ionos_certs_text": "SSL 証明書",
   "link.ionos_dev_text": "IONOS 開発者ポータル",
 
   "err.unknown": "不明なエラーが発生しました。",

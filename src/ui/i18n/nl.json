@@ -87,7 +87,7 @@
   "hint.eab": "De certificaatprovider heeft de accountkoppeling geweigerd. Controleer de Key ID en de HMAC-sleutel. Maak bij IONOS bij twijfel een nieuwe External Account Binding aan: de HMAC-sleutel wordt maar één keer getoond.",
   "hint.ionos_key": "De IONOS-API-sleutel ontbreekt. Vul in de DNS-stap het prefix en het secret in.",
   "hint.ionos_domain": "Het domein is niet gevonden in je IONOS-account. De API-sleutel moet horen bij het IONOS-account dat het domein beheert, en het domein moet de IONOS-nameservers gebruiken.",
-  "hint.ionos_no_cert": "IONOS heeft in uw contract geen vrij certificaat dat precies bij deze adressen past. Controleer in uw IONOS-account onder SSL-certificaten welk certificaat u hebt en welke adressen het dekt. Een certificaat voor één domein dekt het domein en www, een wildcardcertificaat het domein en *.domein. Vraag het daarna opnieuw aan met precies die adressen.",
+  "hint.ionos_no_cert": "IONOS heeft geen voor ACME beschikbaar certificaat dat bij deze adressen past. Is uw certificaat handmatig ingesteld, migreer het dan eerst naar ACME: kies op de IONOS-pagina SSL-certificaten “Manage” > “Advanced settings” > “Migrate to ACME” en selecteer uw External Account Binding. Controleer ook of de adressen bij het certificaat passen: een certificaat voor één domein dekt het domein en www, een wildcardcertificaat het domein en *.domein. Vraag het daarna opnieuw aan.",
   "hint.dsm_otp": "Je DSM-account gebruikt verificatie in twee stappen. Voer de huidige code uit je authenticator-app in en probeer het opnieuw. Dit is maar één keer nodig.",
   "hint.dsm_password": "DSM heeft de gebruikersnaam of het wachtwoord geweigerd. Controleer het DSM-account in de instellingen.",
   "hint.dsm_admin": "Het DSM-account is geen beheerder. Alleen beheerders kunnen certificaten installeren.",
@@ -121,6 +121,7 @@
   "wiz.account.ionos_step2": "Klik in het menu rechts op ‘ACME External Account Bindings’ en maak een nieuw account aan. De naam is vrij te kiezen, bijvoorbeeld ‘NAS’.",
   "wiz.account.ionos_step3": "IONOS toont nu een Key ID en een HMAC-sleutel. Kopieer beide naar de velden hieronder.",
   "wiz.account.ionos_step4": "Belangrijk: de HMAC-sleutel wordt maar één keer getoond. Plak hem meteen hier.",
+  "wiz.account.ionos_step5": "Gebruikt u dit certificaat al en hebt u het handmatig ingesteld? Koppel het dan eerst aan ACME: open {link}, kies bij het certificaat “Manage”, daarna “Advanced settings” > “Migrate to ACME”, en selecteer de External Account Binding die u net hebt aangemaakt.",
   "wiz.account.ionos_note": "Je IONOS-contract moet een vrij DV-certificaat hebben en het domein moet de IONOS-nameservers gebruiken.",
   "wiz.account.ionos_help": "IONOS-handleiding",
   "wiz.account.le_intro": "Let's Encrypt heeft geen account nodig. Klik op ‘Verbinden’ om er automatisch een aan te maken.",
@@ -350,6 +351,7 @@
   "help.link_acme_dsm": "acme.sh: deploy hook voor Synology DSM",
 
   "link.ionos_ssl_text": "je IONOS-account",
+  "link.ionos_certs_text": "SSL-certificaten",
   "link.ionos_dev_text": "IONOS-ontwikkelaarsportaal",
 
   "err.unknown": "Er is een onbekende fout opgetreden.",

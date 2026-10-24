@@ -87,7 +87,7 @@
   "hint.eab": "憑證供應商拒絕了帳號連結。請檢查 Key ID 和 HMAC 金鑰。若使用 IONOS，有疑問時請建立新的 External Account Binding：HMAC 金鑰只會顯示一次。",
   "hint.ionos_key": "缺少 IONOS API 金鑰。請在 DNS 步驟輸入前綴和密鑰。",
   "hint.ionos_domain": "在您的 IONOS 帳號中找不到此網域。API 金鑰必須屬於管理該網域的 IONOS 帳號，且網域必須使用 IONOS 名稱伺服器。",
-  "hint.ionos_no_cert": "您的 IONOS 合約中沒有與這些位址完全相符的可用憑證。請在 IONOS 帳戶的「SSL 憑證」中查看您擁有哪種憑證及其涵蓋的位址。單一網域憑證涵蓋網域和 www，萬用字元憑證涵蓋網域和 *.網域。然後以完全相同的位址重新申請。",
+  "hint.ionos_no_cert": "IONOS 沒有與這些位址相符且可用於 ACME 的憑證。如果憑證是手動設定的，請先將其遷移到 ACME：在 IONOS 的「SSL 憑證」頁面選擇「Manage」>「Advanced settings」>「Migrate to ACME」，並選擇您的 External Account Binding。也請確認位址與憑證相符：單一網域憑證涵蓋網域和 www，萬用字元憑證涵蓋網域和 *.網域。然後重新申請。",
   "hint.dsm_otp": "您的 DSM 帳號使用兩步驟驗證。請輸入驗證器應用程式中的目前代碼後重試。只需要輸入一次。",
   "hint.dsm_password": "DSM 拒絕了使用者名稱或密碼。請在設定中檢查 DSM 帳號。",
   "hint.dsm_admin": "此 DSM 帳號不是管理員。只有管理員可以安裝憑證。",
@@ -121,6 +121,7 @@
   "wiz.account.ionos_step2": "按一下右側選單中的「ACME External Account Bindings」，建立新帳號。名稱可自訂，例如「NAS」。",
   "wiz.account.ionos_step3": "IONOS 會顯示 Key ID 和 HMAC 金鑰。請將兩者複製到下方欄位。",
   "wiz.account.ionos_step4": "重要：HMAC 金鑰只會顯示一次。請立即貼到這裡。",
+  "wiz.account.ionos_step5": "已在使用這個手動設定的憑證嗎？請先將其連結到 ACME：開啟{link}，在該憑證上選擇「Manage」，接著選擇「Advanced settings」>「Migrate to ACME」，並選擇剛建立的 External Account Binding。",
   "wiz.account.ionos_note": "您的 IONOS 合約必須有可用的 DV 憑證，且網域必須使用 IONOS 名稱伺服器。",
   "wiz.account.ionos_help": "IONOS 指南",
   "wiz.account.le_intro": "Let's Encrypt 不需要帳號。按一下「連線」即可自動建立。",
@@ -350,6 +351,7 @@
   "help.link_acme_dsm": "acme.sh：Synology DSM 的 deploy hook",
 
   "link.ionos_ssl_text": "您的 IONOS 帳號",
+  "link.ionos_certs_text": "SSL 憑證",
   "link.ionos_dev_text": "IONOS 開發者入口網站",
 
   "err.unknown": "發生未知的錯誤。",

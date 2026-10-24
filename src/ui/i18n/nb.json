@@ -87,7 +87,7 @@
   "hint.eab": "Sertifikatleverandøren avviste kontokoblingen. Kontroller Key ID og HMAC-nøkkel. Opprett ved tvil en ny External Account Binding hos IONOS: HMAC-nøkkelen vises bare én gang.",
   "hint.ionos_key": "IONOS API-nøkkelen mangler. Angi prefiks og hemmelighet i DNS-trinnet.",
   "hint.ionos_domain": "Domenet ble ikke funnet i IONOS-kontoen din. API-nøkkelen må tilhøre IONOS-kontoen som administrerer domenet, og domenet må bruke IONOS sine navneservere.",
-  "hint.ionos_no_cert": "IONOS har ikke noe ledig sertifikat i avtalen din som passer nøyaktig til disse adressene. Sjekk i IONOS-kontoen under SSL-sertifikater hvilket sertifikat du har og hvilke adresser det dekker. Et sertifikat for ett domene dekker domenet og www, et jokertegnsertifikat domenet og *.domene. Be deretter om det på nytt med nøyaktig disse adressene.",
+  "hint.ionos_no_cert": "IONOS har ikke noe sertifikat tilgjengelig for ACME som passer til disse adressene. Hvis sertifikatet ble satt opp manuelt, migrer det først til ACME: Velg på IONOS-siden SSL-sertifikater «Manage» > «Advanced settings» > «Migrate to ACME» og velg din External Account Binding. Sjekk også at adressene passer til sertifikatet: et sertifikat for ett domene dekker domenet og www, et jokertegnsertifikat domenet og *.domene. Be deretter om det på nytt.",
   "hint.dsm_otp": "DSM-kontoen din bruker totrinnsbekreftelse. Skriv inn gjeldende kode fra autentiseringsappen og prøv igjen. Det trengs bare én gang.",
   "hint.dsm_password": "DSM avviste brukernavnet eller passordet. Kontroller DSM-kontoen i innstillingene.",
   "hint.dsm_admin": "DSM-kontoen er ikke administrator. Bare administratorer kan installere sertifikater.",
@@ -121,6 +121,7 @@
   "wiz.account.ionos_step2": "Klikk på «ACME External Account Bindings» i menyen til høyre, og opprett en ny konto. Navnet er valgfritt, for eksempel «NAS».",
   "wiz.account.ionos_step3": "IONOS viser nå en Key ID og en HMAC-nøkkel. Kopier begge til feltene nedenfor.",
   "wiz.account.ionos_step4": "Viktig: HMAC-nøkkelen vises bare én gang. Lim den inn her med en gang.",
+  "wiz.account.ionos_step5": "Bruker du allerede dette sertifikatet, satt opp manuelt? Knytt det da først til ACME: Åpne {link}, velg «Manage» for sertifikatet, deretter «Advanced settings» > «Migrate to ACME», og velg External Account Binding-en du nettopp opprettet.",
   "wiz.account.ionos_note": "IONOS-avtalen din må ha et ledig DV-sertifikat, og domenet må bruke IONOS sine navneservere.",
   "wiz.account.ionos_help": "IONOS-veiledning",
   "wiz.account.le_intro": "Let's Encrypt krever ingen konto. Klikk på «Koble til» for å opprette en automatisk.",
@@ -350,6 +351,7 @@
   "help.link_acme_dsm": "acme.sh: deploy hook for Synology DSM",
 
   "link.ionos_ssl_text": "IONOS-kontoen din",
+  "link.ionos_certs_text": "SSL-sertifikater",
   "link.ionos_dev_text": "IONOS utviklerportal",
 
   "err.unknown": "Det oppstod en ukjent feil.",

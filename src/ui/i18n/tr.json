@@ -87,7 +87,7 @@
   "hint.eab": "Sertifika sağlayıcısı hesap bağlantısını reddetti. Key ID ve HMAC anahtarını kontrol edin. IONOS'ta emin değilseniz yeni bir External Account Binding oluşturun: HMAC anahtarı yalnızca bir kez gösterilir.",
   "hint.ionos_key": "IONOS API anahtarı eksik. DNS adımında ön eki ve gizli anahtarı girin.",
   "hint.ionos_domain": "Alan adı IONOS hesabınızda bulunamadı. API anahtarı, alan adını yöneten IONOS hesabına ait olmalı ve alan adı IONOS ad sunucularını kullanmalıdır.",
-  "hint.ionos_no_cert": "IONOS sözleşmenizde bu adreslerle tam olarak eşleşen boş bir sertifika yok. IONOS hesabınızda SSL Sertifikaları altında hangi sertifikaya sahip olduğunuzu ve hangi adresleri kapsadığını kontrol edin. Tek alan adlı sertifika alan adını ve www'yi, joker sertifika alan adını ve *.alanadı'nı kapsar. Ardından tam olarak bu adreslerle yeniden isteyin.",
+  "hint.ionos_no_cert": "IONOS'ta bu adreslerle eşleşen, ACME için kullanılabilir bir sertifika yok. Sertifikanız elle kurulduysa önce ACME'ye taşıyın: IONOS SSL Sertifikaları sayfasında “Manage” > “Advanced settings” > “Migrate to ACME”yi seçin ve External Account Binding'inizi seçin. Adreslerin sertifikayla eşleştiğini de kontrol edin: tek alan adlı sertifika alan adını ve www'yi, joker sertifika alan adını ve *.alanadı'nı kapsar. Ardından yeniden isteyin.",
   "hint.dsm_otp": "DSM hesabınız iki adımlı doğrulama kullanıyor. Kimlik doğrulama uygulamanızdaki geçerli kodu girip yeniden deneyin. Bu yalnızca bir kez gereklidir.",
   "hint.dsm_password": "DSM kullanıcı adını veya parolayı reddetti. Ayarlar'da DSM hesabını kontrol edin.",
   "hint.dsm_admin": "DSM hesabı yönetici değil. Sertifikaları yalnızca yöneticiler yükleyebilir.",
@@ -121,6 +121,7 @@
   "wiz.account.ionos_step2": "Sağdaki menüde “ACME External Account Bindings” öğesine tıklayın ve yeni bir hesap oluşturun. Ad serbesttir, örneğin “NAS”.",
   "wiz.account.ionos_step3": "IONOS şimdi bir Key ID ve bir HMAC anahtarı gösterir. İkisini de aşağıdaki alanlara kopyalayın.",
   "wiz.account.ionos_step4": "Önemli: HMAC anahtarı yalnızca bir kez gösterilir. Hemen buraya yapıştırın.",
+  "wiz.account.ionos_step5": "Bu sertifikayı zaten elle kurup kullanıyor musunuz? O zaman önce ACME'ye bağlayın: {link} sayfasını açın, sertifikada “Manage”, ardından “Advanced settings” > “Migrate to ACME”yi seçin ve az önce oluşturduğunuz External Account Binding'i seçin.",
   "wiz.account.ionos_note": "IONOS sözleşmenizde boş bir DV sertifikası olmalı ve alan adı IONOS ad sunucularını kullanmalıdır.",
   "wiz.account.ionos_help": "IONOS kılavuzu",
   "wiz.account.le_intro": "Let's Encrypt hesap gerektirmez. Otomatik olarak oluşturmak için “Bağlan” düğmesine tıklayın.",
@@ -350,6 +351,7 @@
   "help.link_acme_dsm": "acme.sh: Synology DSM için deploy hook",
 
   "link.ionos_ssl_text": "IONOS hesabınızda",
+  "link.ionos_certs_text": "SSL Sertifikaları",
   "link.ionos_dev_text": "IONOS geliştirici portalını",
 
   "err.unknown": "Bilinmeyen bir hata oluştu.",
