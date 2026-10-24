@@ -15,6 +15,13 @@
   <path d="M108 118 V102 a20 20 0 0 1 40 0 V118" fill="none" stroke="#0b6fd6" stroke-width="11" stroke-linecap="round"/>
   <circle cx="128" cy="140" r="7" fill="#ffffff"/>
   <rect x="124.5" y="141" width="7" height="16" rx="3" fill="#ffffff"/>
-  <path d="M176 176 a34 34 0 1 1 -10 -42" fill="none" stroke="#2fbf71" stroke-width="12" stroke-linecap="round"/>
-  <path d="M170 116 L172 138 L150 134 Z" fill="#2fbf71"/>
+  <!-- Renewal: two arrows circling the whole lock -->
+  <g fill="none" stroke="#2fbf71" stroke-width="9" stroke-linecap="round">
+    <path d="M75.0 100.8 A60 60 0 0 1 171.2 87.3"/>
+    <path d="M181.0 157.2 A60 60 0 0 1 84.8 170.7"/>
+  </g>
+  <g fill="#2fbf71">
+    <path d="M182.3 98.8 L179.4 79.3 L162.9 95.3 Z"/>
+    <path d="M73.7 159.2 L76.6 178.7 L93.1 162.7 Z"/>
+  </g>
 </svg>
