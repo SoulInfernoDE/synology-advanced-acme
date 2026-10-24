@@ -237,11 +237,18 @@
     const headers = { "X-AACME": "1", "Content-Type": "application/x-www-form-urlencoded" };
     const token = synoToken();
     if (token) headers["X-SYNO-TOKEN"] = token;
+    // A request can hang while DSM restarts its web server (for example after
+    // the default certificate was replaced), so give up after 30 seconds.
+    const abort = new AbortController();
+    const timer = setTimeout(() => abort.abort(), 30000);
     let res;
     try {
-      res = await fetch("api.cgi", { method: "POST", headers: headers, body: body, credentials: "same-origin" });
+      res = await fetch("api.cgi", { method: "POST", headers: headers, body: body, credentials: "same-origin",
+        signal: abort.signal });
     } catch (e) {
       return { ok: false, error: "network" };
+    } finally {
+      clearTimeout(timer);
     }
     try {
       return await res.json();
@@ -300,9 +307,21 @@
 
     return new Promise((resolve) => {
       let stopped = false;
+      let lostSince = 0;
       async function poll() {
         if (stopped) return;
         const r = await api("job", { id: jobId });
+        // Short connection losses (DSM restarting its web server) are bridged
+        // for up to two minutes; the job itself keeps running on the NAS.
+        if (!r.ok && (r.error === "network" || r.error === "bad_response")) {
+          if (!lostSince) lostSince = Date.now();
+          if (Date.now() - lostSince < 120000) {
+            fill(status, el("span", { class: "spinner" }), t("job.reconnecting"));
+            setTimeout(poll, 3000);
+            return;
+          }
+        }
+        lostSince = 0;
         if (!r.ok) {
           status.className = "job-status failed";
           status.textContent = errText(r.error);
@@ -556,9 +575,8 @@
         })));
     }
     if (res.ok) {
-      const r = await api("certs");
-      if (r.ok) state.certs = r.certs;
-      add(box, button(t("common.refresh"), { small: true, onclick: () => go("certs") }));
+      // Show the result briefly, then reload the overview with the new state.
+      setTimeout(() => { if (state.tab === "certs") go("certs"); }, 2000);
     }
   }
 

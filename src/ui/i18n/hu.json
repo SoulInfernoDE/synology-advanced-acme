@@ -11,7 +11,6 @@
   "common.cancel": "Mégse",
   "common.save": "Mentés",
   "common.saved": "Mentve.",
-  "common.refresh": "Áttekintés frissítése",
   "common.advanced": "Speciális beállítások",
   "common.save_and_install": "Mentés és telepítés",
 
@@ -76,6 +75,7 @@
   "job.step.renew": "Megújítás és telepítés",
   "job.step.acme_update": "Az acme.sh letöltése és telepítése",
   "job.waiting_task": "Várakozás a DSM-feladatra (percenként fut)…",
+  "job.reconnecting": "Kapcsolat helyreállítása a NAS-sal…",
   "jobtype.register": "Fiók csatlakoztatása",
   "jobtype.issue": "Új tanúsítvány",
   "jobtype.renew": "Megújítás",

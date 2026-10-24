@@ -11,7 +11,6 @@
   "common.cancel": "Annuller",
   "common.save": "Gem",
   "common.saved": "Gemt.",
-  "common.refresh": "Opdater oversigten",
   "common.advanced": "Avancerede indstillinger",
   "common.save_and_install": "Gem og installer",
 
@@ -76,6 +75,7 @@
   "job.step.renew": "Forny og installer",
   "job.step.acme_update": "Download og installer acme.sh",
   "job.waiting_task": "Venter på DSM-opgaven (kører hvert minut) …",
+  "job.reconnecting": "Genopretter forbindelsen til NAS'en …",
   "jobtype.register": "Forbind konto",
   "jobtype.issue": "Nyt certifikat",
   "jobtype.renew": "Fornyelse",
