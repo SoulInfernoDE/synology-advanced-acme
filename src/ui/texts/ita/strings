@@ -1,0 +1,10 @@
+[app]
+title="Advanced ACME"
+desc="Certificati SSL automatici (IONOS, Let's Encrypt e altri fornitori ACME) per DSM"
+
+[notify]
+issued="Un nuovo certificato è stato emesso e installato in DSM."
+issue_failed="Non è stato possibile emettere un certificato. Apri Advanced ACME per i dettagli."
+deploy_failed="Non è stato possibile installare un certificato in DSM. Apri Advanced ACME per i dettagli."
+renew_failed="Il rinnovo automatico dei certificati non è riuscito. Apri Advanced ACME per i dettagli."
+acme_updated="acme.sh è stato aggiornato a una versione più recente (sperimentale con Advanced ACME)."

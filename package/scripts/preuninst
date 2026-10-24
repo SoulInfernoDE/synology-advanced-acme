@@ -1,0 +1,20 @@
+#!/bin/sh
+# Uninstall dialog option "delete stored data" (wizard_delete_data). DSM 7
+# removes the package data itself for this key; remove the contents here as
+# well so no access data is left behind, and delete the DSM account the
+# wizard created. Never on upgrades.
+PKG_VAR="${SYNOPKG_PKGVAR:-/var/packages/AdvancedACME/var}"
+BIN="${SYNOPKG_PKGDEST:-/var/packages/AdvancedACME/target}/bin/advanced-acme"
+if [ "${wizard_delete_data}" = "true" ] && [ "${SYNOPKG_PKG_STATUS}" != "UPGRADE" ] && [ -d "$PKG_VAR" ]; then
+  # Delete the DSM account "advanced-acme" if Advanced ACME created it.
+  if [ -x "$BIN" ]; then
+    if command -v timeout >/dev/null 2>&1; then
+      timeout 120 "$BIN" dsm-forget >/dev/null 2>&1
+    else
+      "$BIN" dsm-forget >/dev/null 2>&1
+    fi
+  fi
+  # The trailing slash follows the var symlink to @appdata.
+  find "$PKG_VAR/" -mindepth 1 -maxdepth 1 -exec rm -rf {} + 2>/dev/null
+fi
+exit 0

@@ -1,0 +1,10 @@
+[app]
+title="Advanced ACME"
+desc="适用于 DSM 的自动 SSL 证书（IONOS、Let's Encrypt 及其他 ACME 提供商）"
+
+[notify]
+issued="已签发新证书并安装到 DSM。"
+issue_failed="无法签发证书。请打开 Advanced ACME 查看详情。"
+deploy_failed="无法将证书安装到 DSM。请打开 Advanced ACME 查看详情。"
+renew_failed="证书自动续期失败。请打开 Advanced ACME 查看详情。"
+acme_updated="acme.sh 已更新到较新版本（在 Advanced ACME 中为实验性）。"

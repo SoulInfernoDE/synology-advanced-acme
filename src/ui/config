@@ -1,0 +1,30 @@
+{
+  "AdvancedACME.js": {
+    "SYNO.SDS.AdvancedACME.Application": {
+      "type": "app",
+      "title": "app:title",
+      "desc": "app:desc",
+      "appWindow": "SYNO.SDS.AdvancedACME.MainWindow",
+      "icon": "images/icon_{0}.png",
+      "allowMultiInstance": false,
+      "allowStandalone": true,
+      "allUsers": false,
+      "texts": "texts",
+      "preloadTexts": [
+        "app:title",
+        "notify:issued",
+        "notify:issue_failed",
+        "notify:deploy_failed",
+        "notify:renew_failed",
+        "notify:acme_updated"
+      ],
+      "depend": ["SYNO.SDS.AdvancedACME.MainWindow"]
+    },
+    "SYNO.SDS.AdvancedACME.MainWindow": {
+      "type": "lib",
+      "title": "app:title",
+      "icon": "images/icon_{0}.png",
+      "texts": "texts"
+    }
+  }
+}

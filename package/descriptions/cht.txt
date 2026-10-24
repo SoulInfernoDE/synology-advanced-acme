@@ -1,0 +1,1 @@
+從 IONOS SSL（使用 External Account Binding 的 ACME）、Let's Encrypt、ZeroSSL 或任何 ACME 伺服器為 DSM 自動取得 SSL 憑證。引導式設定，支援包括 IONOS 在內的 200 多家 DNS 供應商進行 DNS 驗證，自動更新並安裝到 DSM 憑證管理員。以 acme.sh 為基礎，無需 root 權限執行，DSM 更新後依然有效。

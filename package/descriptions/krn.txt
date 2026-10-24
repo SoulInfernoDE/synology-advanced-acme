@@ -1,0 +1,1 @@
+IONOS SSL (External Account Binding을 사용하는 ACME), Let's Encrypt, ZeroSSL 또는 모든 ACME 서버에서 DSM용 SSL 인증서를 자동으로 받습니다. 안내형 설정, IONOS를 포함한 200개 이상의 DNS 공급자를 통한 DNS 검증, 자동 갱신 및 DSM 인증서 관리자에 설치를 지원합니다. acme.sh 기반이며 root 권한 없이 실행되고 DSM 업데이트 후에도 유지됩니다.

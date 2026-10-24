@@ -1,0 +1,1 @@
+Automatikus SSL-tanúsítványok a DSM-hez az IONOS SSL-től (ACME External Account Bindinggal), a Let's Encrypttől, a ZeroSSL-től vagy bármely ACME-kiszolgálótól. Vezetett beállítás, DNS-ellenőrzés több mint 200 DNS-szolgáltatóval, köztük az IONOS-szal, automatikus megújítás és telepítés a DSM tanúsítványkezelőjébe. Az acme.sh-ra épül, root nélkül fut, és túléli a DSM-frissítéseket.

@@ -1,0 +1,10 @@
+[app]
+title="Advanced ACME"
+desc="DSM için otomatik SSL sertifikaları (IONOS, Let's Encrypt ve diğer ACME sağlayıcıları)"
+
+[notify]
+issued="Yeni bir sertifika verildi ve DSM'ye yüklendi."
+issue_failed="Bir sertifika verilemedi. Ayrıntılar için Advanced ACME'yi açın."
+deploy_failed="Bir sertifika DSM'ye yüklenemedi. Ayrıntılar için Advanced ACME'yi açın."
+renew_failed="Otomatik sertifika yenileme başarısız oldu. Ayrıntılar için Advanced ACME'yi açın."
+acme_updated="acme.sh daha yeni bir sürüme güncellendi (Advanced ACME ile deneysel)."

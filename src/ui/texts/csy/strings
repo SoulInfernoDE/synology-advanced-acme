@@ -1,0 +1,10 @@
+[app]
+title="Advanced ACME"
+desc="Automatické certifikáty SSL (IONOS, Let's Encrypt a další poskytovatelé ACME) pro DSM"
+
+[notify]
+issued="Byl vydán nový certifikát a nainstalován do DSM."
+issue_failed="Certifikát se nepodařilo vydat. Podrobnosti najdete v Advanced ACME."
+deploy_failed="Certifikát se nepodařilo nainstalovat do DSM. Podrobnosti najdete v Advanced ACME."
+renew_failed="Automatické obnovení certifikátů selhalo. Podrobnosti najdete v Advanced ACME."
+acme_updated="acme.sh byl aktualizován na novější verzi (s Advanced ACME experimentální)."

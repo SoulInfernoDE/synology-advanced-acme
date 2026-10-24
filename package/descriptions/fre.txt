@@ -1,0 +1,1 @@
+Certificats SSL automatiques pour DSM depuis IONOS SSL (ACME avec External Account Binding), Let's Encrypt, ZeroSSL ou tout serveur ACME. Configuration guidée, validation DNS pour plus de 200 fournisseurs DNS dont IONOS, renouvellement automatique et installation dans le gestionnaire de certificats de DSM. Basé sur acme.sh, fonctionne sans root et survit aux mises à jour de DSM.
