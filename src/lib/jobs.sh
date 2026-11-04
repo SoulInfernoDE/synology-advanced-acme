@@ -164,6 +164,8 @@ job_register() {
 # DNS plugin credentials are already exported in the environment.
 job_issue() {
   local server="$1" plugin="$2" keylength="$3" desc_b64="$4" force="$5" provider="$6" rc main ecc=() meta days
+  local started
+  started="$(date +%s)"
   shift 6
   main="$1"
   days="$(setting renew_before_days)"
@@ -191,6 +193,7 @@ job_issue() {
     notify_admins issue_failed
     return 1
   fi
+  log_due_certs "$started"
 
   echo "@@STEP deploy"
   if ! cert_ready "${main}${ecc:+_ecc}"; then
@@ -210,12 +213,14 @@ job_issue() {
 
 # renew CERT_ID
 job_renew() {
-  local id="$1" domain ecc=()
+  local id="$1" domain ecc=() started
   domain="${id%_ecc}"
   [ "$domain" != "$id" ] && ecc=(--ecc)
+  started="$(date +%s)"
   echo "@@STEP renew"
   # acme.sh runs the saved deploy hook after a successful renewal.
   if acme --renew -d "$domain" "${ecc[@]}" --force; then
+    log_due_certs "$started"
     echo "@@DONE"
     return 0
   fi
@@ -257,10 +262,12 @@ job_expert() {
 
 # cron: the scheduled renewal run (also used by the service loop).
 job_cron() {
-  local rc
+  local rc started
+  started="$(date +%s)"
   echo "@@STEP cron"
   acme --cron
   rc=$?
+  log_due_certs "$started"
   date +%s >"${AACME_VAR}/last_cron"
   echo "$rc" >"${AACME_VAR}/last_cron_rc"
   if [ "$rc" = 0 ]; then

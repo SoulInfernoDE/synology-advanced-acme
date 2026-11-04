@@ -43,6 +43,8 @@
   "cert.provider": "Dostawca",
   "cert.valid_until": "Ważny do",
   "cert.next_renew": "Następne odnowienie",
+  "cert.renew_due": "Odnowienie jest wymagane. Advanced ACME ponawia próbę automatycznie dwa razy dziennie; obecny certyfikat jest ważny do {date}.",
+  "cert.delivered_due": "Przy ostatnim zamówieniu dostawca dostarczył certyfikat, który wygasa już {date}, prawdopodobnie dotychczasowy. Advanced ACME automatycznie ponawia odnowienie dwa razy dziennie, aż dostawca wystawi nowy certyfikat.",
   "cert.dsm_target": "Certyfikat w DSM",
   "cert.dsm_default_name": "Domyślny certyfikat DSM",
   "cert.validation": "Weryfikacja domeny",
@@ -101,6 +103,7 @@
   "hint.generic": "Dokładny powód znajdziesz w szczegółach technicznych poniżej. Jeśli potrzebujesz pomocy, skopiuj je do zgłoszenia do pomocy technicznej.",
   "hint.interrupted": "Zadanie zostało przerwane, np. przez ponowne uruchomienie NAS-a. Po prostu uruchom je ponownie.",
   "hint.deploy_queued": "Zadanie DSM nie odpowiedziało. Zainstaluje certyfikat, gdy tylko znów zacznie działać; DSM uruchamia je automatycznie przy starcie.",
+  "hint.issued_due": "Dostawca dostarczył certyfikat, który wygasa już {date}, prawdopodobnie dotychczasowy. Mimo to został zainstalowany. Advanced ACME automatycznie ponawia odnowienie dwa razy dziennie, aż dostawca wystawi nowy certyfikat.",
 
   "wiz.title": "Nowy certyfikat",
   "wiz.step.connect": "Połączenie",
@@ -310,6 +313,7 @@
   "activity.dsm_task_removed": "Zadanie DSM „{name}” usunęło się samo",
   "activity.dsm_task_installed": "Zadanie DSM zainstalowało certyfikat dla {cert}",
   "activity.dsm_task_install_failed": "Zadanie DSM nie mogło zainstalować certyfikatu dla {cert} ({code})",
+  "activity.cert_delivered_due": "{cert}: dostawca dostarczył certyfikat, który wygasa już {until}",
 
   "expert.title": "Tryb eksperta: acme.sh",
   "expert.intro": "Tutaj pracujesz bezpośrednio z oryginalnym acme.sh. Pakiet przechowuje dane we własnym folderze i nie używa plików systemowych, więc aktualizacje DSM nie są zagrożone. Utworzone tu certyfikaty pojawiają się w przeglądzie i są automatycznie odnawiane przez usługę.",

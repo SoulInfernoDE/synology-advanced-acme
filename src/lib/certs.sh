@@ -59,6 +59,31 @@ cert_json() {
     "$(json_str "$(kv_get "$meta" provider)")"
 }
 
+# log_due_certs SINCE: certificates obtained since SINCE that are already due
+# for renewal. Some CAs hand out a certificate that expires soon instead of a
+# new one (IONOS returns the existing certificate for a while). Prints
+# "@@INFO issued_due <not_after>" for the job log and records it in the
+# history; acme.sh keeps trying at every renewal check.
+log_due_certs() {
+  local since="$1" now dir id domain conf created next na
+  now="$(date +%s)"
+  for dir in "$ACME_CFG"/*/; do
+    id="$(basename "$dir")"
+    domain="${id%_ecc}"
+    conf="${dir}${domain}.conf"
+    [ -f "$conf" ] || continue
+    created="$(acme_conf_get "$conf" Le_CertCreateTime)"
+    next="$(acme_conf_get "$conf" Le_NextRenewTime)"
+    [[ "$created" =~ ^[0-9]+$ ]] && [[ "$next" =~ ^[0-9]+$ ]] || continue
+    [ "$created" -ge "$since" ] && [ "$next" -le "$now" ] || continue
+    na="$(date_to_epoch "$(openssl x509 -noout -enddate -in "${dir}${domain}.cer" 2>/dev/null | sed 's/^notAfter=//')")"
+    [[ "$na" =~ ^[0-9]+$ ]] || na=0
+    echo "@@INFO issued_due ${na}"
+    activity_log cert_delivered_due cert "$domain" until "$(date -d "@${na}" +%Y-%m-%d 2>/dev/null)"
+  done
+  return 0
+}
+
 cmd_certs() {
   local first=1 dir out
   task_collect

@@ -43,6 +43,8 @@
   "cert.provider": "Provider",
   "cert.valid_until": "Geldig tot",
   "cert.next_renew": "Volgende vernieuwing",
+  "cert.renew_due": "De vernieuwing is nodig. Advanced ACME probeert het twee keer per dag automatisch opnieuw; het huidige certificaat is geldig tot {date}.",
+  "cert.delivered_due": "Bij de laatste aanvraag leverde de leverancier een certificaat dat al op {date} verloopt, waarschijnlijk het bestaande. Advanced ACME probeert de vernieuwing twee keer per dag automatisch opnieuw tot de leverancier een nieuw certificaat uitgeeft.",
   "cert.dsm_target": "Certificaat in DSM",
   "cert.dsm_default_name": "Standaardcertificaat van DSM",
   "cert.validation": "Domeinvalidatie",
@@ -101,6 +103,7 @@
   "hint.generic": "De technische details hieronder bevatten de exacte reden. Kopieer ze in een supportaanvraag als je hulp nodig hebt.",
   "hint.interrupted": "De taak is onderbroken, bijvoorbeeld door een herstart van de NAS. Start hem gewoon opnieuw.",
   "hint.deploy_queued": "De DSM-taak reageerde niet. Ze installeert het certificaat zodra ze weer draait; DSM start haar automatisch bij het opstarten.",
+  "hint.issued_due": "De leverancier leverde een certificaat dat al op {date} verloopt, waarschijnlijk het bestaande. Het is toch geïnstalleerd. Advanced ACME probeert de vernieuwing twee keer per dag automatisch opnieuw tot de leverancier een nieuw certificaat uitgeeft.",
 
   "wiz.title": "Nieuw certificaat",
   "wiz.step.connect": "Verbinden",
@@ -310,6 +313,7 @@
   "activity.dsm_task_removed": "DSM-taak ‘{name}’ heeft zichzelf verwijderd",
   "activity.dsm_task_installed": "DSM-taak heeft het certificaat voor {cert} geïnstalleerd",
   "activity.dsm_task_install_failed": "DSM-taak kon het certificaat voor {cert} niet installeren ({code})",
+  "activity.cert_delivered_due": "{cert}: de leverancier leverde een certificaat dat al op {until} verloopt",
 
   "expert.title": "Expertmodus: acme.sh",
   "expert.intro": "Hier werk je rechtstreeks met de originele acme.sh. Het pakket bewaart zijn gegevens in een eigen map en gebruikt geen systeembestanden, dus DSM-updates worden niet beïnvloed. Certificaten die je hier aanmaakt, verschijnen in het overzicht en worden automatisch door de dienst vernieuwd.",

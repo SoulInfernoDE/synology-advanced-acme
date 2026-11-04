@@ -43,6 +43,8 @@
   "cert.provider": "공급자",
   "cert.valid_until": "유효 기간",
   "cert.next_renew": "다음 갱신",
+  "cert.renew_due": "갱신할 때가 되었습니다. Advanced ACME가 하루 두 번 자동으로 다시 시도합니다. 현재 인증서는 {date}까지 유효합니다.",
+  "cert.delivered_due": "지난 요청에서 제공업체가 {date}에 이미 만료되는 인증서(아마 기존 인증서)를 발급했습니다. 제공업체가 새 인증서를 발급할 때까지 Advanced ACME가 하루 두 번 자동으로 갱신을 다시 시도합니다.",
   "cert.dsm_target": "DSM의 인증서",
   "cert.dsm_default_name": "DSM 기본 인증서",
   "cert.validation": "도메인 검증",
@@ -101,6 +103,7 @@
   "hint.generic": "정확한 이유는 아래 기술 세부 정보에 있습니다. 도움이 필요하면 이 내용을 지원 요청에 붙여 넣으세요.",
   "hint.interrupted": "작업이 중단되었습니다 (예: NAS 재시작). 다시 시작하면 됩니다.",
   "hint.deploy_queued": "DSM 작업이 응답하지 않았습니다. 다시 실행되면 바로 인증서를 설치합니다. DSM이 부팅할 때 자동으로 시작합니다.",
+  "hint.issued_due": "제공업체가 {date}에 이미 만료되는 인증서(아마 기존 인증서)를 발급했습니다. 그래도 설치되었습니다. 제공업체가 새 인증서를 발급할 때까지 Advanced ACME가 하루 두 번 자동으로 갱신을 다시 시도합니다.",
 
   "wiz.title": "새 인증서",
   "wiz.step.connect": "연결",
@@ -310,6 +313,7 @@
   "activity.dsm_task_removed": "DSM 작업 '{name}'이(가) 스스로 삭제됨",
   "activity.dsm_task_installed": "DSM 작업이 {cert}의 인증서를 설치함",
   "activity.dsm_task_install_failed": "DSM 작업이 {cert}의 인증서를 설치하지 못함 ({code})",
+  "activity.cert_delivered_due": "{cert}: 제공업체가 {until}에 만료되는 인증서를 발급함",
 
   "expert.title": "전문가 모드: acme.sh",
   "expert.intro": "여기에서는 원본 acme.sh를 직접 사용합니다. 패키지는 데이터를 자체 폴더에 보관하고 시스템 파일을 사용하지 않으므로 DSM 업데이트에 영향을 주지 않습니다. 여기에서 만든 인증서도 개요에 표시되며 서비스가 자동으로 갱신합니다.",

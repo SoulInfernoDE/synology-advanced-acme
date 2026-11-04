@@ -43,6 +43,8 @@
   "cert.provider": "Sağlayıcı",
   "cert.valid_until": "Geçerlilik sonu",
   "cert.next_renew": "Sonraki yenileme",
+  "cert.renew_due": "Yenileme zamanı geldi. Advanced ACME günde iki kez otomatik olarak yeniden dener; mevcut sertifika {date} tarihine kadar geçerli.",
+  "cert.delivered_due": "Son istekte sağlayıcı, süresi {date} tarihinde dolan bir sertifika teslim etti; büyük olasılıkla mevcut olanı. Advanced ACME, sağlayıcı yeni bir sertifika düzenleyene kadar yenilemeyi günde iki kez otomatik olarak yeniden dener.",
   "cert.dsm_target": "DSM'deki sertifika",
   "cert.dsm_default_name": "DSM varsayılan sertifikası",
   "cert.validation": "Alan adı doğrulaması",
@@ -101,6 +103,7 @@
   "hint.generic": "Kesin neden aşağıdaki teknik ayrıntılarda yer alıyor. Yardıma ihtiyacınız varsa bunları bir destek talebine kopyalayın.",
   "hint.interrupted": "Görev kesintiye uğradı, örneğin NAS yeniden başlatıldığı için. Yeniden başlatmanız yeterli.",
   "hint.deploy_queued": "DSM görevi yanıt vermedi. Yeniden çalışır çalışmaz sertifikayı yükler; DSM onu açılışta otomatik olarak başlatır.",
+  "hint.issued_due": "Sağlayıcı, süresi {date} tarihinde dolan bir sertifika teslim etti; büyük olasılıkla mevcut olanı. Yine de yüklendi. Advanced ACME, sağlayıcı yeni bir sertifika düzenleyene kadar yenilemeyi günde iki kez otomatik olarak yeniden dener.",
 
   "wiz.title": "Yeni sertifika",
   "wiz.step.connect": "Bağlantı",
@@ -310,6 +313,7 @@
   "activity.dsm_task_removed": "“{name}” DSM görevi kendini sildi",
   "activity.dsm_task_installed": "DSM görevi {cert} sertifikasını yükledi",
   "activity.dsm_task_install_failed": "DSM görevi {cert} sertifikasını yükleyemedi ({code})",
+  "activity.cert_delivered_due": "{cert}: sağlayıcı, süresi {until} tarihinde dolan bir sertifika teslim etti",
 
   "expert.title": "Uzman modu: acme.sh",
   "expert.intro": "Burada doğrudan orijinal acme.sh ile çalışırsınız. Paket verilerini kendi klasöründe tutar ve sistem dosyalarını kullanmaz; bu nedenle DSM güncellemeleri etkilenmez. Burada oluşturulan sertifikalar genel bakışta görünür ve hizmet tarafından otomatik olarak yenilenir.",
