@@ -43,6 +43,8 @@
   "cert.provider": "供應商",
   "cert.valid_until": "有效期限",
   "cert.next_renew": "下次更新",
+  "cert.renew_due": "憑證需要更新。Advanced ACME 每天自動重試兩次；目前的憑證有效期至 {date}。",
+  "cert.delivered_due": "上次申請時，供應商交付的憑證將於 {date} 到期，可能是現有憑證。Advanced ACME 每天自動重試更新兩次，直到供應商核發新憑證。",
   "cert.dsm_target": "DSM 中的憑證",
   "cert.dsm_default_name": "DSM 預設憑證",
   "cert.validation": "網域驗證",
@@ -101,6 +103,7 @@
   "hint.generic": "確切原因請參閱下方的技術詳細資料。如需協助，請將其複製到支援請求中。",
   "hint.interrupted": "工作已中斷，例如因 NAS 重新啟動。只要重新開始即可。",
   "hint.deploy_queued": "DSM 任務沒有回應。它再次執行後會立即安裝憑證；DSM 會在開機時自動啟動它。",
+  "hint.issued_due": "供應商交付的憑證將於 {date} 到期，可能是現有憑證。此憑證仍已安裝。Advanced ACME 每天自動重試更新兩次，直到供應商核發新憑證。",
 
   "wiz.title": "新增憑證",
   "wiz.step.connect": "連線",
@@ -310,6 +313,7 @@
   "activity.dsm_task_removed": "DSM 任務「{name}」已自行刪除",
   "activity.dsm_task_installed": "DSM 任務已安裝 {cert} 的憑證",
   "activity.dsm_task_install_failed": "DSM 任務無法安裝 {cert} 的憑證（{code}）",
+  "activity.cert_delivered_due": "{cert}：供應商交付的憑證將於 {until} 到期",
 
   "expert.title": "專家模式：acme.sh",
   "expert.intro": "您可以在這裡直接使用原版 acme.sh。套件將資料存放在自己的資料夾中，不使用系統檔案，因此不會影響 DSM 更新。在此建立的憑證也會顯示在概覽中，並由服務自動更新。",

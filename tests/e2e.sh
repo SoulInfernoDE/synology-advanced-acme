@@ -231,6 +231,15 @@ check "certificate listed with SAN wildcard" '[ "$(jq -c .alt <<<"$c")" = "[\"*.
 # Renewal is pinned to 30 days before expiry; the CA may pull it forward
 # through ARI (Pebble suggests a window at about two thirds of the lifetime).
 check "180-day validity, renewal at least 30 days before expiry" '[ "$days" -ge 178 ] && [ $(( (na - nr) / 86400 )) -ge 30 ] && [ "$nr" -gt "$(jq -r .created <<<"$c")" ]' "$c"
+# A CA may hand out a certificate that is already due (IONOS returned the
+# existing one): reported in the job log and in the history.
+orig_next="$(grep "^Le_NextRenewTime=" "$conf")"
+sed -i "s|^Le_NextRenewTime=.*|Le_NextRenewTime='$(( $(date +%s) - 60 ))'|" "$conf"
+out="$(bash -c '. "$AACME_TARGET/lib/all.sh"; log_due_certs 0')"
+check "certificate delivered already due is reported and logged" 'grep -q "^@@INFO issued_due [0-9]\{9,\}$" <<<"$out" && grep -q "\"cert_delivered_due\"" "$V/logs/activity.log"' "$out"
+sed -i "s|^Le_NextRenewTime=.*|$orig_next|" "$conf"
+out="$(bash -c '. "$AACME_TARGET/lib/all.sh"; log_due_certs 0')"
+check "certificate with a future renewal date is not reported" '[ -z "$out" ]' "$out"
 
 echo "== Replace DSM default certificate"
 r="$(cgi action=set_target id=nas.example.test dsm_desc=)"

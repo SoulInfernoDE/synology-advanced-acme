@@ -43,6 +43,8 @@
   "cert.provider": "Szolgáltató",
   "cert.valid_until": "Érvényes eddig",
   "cert.next_renew": "Következő megújítás",
+  "cert.renew_due": "A megújítás esedékes. Az Advanced ACME naponta kétszer automatikusan újrapróbálja; a jelenlegi tanúsítvány eddig érvényes: {date}.",
+  "cert.delivered_due": "A legutóbbi kérésnél a szolgáltató olyan tanúsítványt adott, amely már ekkor lejár: {date}, valószínűleg a meglévőt. Az Advanced ACME naponta kétszer automatikusan újrapróbálja a megújítást, amíg a szolgáltató új tanúsítványt nem állít ki.",
   "cert.dsm_target": "Tanúsítvány a DSM-ben",
   "cert.dsm_default_name": "DSM alapértelmezett tanúsítvány",
   "cert.validation": "Tartomány-ellenőrzés",
@@ -101,6 +103,7 @@
   "hint.generic": "A pontos ok az alábbi műszaki részletekben található. Ha segítségre van szüksége, másolja be őket egy támogatási kérésbe.",
   "hint.interrupted": "A feladat megszakadt, például a NAS újraindítása miatt. Egyszerűen indítsa el újra.",
   "hint.deploy_queued": "A DSM-feladat nem válaszolt. Amint ismét fut, telepíti a tanúsítványt; a DSM indításkor automatikusan elindítja.",
+  "hint.issued_due": "A szolgáltató olyan tanúsítványt adott, amely már ekkor lejár: {date}, valószínűleg a meglévőt. Ennek ellenére telepítve lett. Az Advanced ACME naponta kétszer automatikusan újrapróbálja a megújítást, amíg a szolgáltató új tanúsítványt nem állít ki.",
 
   "wiz.title": "Új tanúsítvány",
   "wiz.step.connect": "Csatlakozás",
@@ -310,6 +313,7 @@
   "activity.dsm_task_removed": "A(z) „{name}” DSM-feladat törölte önmagát",
   "activity.dsm_task_installed": "A DSM-feladat telepítette a(z) {cert} tanúsítványát",
   "activity.dsm_task_install_failed": "A DSM-feladat nem tudta telepíteni a(z) {cert} tanúsítványát ({code})",
+  "activity.cert_delivered_due": "{cert}: a szolgáltató olyan tanúsítványt adott, amely már ekkor lejár: {until}",
 
   "expert.title": "Szakértői mód: acme.sh",
   "expert.intro": "Itt közvetlenül az eredeti acme.sh-val dolgozik. A csomag a saját mappájában tárolja az adatait, és nem használ rendszerfájlokat, így a DSM-frissítéseket ez nem érinti. Az itt létrehozott tanúsítványok megjelennek az áttekintésben, és a szolgáltatás automatikusan megújítja őket.",

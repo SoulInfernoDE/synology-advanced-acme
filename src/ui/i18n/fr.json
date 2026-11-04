@@ -43,6 +43,8 @@
   "cert.provider": "Fournisseur",
   "cert.valid_until": "Valide jusqu'au",
   "cert.next_renew": "Prochain renouvellement",
+  "cert.renew_due": "Le renouvellement est dû. Advanced ACME réessaie automatiquement deux fois par jour ; le certificat actuel est valable jusqu'au {date}.",
+  "cert.delivered_due": "Lors de la dernière demande, le fournisseur a livré un certificat qui expire déjà le {date}, probablement l'actuel. Advanced ACME réessaie automatiquement le renouvellement deux fois par jour jusqu'à ce que le fournisseur émette un nouveau certificat.",
   "cert.dsm_target": "Certificat dans DSM",
   "cert.dsm_default_name": "Certificat par défaut de DSM",
   "cert.validation": "Validation du domaine",
@@ -101,6 +103,7 @@
   "hint.generic": "Les détails techniques ci-dessous indiquent la raison exacte. Si vous avez besoin d'aide, copiez-les dans une demande d'assistance.",
   "hint.interrupted": "La tâche a été interrompue, par exemple par un redémarrage du NAS. Relancez-la simplement.",
   "hint.deploy_queued": "La tâche DSM n'a pas répondu. Elle installera le certificat dès qu'elle tournera à nouveau ; DSM la démarre automatiquement au démarrage.",
+  "hint.issued_due": "Le fournisseur a livré un certificat qui expire déjà le {date}, probablement l'actuel. Il a quand même été installé. Advanced ACME réessaie automatiquement le renouvellement deux fois par jour jusqu'à ce que le fournisseur émette un nouveau certificat.",
 
   "wiz.title": "Nouveau certificat",
   "wiz.step.connect": "Connexion",
@@ -310,6 +313,7 @@
   "activity.dsm_task_removed": "La tâche DSM « {name} » s'est supprimée",
   "activity.dsm_task_installed": "La tâche DSM a installé le certificat pour {cert}",
   "activity.dsm_task_install_failed": "La tâche DSM n'a pas pu installer le certificat pour {cert} ({code})",
+  "activity.cert_delivered_due": "{cert} : le fournisseur a livré un certificat qui expire déjà le {until}",
 
   "expert.title": "Mode expert : acme.sh",
   "expert.intro": "Ici, vous travaillez directement avec l'acme.sh d'origine. Le paquet conserve ses données dans son propre dossier et n'utilise aucun fichier système : les mises à jour de DSM ne sont donc pas affectées. Les certificats créés ici apparaissent dans la vue d'ensemble et sont renouvelés automatiquement par le service.",

@@ -359,7 +359,13 @@
             for (const li of stepList.children) li.className = "done";
             status.className = "job-status ok";
             status.textContent = opts.okText || t("job.ok");
-            if (markers.includes("@@INFO deploy_queued")) fill(hintBox, notice("info", t("hint.deploy_queued")));
+            const hints = [];
+            if (markers.includes("@@INFO deploy_queued")) hints.push(notice("info", t("hint.deploy_queued")));
+            // The CA delivered a certificate that is already due (IONOS may
+            // return the existing one); acme.sh keeps trying.
+            const due = markers.find((m) => m.startsWith("@@INFO issued_due"));
+            if (due) hints.push(notice("warn", t("hint.issued_due", { date: fmtDay(Number(due.split(" ")[2])) })));
+            fill(hintBox, ...hints);
           } else {
             status.className = "job-status failed";
             status.textContent = opts.failText || t("job.failed");
@@ -550,8 +556,20 @@
         el("dt", null, t("cert.dsm_target")), el("dd", null, dsmName, " ", deploy),
         el("dt", null, t("cert.validation")), el("dd", null, cert.plugin || "–"),
         el("dt", null, t("cert.keytype")), el("dd", null, keyTypeLabel(cert.keylength))),
+      renewDueNotice(cert),
       actions,
       result);
+  }
+
+  // Renewal is overdue: say so, and explain when the last renewal brought a
+  // certificate that was already due (acme.sh retries at every check).
+  function renewDueNotice(cert) {
+    const now = Date.now() / 1000;
+    if (!cert.next_renew || cert.next_renew > now || !cert.not_after || cert.not_after < now) return null;
+    const date = fmtDay(cert.not_after);
+    const fresh = cert.created && now - cert.created < 3 * 86400;
+    return notice(fresh ? "warn" : "info",
+      fresh ? t("cert.delivered_due", { date: date }) : t("cert.renew_due", { date: date }));
   }
 
   function keyTypeLabel(k) {

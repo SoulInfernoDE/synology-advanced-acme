@@ -43,6 +43,8 @@
   "cert.provider": "Proveedor",
   "cert.valid_until": "Válido hasta",
   "cert.next_renew": "Próxima renovación",
+  "cert.renew_due": "La renovación está pendiente. Advanced ACME vuelve a intentarlo automáticamente dos veces al día; el certificado actual es válido hasta el {date}.",
+  "cert.delivered_due": "En la última solicitud el proveedor entregó un certificado que ya caduca el {date}, probablemente el actual. Advanced ACME vuelve a intentar la renovación automáticamente dos veces al día hasta que el proveedor emita un certificado nuevo.",
   "cert.dsm_target": "Certificado en DSM",
   "cert.dsm_default_name": "Certificado predeterminado de DSM",
   "cert.validation": "Validación del dominio",
@@ -101,6 +103,7 @@
   "hint.generic": "Los detalles técnicos de abajo indican el motivo exacto. Si necesitas ayuda, cópialos en una solicitud de soporte.",
   "hint.interrupted": "La tarea se interrumpió, por ejemplo por un reinicio del NAS. Simplemente vuelve a iniciarla.",
   "hint.deploy_queued": "La tarea de DSM no respondió. Instalará el certificado en cuanto vuelva a ejecutarse; DSM la inicia automáticamente al arrancar.",
+  "hint.issued_due": "El proveedor entregó un certificado que ya caduca el {date}, probablemente el actual. Se instaló de todos modos. Advanced ACME vuelve a intentar la renovación automáticamente dos veces al día hasta que el proveedor emita un certificado nuevo.",
 
   "wiz.title": "Nuevo certificado",
   "wiz.step.connect": "Conexión",
@@ -310,6 +313,7 @@
   "activity.dsm_task_removed": "La tarea de DSM «{name}» se eliminó a sí misma",
   "activity.dsm_task_installed": "La tarea de DSM instaló el certificado de {cert}",
   "activity.dsm_task_install_failed": "La tarea de DSM no pudo instalar el certificado de {cert} ({code})",
+  "activity.cert_delivered_due": "{cert}: el proveedor entregó un certificado que ya caduca el {until}",
 
   "expert.title": "Modo experto: acme.sh",
   "expert.intro": "Aquí trabajas directamente con el acme.sh original. El paquete guarda sus datos en su propia carpeta y no usa archivos del sistema, así que las actualizaciones de DSM no se ven afectadas. Los certificados creados aquí aparecen en el resumen y el servicio los renueva automáticamente.",

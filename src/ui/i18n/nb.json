@@ -43,6 +43,8 @@
   "cert.provider": "Leverandør",
   "cert.valid_until": "Gyldig til",
   "cert.next_renew": "Neste fornyelse",
+  "cert.renew_due": "Fornyelsen er forfalt. Advanced ACME prøver automatisk igjen to ganger om dagen; det nåværende sertifikatet gjelder til {date}.",
+  "cert.delivered_due": "Ved siste forespørsel leverte leverandøren et sertifikat som allerede utløper {date}, trolig det eksisterende. Advanced ACME prøver fornyelsen automatisk igjen to ganger om dagen til leverandøren utsteder et nytt sertifikat.",
   "cert.dsm_target": "Sertifikat i DSM",
   "cert.dsm_default_name": "DSM-standardsertifikat",
   "cert.validation": "Domenevalidering",
@@ -101,6 +103,7 @@
   "hint.generic": "Den nøyaktige årsaken står i de tekniske detaljene nedenfor. Hvis du trenger hjelp, kan du kopiere dem inn i en brukerstøtteforespørsel.",
   "hint.interrupted": "Oppgaven ble avbrutt, for eksempel av en omstart av NAS-en. Bare start den på nytt.",
   "hint.deploy_queued": "DSM-oppgaven svarte ikke. Den installerer sertifikatet så snart den kjører igjen; DSM starter den automatisk ved oppstart.",
+  "hint.issued_due": "Leverandøren leverte et sertifikat som allerede utløper {date}, trolig det eksisterende. Det ble installert likevel. Advanced ACME prøver fornyelsen automatisk igjen to ganger om dagen til leverandøren utsteder et nytt sertifikat.",
 
   "wiz.title": "Nytt sertifikat",
   "wiz.step.connect": "Koble til",
@@ -310,6 +313,7 @@
   "activity.dsm_task_removed": "DSM-oppgaven «{name}» slettet seg selv",
   "activity.dsm_task_installed": "DSM-oppgaven installerte sertifikatet for {cert}",
   "activity.dsm_task_install_failed": "DSM-oppgaven kunne ikke installere sertifikatet for {cert} ({code})",
+  "activity.cert_delivered_due": "{cert}: leverandøren leverte et sertifikat som allerede utløper {until}",
 
   "expert.title": "Eksperttilstand: acme.sh",
   "expert.intro": "Her jobber du direkte med den originale acme.sh. Pakken lagrer dataene sine i en egen mappe og bruker ingen systemfiler, så DSM-oppdateringer påvirkes ikke. Sertifikater som opprettes her, vises i oversikten og fornyes automatisk av tjenesten.",

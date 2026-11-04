@@ -43,6 +43,8 @@
   "cert.provider": "プロバイダー",
   "cert.valid_until": "有効期限",
   "cert.next_renew": "次回の更新",
+  "cert.renew_due": "更新の時期です。Advanced ACME は 1 日 2 回自動で再試行します。現在の証明書は {date} まで有効です。",
+  "cert.delivered_due": "前回の申請で、プロバイダーは {date} に期限切れになる証明書 (おそらく既存の証明書) を発行しました。Advanced ACME は、プロバイダーが新しい証明書を発行するまで 1 日 2 回自動で更新を再試行します。",
   "cert.dsm_target": "DSM の証明書",
   "cert.dsm_default_name": "DSM の既定の証明書",
   "cert.validation": "ドメイン検証",
@@ -101,6 +103,7 @@
   "hint.generic": "正確な理由は下の技術的な詳細に記載されています。サポートが必要な場合は、その内容をサポート依頼に貼り付けてください。",
   "hint.interrupted": "タスクが中断されました (NAS の再起動などによる)。もう一度開始してください。",
   "hint.deploy_queued": "DSM タスクが応答しませんでした。再び実行されるとすぐに証明書をインストールします。DSM の起動時に自動的に開始されます。",
+  "hint.issued_due": "プロバイダーは {date} に期限切れになる証明書 (おそらく既存の証明書) を発行しました。証明書はインストールされました。Advanced ACME は、プロバイダーが新しい証明書を発行するまで 1 日 2 回自動で更新を再試行します。",
 
   "wiz.title": "新しい証明書",
   "wiz.step.connect": "接続",
@@ -310,6 +313,7 @@
   "activity.dsm_task_removed": "DSM タスク「{name}」が自身を削除",
   "activity.dsm_task_installed": "DSM タスクが {cert} の証明書をインストール",
   "activity.dsm_task_install_failed": "DSM タスクが {cert} の証明書をインストールできませんでした ({code})",
+  "activity.cert_delivered_due": "{cert}: プロバイダーが {until} に期限切れになる証明書を発行",
 
   "expert.title": "エキスパートモード: acme.sh",
   "expert.intro": "ここではオリジナルの acme.sh を直接操作します。パッケージはデータを専用のフォルダーに保存し、システムファイルを使わないため、DSM の更新には影響しません。ここで作成した証明書も概要に表示され、サービスによって自動更新されます。",
